@@ -23,4 +23,8 @@
       <None Remove="Core\AI\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Core\GameProcess" />
+    </ItemGroup>
+
 </Project>
