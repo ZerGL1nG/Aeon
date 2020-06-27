@@ -3,10 +3,16 @@
 namespace Aeon.Core
 {
 
-    public struct Price
+    public class Price
     {
         public double cost;
         public double amount;
+
+        public Price(double c, double a)
+        {
+            cost = c;
+            amount = a;
+        }
 
         public void SetCost(double d) => cost = d;
         public void AddCost(double d) => cost += d;
@@ -16,17 +22,15 @@ namespace Aeon.Core
         public void MulAmount(double d) => amount *= d;
     }
 
-    public struct StatCosts
+    public class StatCosts
     {
         public Price standard;
         public Price discount;
 
         public StatCosts(double std_cost, double std_amount, double opt_cost, double opt_amount)
         {
-            standard.cost = std_cost;
-            standard.amount = std_amount;
-            discount.cost = opt_cost;
-            discount.amount = opt_amount;
+            standard = new Price(std_cost, std_amount);
+            discount = new Price(opt_cost, opt_amount);
         }
 
         public void AddCost(double d)
