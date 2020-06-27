@@ -13,5 +13,10 @@
             True = @true;
             Critical = critical;
         }
+
+        public Attack Scale(double mult)
+        {
+            return new Attack(Damage * mult, Magic * mult, True * mult, Critical);
+        }
     }
 }

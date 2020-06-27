@@ -29,6 +29,7 @@ namespace Aeon.Core
         public void SetStat(Stat stat, double value) => data[stat] = value;
 
         public void AddStat(Stat stat, double value) => data[stat] += value;
+        public void MulStat(Stat stat, double value) => data[stat] *= value;
 
         public double GetStat(Stat stat)
         {
