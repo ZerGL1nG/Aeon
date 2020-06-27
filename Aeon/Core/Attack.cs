@@ -1,4 +1,4 @@
-﻿namespace TanksGame.Core
+﻿namespace Aeon.Core
 {
     public class Attack
     {

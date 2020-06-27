@@ -12,7 +12,7 @@ using System.Xml;
 using AI.NeuralNetwork;
 using AI.NeuralNetwork.Algs;
 
-namespace TanksGame
+namespace Aeon
 {
     class Program
     {
