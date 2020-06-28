@@ -4,7 +4,7 @@
     /// Герой ранней и средней стадий игры. Перед каждым ударом
     /// увеличивает количество своей игровой валюты на 1.1.
     /// </summary>
-    public class Hobo : Hero
+    public class Beggar : Hero
     {
         private const double MoneyBonus = 1.1;
 

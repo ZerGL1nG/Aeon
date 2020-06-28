@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Aeon.Core.Heroes
 {
@@ -18,19 +19,26 @@ namespace Aeon.Core.Heroes
         private const double EnemyDamage = 0.11;
         private const double Exp = 1.02;
 
-        private int BattleNum = 0;
+        private double currCoeff;
 
-        public override void StartBattle()
+
+        public override void Init(Hero enemy)
         {
-            ++BattleNum;
-            base.StartBattle();
+            base.Init(enemy);
+            currCoeff = 1;
         }
 
         public override Attack MakeAttack()
         {
-            CurrentHp -= (CurrentHp * RogueDamage) / Math.Pow(Exp, BattleNum - 1);
-            Enemy.CurrentHp -= (CurrentHp * EnemyDamage) * Math.Pow(Exp, BattleNum - 1);
+            CurrentHp -= (CurrentHp * RogueDamage) / currCoeff;
+            Enemy.CurrentHp -= (CurrentHp * EnemyDamage) * currCoeff;
             return base.MakeAttack();
+        }
+
+        public override void EndBattle(bool win)
+        {
+            base.EndBattle(win);
+            currCoeff *= Exp;
         }
     }
 }

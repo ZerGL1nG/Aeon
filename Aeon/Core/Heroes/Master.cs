@@ -14,11 +14,19 @@
 
         private double Lifesteal = 0.15;
 
+        private double toRegen;
+
         public override Attack MakeAttack()
         {
             var att = base.MakeAttack();
-            Heal(att.Damage * Lifesteal);
+            toRegen = att.Damage * Lifesteal;
             return att;
+        }
+
+        public override void TryRegen()
+        {
+            Heal(toRegen);
+            base.TryRegen();
         }
 
         public override void EndBattle(bool win)

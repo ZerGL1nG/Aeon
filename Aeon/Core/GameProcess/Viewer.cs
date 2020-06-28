@@ -1,22 +1,29 @@
-﻿namespace Aeon.Core.GameProcess
+﻿using Aeon.Core.Heroes;
+
+namespace Aeon.Core.GameProcess
 {
-    public class Viewer
+    public class BattleViewer
     {
-        public Viewer()
+        public BattleViewer()
         {
             
         }
+
+        public void Update(BattleState state)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
-
-
-    public enum Event
+    public class ShopViewer
     {
-        LostHp,
-        Regen,
-        EnemyLostHp,
-        EnemyRegen,
-        CriticalAttack,
-        EnemyCriticalAttack,
+        public ShopViewer()
+        {
+            
+        }
+        public void Update(Hero customer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

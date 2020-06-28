@@ -22,7 +22,7 @@
             
         }
 
-        protected override bool TryToBuy(Stat stat, bool opt)
+        public override bool TryToBuy(Stat stat, bool opt)
         {
             if (!base.TryToBuy(stat, opt)) return false;
             if (!opt || !(totalDiscount < maxDiscount)) return true;

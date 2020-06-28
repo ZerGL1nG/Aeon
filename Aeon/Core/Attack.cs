@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Aeon.Core.Heroes;
 
 namespace Aeon.Core
@@ -28,6 +29,8 @@ namespace Aeon.Core
         {
             return new Attack(Source, Damage * mult, Magic * mult, True * mult, Critical);
         }
-        
+
+        public double Sum() => (Damage + Magic + True);
+
     }
 }

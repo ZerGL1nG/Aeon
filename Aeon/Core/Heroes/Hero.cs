@@ -124,7 +124,7 @@ namespace Aeon.Core.Heroes
             CurrentIncome = 1;
         }
 
-        protected virtual bool TryToBuy(Stat stat, bool opt)
+        public virtual bool TryToBuy(Stat stat, bool opt)
         {
             var price = Shop.GetPrice(stat, opt);
             if (price.cost > Stats.GetStat(Stat.Money)) return false;
