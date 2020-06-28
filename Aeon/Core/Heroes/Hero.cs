@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Aeon.Core.Heroes
 {
@@ -10,12 +11,14 @@ namespace Aeon.Core.Heroes
         private double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
 
-        protected Stats _stats;
+        public readonly Stats Stats;
         protected Shop _shop;
         private Random Rnd { get; set; }
 
         private const double winBonus = 20;
         private const double gameMoney = 100;
+
+        protected Hero Enemy { get; set; }
 
         private bool RandCrit(double critChance)
         {
@@ -24,16 +27,20 @@ namespace Aeon.Core.Heroes
                 CritShell = critChance;
                 return true;
             }
+
             CritShell += CritShell > critChance ? 0.05 : -0.05;
             return false;
         }
-        
-        
-        
+
+
+        public virtual void Init(Hero enemy)
+        {
+            Enemy = enemy;
+        }
 
         public Hero()
         {
-            _stats = new Stats(new Dictionary<Stat, double>()
+            Stats = new Stats(new Dictionary<Stat, double>()
             {
                 {Stat.Health, 100},
                 {Stat.Attack, 15},
@@ -60,22 +67,21 @@ namespace Aeon.Core.Heroes
             });
         }
         
-        public virtual bool ReceiveAttack(Attack attack)
+        public virtual Attack ReceiveAttack(Attack attack)
         {
-            var armor = _stats.GetStat(Stat.Armor);
-            var shield = Stats.CalculateShield(_stats.GetStat(Stat.Shield));
+            var armor = Stats.GetStat(Stat.Armor);
+            var shield = Stats.CalculateShield(Stats.GetStat(Stat.Shield));
 
             var physDamage = Math.Max(0, attack.Damage * (1 - shield) - armor);
             CurrentHp -= (physDamage + attack.Magic + attack.True);
-            CheckDead();
             
-            return (physDamage <= 0);
+            return new Attack(attack.Source, physDamage, attack.Magic, attack.True, attack.Critical);
         }
 
         public virtual void TryRegen() => 
-            CurrentHp = Math.Min(CurrentHp + _stats.GetStat(Stat.Regen), _stats.GetStat(Stat.Health));
+            CurrentHp = Math.Min(CurrentHp + Stats.GetStat(Stat.Regen), Stats.GetStat(Stat.Health));
 
-        private bool CheckDead()
+        public bool CheckDead()
         {
             if (CurrentHp > 0) return false;
             Console.WriteLine("Я здох!");
@@ -85,15 +91,17 @@ namespace Aeon.Core.Heroes
 
         public virtual Attack MakeAttack()
         {
-            var attack = _stats.GetStat(Stat.Attack);
-            var spell = _stats.GetStat(Stat.Spell);
-            var cChance = _stats.GetStat(Stat.CritChance);
-            var cDamage = _stats.GetStat(Stat.CritDamage);
-
-            return RandCrit(cChance) switch {
-                true  => new Attack(attack * cDamage, spell),
-                false => new Attack(attack, spell)
+            var attack = Stats.GetStat(Stat.Attack);
+            var spell = Stats.GetStat(Stat.Spell);
+            var cChance = Stats.GetStat(Stat.CritChance);
+            var cDamage = Stats.GetStat(Stat.CritDamage);
+            var cInc = Stats.GetStat(Stat.Income);
+            var att =  RandCrit(cChance) switch {
+                true  => new Attack(this, attack * cDamage, spell),
+                false => new Attack(this, attack, spell)
             };
+            CurrentIncome *= (1 + cInc);
+            return att;
         }
 
         public virtual void StartBattle()
@@ -103,22 +111,22 @@ namespace Aeon.Core.Heroes
 
         public virtual void EndBattle(bool win)
         { 
-            if(win) _stats.AddStat(Stat.Money, winBonus + gameMoney);
-            else _stats.AddStat(Stat.Money, gameMoney);
+            if(win) Stats.AddStat(Stat.Money, winBonus + gameMoney);
+            else Stats.AddStat(Stat.Money, gameMoney);
         }
 
         protected virtual void Reset()
         {
-            CurrentHp = _stats.GetStat(Stat.Health);
+            CurrentHp = Stats.GetStat(Stat.Health);
             CurrentIncome = 1;
         }
 
         protected virtual bool TryToBuy(Stat stat, bool opt)
         {
             var price = _shop.GetPrice(stat, opt);
-            if (price.cost > _stats.GetStat(Stat.Money)) return false;
-            _stats.AddStat(Stat.Money, -price.cost);
-            _stats.AddStat(stat, price.amount);
+            if (price.cost > Stats.GetStat(Stat.Money)) return false;
+            Stats.AddStat(Stat.Money, -price.cost);
+            Stats.AddStat(stat, price.amount);
             return true;
         }
     }

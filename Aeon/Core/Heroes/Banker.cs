@@ -10,7 +10,7 @@
     public class Banker : Hero
     {
         private const double discount = 1;
-        private const double bonusDiscount = 2;
+        private const double bonusDiscount = 1;
         private const int bonusQuent = 3;
         private const double maxDiscount = 50;
         
@@ -25,13 +25,12 @@
         protected override bool TryToBuy(Stat stat, bool opt)
         {
             if (!base.TryToBuy(stat, opt)) return false;
-            if (opt && totalDiscount < maxDiscount) {
-                ++totalTicks;
-                var dis = totalTicks % bonusQuent == 0 ? bonusDiscount : discount;
-                totalDiscount += dis;
-                foreach (var costs in _shop.Costs.Values) {
-                    costs.discount.AddCost(-dis);
-                }
+            if (!opt || !(totalDiscount < maxDiscount)) return true;
+            ++totalTicks;
+            var dis = totalTicks % bonusQuent == 0 ? bonusDiscount + discount : discount;
+            totalDiscount += dis;
+            foreach (var costs in _shop.Costs.Values) {
+                costs.discount.AddCost(-dis);
             }
             return true;
         }

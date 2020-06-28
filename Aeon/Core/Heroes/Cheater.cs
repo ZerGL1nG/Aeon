@@ -9,7 +9,6 @@
     /// максимальному, то урон Читера умножается на 2.
     /// </summary>
     ///
-    /// todo: пока что считается первый удар за бонус, потом сделать нормально
     /// 
     public class Cheater : Hero
     {
@@ -19,25 +18,19 @@
 
         public Cheater()
         {
-            /*/
+            
             _shop.Costs[Stat.Attack].MulAmount(DamageMultiplier);
             _shop.Costs[Stat.Spell].MulAmount(DamageMultiplier);
-            _stats.MulStat(Stat.Attack, DamageMultiplier);
-            _stats.MulStat(Stat.Spell, DamageMultiplier);
-            /*/
-        }
-
-        public override void StartBattle()
-        {
-            base.StartBattle();
-            first = true;
+            Stats.MulStat(Stat.Attack, DamageMultiplier);
+            Stats.MulStat(Stat.Spell, DamageMultiplier);
+            
         }
 
         public override Attack MakeAttack()
         {
-            if (!first) return base.MakeAttack().Scale(DamageMultiplier * FirstHitBonus);
-            first = false;
-            return base.MakeAttack().Scale(DamageMultiplier);
+            return Enemy.Stats.GetStat(Stat.Health) >= Enemy.CurrentHp
+                ? base.MakeAttack().Scale(FirstHitBonus)
+                : base.MakeAttack();
         }
     }
 }

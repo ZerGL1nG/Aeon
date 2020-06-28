@@ -18,7 +18,7 @@
         public override void EndBattle(bool win)
         {
             base.EndBattle(win);
-            _stats.AddStat(Stat.Regen, BonusRegen);
+            Stats.AddStat(Stat.Regen, BonusRegen);
         }
     }
 }

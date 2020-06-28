@@ -68,5 +68,6 @@ namespace Aeon.Core
 
         public Price GetPrice(Stat stat, bool opt) => 
             opt ? Costs[stat].discount : Costs[stat].standard;
+        
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Aeon.Core
+﻿using System.Diagnostics;
+using Aeon.Core.Heroes;
+
+namespace Aeon.Core
 {
     public class Attack
     {
@@ -6,17 +9,20 @@
         public readonly double Magic;
         public readonly double True;
         public readonly bool Critical;
-        public Attack(double damage = 0d, double magic = 0d, double @true = 0d, bool critical = false)
+        public readonly Hero Source;
+        public Attack(Hero source, double damage = 0d, double magic = 0d, double @true = 0d, bool critical = false)
         {
             Damage = damage;
             Magic = magic;
             True = @true;
             Critical = critical;
+            Source = source;
         }
 
         public Attack Scale(double mult)
         {
-            return new Attack(Damage * mult, Magic * mult, True * mult, Critical);
+            return new Attack(Source, Damage * mult, Magic * mult, True * mult, Critical);
         }
+        
     }
 }
