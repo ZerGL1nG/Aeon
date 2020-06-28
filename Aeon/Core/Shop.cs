@@ -64,7 +64,7 @@ namespace Aeon.Core
     {
         public Dictionary<Stat, StatCosts> Costs;
         
-        public Shop(Dictionary<Stat, StatCosts> costs) => Costs = costs;
+        public Shop(Dictionary<Stat, StatCosts> costs) => Costs = new Dictionary<Stat, StatCosts>(costs);
 
         public Price GetPrice(Stat stat, bool opt) => 
             opt ? Costs[stat].discount : Costs[stat].standard;

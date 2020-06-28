@@ -17,8 +17,8 @@
         public Cheater()
         {
             
-            _shop.Costs[Stat.Attack].MulAmount(DamageMultiplier);
-            _shop.Costs[Stat.Spell].MulAmount(DamageMultiplier);
+            Shop.Costs[Stat.Attack].MulAmount(DamageMultiplier);
+            Shop.Costs[Stat.Spell].MulAmount(DamageMultiplier);
             Stats.MulStat(Stat.Attack, DamageMultiplier);
             Stats.MulStat(Stat.Spell, DamageMultiplier);
             

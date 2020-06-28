@@ -20,7 +20,7 @@
         {
             if (!base.TryToBuy(stat, opt)) return false;
             if (stat != Stat.Spell) return true;
-            var bought = _shop.GetPrice(stat, opt).amount;
+            var bought = Shop.GetPrice(stat, opt).amount;
             Stats.AddStat(Stat.CritChance, CritChanceBonus * bought);
             Stats.AddStat(Stat.CritDamage, CritDamageBonus * bought);
             return true;

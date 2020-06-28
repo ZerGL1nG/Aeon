@@ -12,7 +12,7 @@
         
         public Fatty()
         {
-            _shop.Costs[Stat.Health].MulAmount(FatMultiplier);
+            Shop.Costs[Stat.Health].MulAmount(FatMultiplier);
         }
 
         public override void EndBattle(bool win)

@@ -29,7 +29,7 @@
             ++totalTicks;
             var dis = totalTicks % bonusQuent == 0 ? bonusDiscount + discount : discount;
             totalDiscount += dis;
-            foreach (var costs in _shop.Costs.Values) {
+            foreach (var costs in Shop.Costs.Values) {
                 costs.discount.AddCost(-dis);
             }
             return true;
