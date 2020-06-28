@@ -21,6 +21,11 @@ namespace Aeon.Core
 
         public Attack Scale(double mult)
         {
+            return new Attack(Source, Damage * mult, Magic, True, Critical);
+        }
+        
+        public Attack ScaleAll(double mult)
+        {
             return new Attack(Source, Damage * mult, Magic * mult, True * mult, Critical);
         }
         

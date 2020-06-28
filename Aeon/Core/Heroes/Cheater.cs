@@ -8,8 +8,6 @@
     /// если текущее здоровье Героя противника равно
     /// максимальному, то урон Читера умножается на 2.
     /// </summary>
-    ///
-    /// 
     public class Cheater : Hero
     {
         private const double DamageMultiplier = 0.93;

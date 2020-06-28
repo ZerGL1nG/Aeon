@@ -10,6 +10,7 @@ namespace Aeon.Core.Heroes
         private double ShieldCoeff { get; set; }
         private double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
+        public void Heal(double h) => CurrentHp = Math.Min(CurrentHp + h, Stats.GetStat(Stat.Health));
 
         public readonly Stats Stats;
         protected Shop _shop;
@@ -78,8 +79,8 @@ namespace Aeon.Core.Heroes
             return new Attack(attack.Source, physDamage, attack.Magic, attack.True, attack.Critical);
         }
 
-        public virtual void TryRegen() => 
-            CurrentHp = Math.Min(CurrentHp + Stats.GetStat(Stat.Regen), Stats.GetStat(Stat.Health));
+        public virtual void TryRegen() => Heal(Stats.GetStat(Stat.Regen));
+            
 
         public bool CheckDead()
         {
@@ -129,5 +130,7 @@ namespace Aeon.Core.Heroes
             Stats.AddStat(stat, price.amount);
             return true;
         }
+
+        public virtual void UseAbility() { }
     }
 }
