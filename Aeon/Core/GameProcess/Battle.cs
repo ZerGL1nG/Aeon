@@ -19,10 +19,13 @@ namespace Aeon.Core.GameProcess
         }
         public void StartBattle()
         {
-            var state = new BattleState();
+            Viewer.Reset();
+            Viewer.Update(new BattleState(First.Stats.GetStat(Stat.Health), Second.Stats.GetStat(Stat.Health)));
             First.StartBattle();
             Second.StartBattle();
             for(var it = 0; it < maxBattleIt; it++){
+                
+                var state = new BattleState(First.Stats.GetStat(Stat.Health), Second.Stats.GetStat(Stat.Health));
                 
                 var att1 = First.MakeAttack();
                 var att2 = Second.MakeAttack();
@@ -38,8 +41,13 @@ namespace Aeon.Core.GameProcess
                     Second.EndBattle(!dead2);
                     break;
                 }
-                if(rec1.Damage > 0) First.TryRegen();
-                if(rec2.Damage > 0) Second.TryRegen();
+                state.MyRegen    = rec1.Damage > 0 ? First.TryRegen()  : 0;
+                state.EnemyRegen = rec2.Damage > 0 ? Second.TryRegen() : 0;
+
+                state.MyCurHp = First.CurrentHp;
+                state.EnemyCurHp = Second.CurrentHp;
+                
+                Viewer.Update(state);
             }
         }
         

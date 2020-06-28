@@ -72,13 +72,11 @@ namespace Aeon.Core.Heroes
             }
         }
 
-        public override void TryRegen()
+        public override double TryRegen()
         {
-            if (regenFlag) {
-                regenFlag = false;
-                Heal((Stats.GetStat(Stat.Health) - CurrentHp) * UberRegenCoeff);
-            }
-            base.TryRegen();
+            if (!regenFlag) return base.TryRegen();
+            regenFlag = false;
+            return base.TryRegen() + Heal((Stats.GetStat(Stat.Health) - CurrentHp) * UberRegenCoeff);
         }
     }
 }

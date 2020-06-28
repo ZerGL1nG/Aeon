@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aeon.Core
 {
@@ -19,6 +20,8 @@ namespace Aeon.Core
     
     public class Stats
     {
+        public IEnumerable<(string, double)> Out() => data.Select(o => (o.Key.ToString(), o.Value));
+
         private readonly Dictionary<Stat, double> data;
 
         public Stats(Dictionary<Stat, double> data)

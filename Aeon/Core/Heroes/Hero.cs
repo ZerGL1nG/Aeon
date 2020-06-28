@@ -35,7 +35,13 @@ namespace Aeon.Core.Heroes
         private double ShieldCoeff { get; set; }
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
-        protected void Heal(double h) => CurrentHp = Math.Min(CurrentHp + h, Stats.GetStat(Stat.Health));
+
+        protected double Heal(double h)
+        {
+            var prevHp = CurrentHp;
+            CurrentHp = Math.Min(CurrentHp + h, Stats.GetStat(Stat.Health));
+            return CurrentHp - prevHp;
+        }
 
         public Stats Stats;
         public Shop Shop;
@@ -81,7 +87,7 @@ namespace Aeon.Core.Heroes
             return new Attack(attack.Source, physDamage, attack.Magic, attack.True, attack.Critical);
         }
 
-        public virtual void TryRegen() => Heal(Stats.GetStat(Stat.Regen));
+        public virtual double TryRegen() => Heal(Stats.GetStat(Stat.Regen));
             
 
         public bool CheckDead()

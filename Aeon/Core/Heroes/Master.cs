@@ -23,11 +23,7 @@
             return att;
         }
 
-        public override void TryRegen()
-        {
-            Heal(toRegen);
-            base.TryRegen();
-        }
+        public override double TryRegen() => base.TryRegen() + Heal(toRegen);
 
         public override void EndBattle(bool win)
         {
