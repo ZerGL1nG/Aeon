@@ -8,7 +8,7 @@ namespace Aeon.Core.Heroes
     {
         private double CritShell { get; set; }
         private double ShieldCoeff { get; set; }
-        private double CurrentIncome { get; set; }
+        protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
         public void Heal(double h) => CurrentHp = Math.Min(CurrentHp + h, Stats.GetStat(Stat.Health));
 
