@@ -71,6 +71,16 @@ namespace Aeon.Core
 
         public Price GetPrice(Stat stat, bool opt) => 
             opt ? Costs[stat].discount : Costs[stat].standard;
-        
+
+        public IEnumerable<double> Out()
+        {
+            for (var i = 1; i <= 9; i++) {
+                var costs = Costs[(Stat) i];
+                yield return costs.GetCost(false);
+                yield return costs.GetAmount(false);
+                yield return costs.GetCost(true);
+                yield return costs.GetAmount(true);
+            }
+        }
     }
 }

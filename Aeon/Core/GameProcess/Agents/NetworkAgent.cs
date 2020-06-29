@@ -16,14 +16,24 @@ namespace Aeon.Core.GameProcess.Agents
         public BattleViewer BattleView { get; set; }
         public ShopViewer ShopView { get; set; }
 
-        //private List<double> inputs;
-
         public Command ShopDecision()
         {
-            var workResult = _networkJob(new List<double>
-            {
-                
-            });
+            var (stats, shop, enemyId, otherStates) = ShopView.Out();
+            var battle = BattleView.Out().ToList();
+
+            var enemyList = new List<double>(15) {0}; // todo: взять число героев из фабрики
+            enemyList[(int) enemyId - 1] = 1;
+
+            var battleList = battle.Take(2).Concat(battle.TakeLast(2))
+                .SelectMany(tuples => tuples.Where(x=> x.state != StateParameter.MaxHp).Select(x => x.value))
+                .Concat(battle[0].Where(x => x.state == StateParameter.MaxHp && !x.isMyState).Select(x => x.value));
+
+            var statsList = stats.Out().Select(x => x.Item2);
+            
+            var shopList = shop.Out();
+
+            var workResult = _networkJob(
+                statsList.Concat(enemyList).Concat(battleList).Concat(shopList).Concat(otherStates).ToList());
             return parseCommand(workResult);
         }
 

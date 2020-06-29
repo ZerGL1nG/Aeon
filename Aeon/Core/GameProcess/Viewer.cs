@@ -19,18 +19,15 @@ namespace Aeon.Core.GameProcess
             LogState.Add(state);
         }
 
-        private void Draw()
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerable<IEnumerable<(StateParameter state, bool isMyState, double value)>> Out() =>
+            LogState.Select(UnpackBs);
+        
+            
 
-        public IEnumerable<(StateParameter state, bool isMyState, int turnNumber, double value)> Out() 
-            => LogState.SelectMany(UnpackBs);
-
-        private static IEnumerable<(StateParameter, bool, int, double)> UnpackBs(BattleState state, int turn) // индусы!
+        private static IEnumerable<(StateParameter, bool, double)> UnpackBs(BattleState state) // индусы!
         {
-            foreach (var (key, value) in state.MyParams) yield return (key, true, turn, value);
-            foreach (var (key, value) in state.EnemyParams) yield return (key, false, turn, value);
+            foreach (var (key, value) in state.MyParams) yield return (key, true, value);
+            foreach (var (key, value) in state.EnemyParams) yield return (key, false, value);
         }
 
         public void Reset() => LogState = new List<BattleState>();
@@ -41,6 +38,10 @@ namespace Aeon.Core.GameProcess
         private Stats HeroStats;
         private Shop HeroShop;
         private HeroClasses EnemyID;
+        private double AbilityState;
+        private double SelfWins;
+        private double EnemyWins;
+        private double BattleNumber;
         public ShopViewer()
         {
             
@@ -50,6 +51,13 @@ namespace Aeon.Core.GameProcess
             HeroStats = customer.Stats;
             HeroShop = customer.Shop;
             EnemyID = customer.EnemyId;
+            AbilityState = customer.GetAbilityState();
+            SelfWins = customer.TotalWins;
+            EnemyWins = customer.EnemyWins;
+            BattleNumber = customer.TotalBattles;
         }
+
+        public (Stats stats, Shop shop, HeroClasses enemyID, List<double> Other) Out() =>
+            (HeroStats, HeroShop, EnemyID, new List<double> {BattleNumber, SelfWins, EnemyWins, AbilityState});
     }
 }
