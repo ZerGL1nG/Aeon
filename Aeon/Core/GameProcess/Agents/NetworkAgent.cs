@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aeon.Core.GameProcess.Agents
 {
-    public class NetworkAgent : Agent
+    public class NetworkAgent : IAgent
     {
         private Func<List<double>, int> _networkJob;
         
@@ -12,10 +13,24 @@ namespace Aeon.Core.GameProcess.Agents
             _networkJob = networkJob;
         }
 
-        public override Command ShopDecision()
+        public BattleViewer BattleView { get; set; }
+        public ShopViewer ShopView { get; set; }
+
+        //private List<double> inputs;
+
+        public Command ShopDecision()
         {
-            
-            return base.ShopDecision();
+            var workResult = _networkJob(new List<double>
+            {
+                
+            });
+            return parseCommand(workResult);
         }
+
+        private Command parseCommand(int result)
+        {
+            throw new System.NotImplementedException();
+        }
+        
     }
 }

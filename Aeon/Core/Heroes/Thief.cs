@@ -10,6 +10,11 @@
     {
         private double HealthSteal = 1;
 
+        public Thief()
+        {
+            HeroClass = HeroClasses.Thief;
+        }
+        
         public override Attack MakeAttack()
         {
             Stats.AddStat(Stat.Health, HealthSteal);

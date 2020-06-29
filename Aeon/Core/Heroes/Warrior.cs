@@ -12,6 +12,8 @@
 
         public Warrior()
         {
+            HeroClass = HeroClasses.Warrior;
+            
             Stats.AddStat(Stat.CritChance, CritChanceBonus * Stats.GetStat(Stat.Spell));
             Stats.AddStat(Stat.CritDamage, CritDamageBonus * Stats.GetStat(Stat.Spell));
         }

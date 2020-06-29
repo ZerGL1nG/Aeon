@@ -12,6 +12,11 @@ namespace Aeon.Core.Heroes
         private const double HealthThreshold = 0.1;
         private const double DamageBonusMultiplier = 0.039; // +1
 
+        public Beast()
+        {
+            HeroClass = HeroClasses.Beast;
+        }
+
         public override Attack MakeAttack()
         {
             var healthLost = 1 - CurrentHp / Stats.GetStat(Stat.Health);

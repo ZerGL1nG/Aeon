@@ -12,6 +12,8 @@
         
         public Fatty()
         {
+            HeroClass = HeroClasses.Fatty;
+            
             Shop.Costs[Stat.Health].MulAmount(FatMultiplier);
         }
 

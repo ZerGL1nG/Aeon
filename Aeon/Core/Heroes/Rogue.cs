@@ -21,7 +21,11 @@ namespace Aeon.Core.Heroes
 
         private double currCoeff;
 
-
+        public Rogue()
+        {
+            HeroClass = HeroClasses.Rogue;
+        }
+        
         public override void Init(Hero enemy)
         {
             base.Init(enemy);

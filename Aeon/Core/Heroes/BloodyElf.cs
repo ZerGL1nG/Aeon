@@ -46,6 +46,11 @@ namespace Aeon.Core.Heroes
 
         private bool regenFlag = false;
 
+        public BloodyElf()
+        {
+            HeroClass = HeroClasses.BloodyElf;
+        }
+        
         public override void UseAbility()
         {
             CurrentAbility = (Abilities)((int)(1 + CurrentAbility) % 4);

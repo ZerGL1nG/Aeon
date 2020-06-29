@@ -20,6 +20,11 @@ namespace Aeon.Core.Heroes
         private int battles = 0;
         private int BonusIncome => (int) Math.Floor(baseBonus + battles * addBonus);
 
+        public Fe11()
+        {
+            HeroClass = HeroClasses.Fe11;
+        }
+        
         public override void StartBattle()
         {
             ++battles;

@@ -16,6 +16,7 @@
 
         public Cheater()
         {
+            HeroClass = HeroClasses.Cheater;
             
             Shop.Costs[Stat.Attack].MulAmount(DamageMultiplier);
             Shop.Costs[Stat.Spell].MulAmount(DamageMultiplier);

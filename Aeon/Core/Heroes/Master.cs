@@ -16,6 +16,11 @@
 
         private double toRegen;
 
+        public Master()
+        {
+            HeroClass = HeroClasses.Master;
+        }
+        
         public override Attack MakeAttack()
         {
             var att = base.MakeAttack();

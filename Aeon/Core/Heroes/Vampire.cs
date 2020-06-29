@@ -23,6 +23,11 @@
         private int AbilityLevel = 1;
         private int CurrentCharge = 0;
 
+        public Vampire()
+        {
+            HeroClass = HeroClasses.Vampire;
+        }
+        
         public override void UseAbility()
         {
             if (AbilityLevel == MaxLevel || Stats.GetStat(Stat.Money) < UpgradeCost) return;

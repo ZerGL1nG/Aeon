@@ -8,6 +8,11 @@
     {
         private const double MoneyBonus = 1.1;
 
+        public Beggar()
+        {
+            HeroClass = HeroClasses.Beggar;
+        }
+
         public override Attack MakeAttack()
         {
             Stats.AddStat(Stat.Money, MoneyBonus);

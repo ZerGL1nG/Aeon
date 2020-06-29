@@ -11,6 +11,11 @@
 
         private double MoneySpent = 0;
 
+        public Shifter()
+        {
+            HeroClass = HeroClasses.Shifter;
+        }
+        
         public override bool TryToBuy(Stat stat, bool opt)
         {
             if (!base.TryToBuy(stat, opt)) return false;

@@ -14,6 +14,11 @@
 
         private bool AbilityUsed = false;
 
+        public Warlock()
+        {
+            HeroClass = HeroClasses.Warlock;
+        }
+        
         public override void UseAbility()
         {
             if (AbilityUsed || AbilityCost > Stats.GetStat(Stat.Money)) return;

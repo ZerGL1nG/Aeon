@@ -21,6 +21,11 @@ namespace Aeon.Core.Heroes
         private double TotalDamage = 0;
         private double GetGoal => 75 * (ReachedGoals + 1) * (ReachedGoals + 2);
 
+        public Killer()
+        {
+            HeroClass = HeroClasses.Killer;
+        }
+        
         public override Attack MakeAttack()
         {
             var att = base.MakeAttack();

@@ -24,12 +24,13 @@ namespace Aeon.Core.GameProcess
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<(StateParameter, double)> Out() => LogState.SelectMany(UnpackBs);
+        public IEnumerable<(StateParameter state, bool isMyState, int turnNumber, double value)> Out() 
+            => LogState.SelectMany(UnpackBs);
 
-        public static IEnumerable<(StateParameter, double)> UnpackBs(BattleState state) // индусы!
+        private static IEnumerable<(StateParameter, bool, int, double)> UnpackBs(BattleState state, int turn) // индусы!
         {
-            foreach (var param in state.MyParams) yield return (param.Key, param.Value);
-            foreach (var param in state.EnemyParams) yield return (param.Key, param.Value);
+            foreach (var (key, value) in state.MyParams) yield return (key, true, turn, value);
+            foreach (var (key, value) in state.EnemyParams) yield return (key, false, turn, value);
         }
 
         public void Reset() => LogState = new List<BattleState>();
@@ -37,13 +38,18 @@ namespace Aeon.Core.GameProcess
 
     public class ShopViewer
     {
+        private Stats HeroStats;
+        private Shop HeroShop;
+        private int EnemyID;
         public ShopViewer()
         {
             
         }
         public void Update(Hero customer)
         {
-            throw new System.NotImplementedException();
+            HeroStats = customer.Stats;
+            HeroShop = customer.Shop;
+            EnemyID = customer.
         }
     }
 }

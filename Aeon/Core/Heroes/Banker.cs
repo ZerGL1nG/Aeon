@@ -19,7 +19,7 @@
 
         public Banker()
         {
-            
+            HeroClass = HeroClasses.Banker;
         }
 
         public override bool TryToBuy(Stat stat, bool opt)

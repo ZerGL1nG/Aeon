@@ -4,6 +4,26 @@ using System.ComponentModel;
 
 namespace Aeon.Core.Heroes
 {
+    public enum HeroClasses
+    {
+        Empty = 0,
+        Banker,
+        Beast,
+        Beggar,
+        BloodyElf,
+        Cheater,
+        Fatty,
+        Fe11,
+        Killer,
+        Master,
+        Rogue,
+        Shifter,
+        Thief,
+        Vampire,
+        Warlock,
+        Warrior
+    }
+    
     public class Hero
     {
         public static readonly Dictionary<Stat, double> InitStats = new Dictionary<Stat, double> {
@@ -35,6 +55,8 @@ namespace Aeon.Core.Heroes
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
 
+        public HeroClasses HeroClass { get; protected set; } = HeroClasses.Empty;
+        
         protected double Heal(double h)
         {
             var prevHp = CurrentHp;

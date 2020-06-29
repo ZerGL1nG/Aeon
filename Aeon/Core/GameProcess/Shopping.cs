@@ -6,9 +6,9 @@ namespace Aeon.Core.GameProcess
     {
         public Hero Customer { get; set; }
         public ShopViewer Viewer { get; set; }
-        public Agent Agent { get; set; }
+        public IAgent Agent { get; set; }
 
-        public Shopping(Hero hero, ShopViewer viewer, Agent agent)
+        public Shopping(Hero hero, ShopViewer viewer, IAgent agent)
         {
             Customer = hero;
             Viewer= viewer;
