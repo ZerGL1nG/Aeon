@@ -32,7 +32,6 @@ namespace Aeon.Core.Heroes
         };
         
         private double CritShell { get; set; }
-        private double ShieldCoeff { get; set; }
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
 
@@ -46,6 +45,7 @@ namespace Aeon.Core.Heroes
         public Stats Stats;
         public Shop Shop;
         private Random Rnd { get; set; }
+        private Attack LastReceivedAttack { get; set; }
 
         private const double winBonus = 20;
         private const double gameMoney = 100;
@@ -54,6 +54,9 @@ namespace Aeon.Core.Heroes
 
         private bool RandCrit(double critChance)
         {
+            if (critChance <= 0)
+                return false;
+            
             if (CritShell > Rnd.NextDouble())
             {
                 CritShell = critChance;
@@ -74,6 +77,7 @@ namespace Aeon.Core.Heroes
         {
             Stats = new Stats(InitStats);
             Shop = new Shop(InitCosts);
+            Rnd = new Random();
         }
         
         public virtual Attack ReceiveAttack(Attack attack)
@@ -82,13 +86,14 @@ namespace Aeon.Core.Heroes
             var shield = Stats.CalculateShield(Stats.GetStat(Stat.Shield));
 
             var physDamage = Math.Max(0, attack.Damage * (1 - shield) - armor);
+            LastReceivedAttack = new Attack(attack.Source, physDamage, attack.Magic, attack.True, attack.Critical);
             CurrentHp -= (physDamage + attack.Magic + attack.True);
             
-            return new Attack(attack.Source, physDamage, attack.Magic, attack.True, attack.Critical);
+            return LastReceivedAttack;
         }
 
-        public virtual double TryRegen() => Heal(Stats.GetStat(Stat.Regen));
-            
+        public virtual double TryRegen() => LastReceivedAttack.Damage >0 ? Heal(Stats.GetStat(Stat.Regen)) : 0;
+
 
         public bool CheckDead()
         {

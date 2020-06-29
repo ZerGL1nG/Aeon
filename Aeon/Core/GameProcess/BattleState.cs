@@ -1,48 +1,37 @@
-﻿namespace Aeon.Core.GameProcess
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Aeon.Core.GameProcess
 {
+   
+    public enum StateParameter
+    {
+        MaxHp,
+        CurHp,
+        RecDmg,
+        Regen,
+    }
+    
+    
     public class BattleState
     {
-        public double MyMaxHp { get; set; }
-        public double EnemyMaxHp { get; set; }
-
-        public double MyCurHp { get; set; }
-        public double EnemyCurHp { get; set; }
-
-        public double MyRecDmg { get; set; }
-        public double EnemyRecDmg { get; set; }
-
-        public double MyRegen { get; set; }
-        public double EnemyRegen { get; set; }
+        public Dictionary<StateParameter, double> EnemyParams;
+        public Dictionary<StateParameter, double> MyParams;
 
 
-        public BattleState Reverse() => new BattleState(
-            EnemyMaxHp,
-            MyMaxHp,
-            EnemyCurHp,
-            MyCurHp,
-            EnemyRecDmg,
-            MyRecDmg,
-            EnemyRegen,
-            MyRegen
-            );
-        
-        public BattleState(double myMaxHp = 0,
-            double enemyMaxHp = 0,
-            double myCurHp = 0,
-            double enemyCurHp = 0, 
-            double myRecDmg = 0,
-            double enemyRecDmg = 0,
-            double myRegen = 0,
-            double enemyRegen = 0)
+        public BattleState()
         {
-            MyMaxHp = myMaxHp;
-            EnemyMaxHp = enemyMaxHp;
-            MyCurHp = myCurHp;
-            EnemyCurHp = enemyCurHp;
-            MyRecDmg = myRecDmg;
-            EnemyRecDmg = enemyRecDmg;
-            MyRegen = myRegen;
-            EnemyRegen = enemyRegen;
+            EnemyParams = new Dictionary<StateParameter, double>();
+            MyParams = new Dictionary<StateParameter, double>();
+        }
+        
+        public BattleState Reverse() => new BattleState(MyParams, EnemyParams);
+
+        public BattleState(Dictionary<StateParameter, double> myParams,
+            Dictionary<StateParameter,double> enemyParams)
+        {
+            MyParams = myParams;
+            EnemyParams = enemyParams;
         }
     }
 }

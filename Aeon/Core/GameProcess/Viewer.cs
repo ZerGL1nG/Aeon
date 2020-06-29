@@ -16,8 +16,6 @@ namespace Aeon.Core.GameProcess
 
         public void Update(BattleState state)
         {
-            if (LogState.Count == 0)
-                MaxHP = (state.MyMaxHp, state.EnemyMaxHp);
             LogState.Add(state);
         }
 
@@ -26,27 +24,12 @@ namespace Aeon.Core.GameProcess
             throw new System.NotImplementedException();
         }
 
-        public Dictionary<string, double> GetDict() => Out().ToList().ToDictionary(s=>s.Item1, s=>s.Item2);
+        public IEnumerable<(StateParameter, double)> Out() => LogState.SelectMany(UnpackBs);
 
-        public IEnumerable<(string, double)> Out()
+        public static IEnumerable<(StateParameter, double)> UnpackBs(BattleState state) // индусы!
         {
-            yield return ("EnemyMaxHP", MaxHP.Item2);
-            foreach (var (i, s) in new[] {
-                (1, "First"), (2, "Second"), (LogState.Count - 2, "PreLast"), (LogState.Count - 1, "Last")}) { // ЩИТО?!
-                foreach (var (item1, item2) in UnpackBS(LogState[i])) {
-                    yield return (item1 + "_" + s, item2);
-                }
-            }
-        }
-
-        public static IEnumerable<(string, double)> UnpackBS(BattleState state) // индусы!
-        {
-            yield return ("MyReceivedDamage", state.MyRecDmg);
-            yield return ("MyRegeneration", state.MyRegen);
-            yield return ("MyCurrentHP", state.MyCurHp);
-            yield return ("EnemyReceivedDamage", state.EnemyRecDmg);
-            yield return ("EnemyRegeneration", state.EnemyRegen);
-            yield return ("EnemyCurrentHP", state.EnemyCurHp);
+            foreach (var param in state.MyParams) yield return (param.Key, param.Value);
+            foreach (var param in state.EnemyParams) yield return (param.Key, param.Value);
         }
 
         public void Reset() => LogState = new List<BattleState>();
