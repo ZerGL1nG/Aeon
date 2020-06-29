@@ -44,5 +44,7 @@ namespace Aeon.Core.Heroes
             base.EndBattle(win);
             currCoeff *= Exp;
         }
+
+        public override double GetAbilityState() => (currCoeff-1) * 100;
     }
 }

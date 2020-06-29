@@ -7,6 +7,7 @@
     public class Beggar : Hero
     {
         private const double MoneyBonus = 1.1;
+        private double MoneyBegged = 0;
 
         public Beggar()
         {
@@ -16,7 +17,10 @@
         public override Attack MakeAttack()
         {
             Stats.AddStat(Stat.Money, MoneyBonus);
+            MoneyBegged += MoneyBonus;
             return base.MakeAttack();
         }
+
+        public override double GetAbilityState() => MoneyBegged;
     }
 }

@@ -44,5 +44,7 @@ namespace Aeon.Core.Heroes
 
             return att;
         }
+
+        public override double GetAbilityState() => ReachedGoals * DamageBonus;
     }
 }

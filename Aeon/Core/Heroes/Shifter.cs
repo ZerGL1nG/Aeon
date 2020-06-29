@@ -23,11 +23,15 @@
             return true;
         }
 
-        public override void UseAbility()
+        public override bool UseAbility()
         {
+            if (MoneySpent == 0) return false;
             Stats = new Stats(InitStats);
             Stats.AddStat(Stat.Money, MoneySpent * ResetEfficiency);
             MoneySpent = 0;
+            return true;
         }
+
+        public override double GetAbilityState() => MoneySpent * ResetEfficiency;
     }
 }

@@ -73,6 +73,7 @@ namespace Aeon.Core.Heroes
         private const double gameMoney = 100;
 
         protected Hero Enemy { get; set; }
+        public HeroClasses EnemyId => Enemy.HeroClass;
 
         private bool RandCrit(double critChance)
         {
@@ -166,6 +167,7 @@ namespace Aeon.Core.Heroes
             return true;
         }
 
-        public virtual void UseAbility() { }
+        public virtual bool UseAbility() => false;
+        public virtual double GetAbilityState() => 0;
     }
 }

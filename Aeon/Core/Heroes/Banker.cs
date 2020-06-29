@@ -34,5 +34,7 @@
             }
             return true;
         }
+
+        public override double GetAbilityState() => totalDiscount;
     }
 }

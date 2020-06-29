@@ -28,12 +28,15 @@
             HeroClass = HeroClasses.Vampire;
         }
         
-        public override void UseAbility()
+        public override bool UseAbility()
         {
-            if (AbilityLevel == MaxLevel || Stats.GetStat(Stat.Money) < UpgradeCost) return;
+            if (AbilityLevel == MaxLevel || Stats.GetStat(Stat.Money) < UpgradeCost) return false;
             Stats.AddStat(Stat.Money, -UpgradeCost);
             ++AbilityLevel;
+            return true;
         }
+
+        public override double GetAbilityState() => (double) AbilityLevel;
 
         public override Attack MakeAttack()
         {

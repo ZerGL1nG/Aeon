@@ -19,12 +19,15 @@
             HeroClass = HeroClasses.Warlock;
         }
         
-        public override void UseAbility()
+        public override bool UseAbility()
         {
-            if (AbilityUsed || AbilityCost > Stats.GetStat(Stat.Money)) return;
+            if (AbilityUsed || AbilityCost > Stats.GetStat(Stat.Money)) return false;
             Stats.AddStat(Stat.Money, -AbilityCost);
             AbilityUsed = true;
+            return true;
         }
+
+        public override double GetAbilityState() => AbilityUsed ? 1 : 0;
 
         public override void EndBattle(bool win)
         {

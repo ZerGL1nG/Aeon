@@ -9,6 +9,7 @@
     public class Thief : Hero
     {
         private double HealthSteal = 1;
+        private double Stolen = 0;
 
         public Thief()
         {
@@ -19,6 +20,7 @@
         {
             Stats.AddStat(Stat.Health, HealthSteal);
             Enemy.Stats.AddStat(Stat.Health, -HealthSteal);
+            Stolen += HealthSteal;
             return base.MakeAttack();
         }
 
@@ -27,5 +29,7 @@
             if (win) ++HealthSteal;
             base.EndBattle(win);
         }
+
+        public override double GetAbilityState() => Stolen;
     }
 }

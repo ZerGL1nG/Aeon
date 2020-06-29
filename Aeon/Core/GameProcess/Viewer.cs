@@ -40,7 +40,7 @@ namespace Aeon.Core.GameProcess
     {
         private Stats HeroStats;
         private Shop HeroShop;
-        private int EnemyID;
+        private HeroClasses EnemyID;
         public ShopViewer()
         {
             
@@ -49,7 +49,7 @@ namespace Aeon.Core.GameProcess
         {
             HeroStats = customer.Stats;
             HeroShop = customer.Shop;
-            EnemyID = customer.
+            EnemyID = customer.EnemyId;
         }
     }
 }

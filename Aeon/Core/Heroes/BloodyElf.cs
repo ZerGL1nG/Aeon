@@ -51,10 +51,12 @@ namespace Aeon.Core.Heroes
             HeroClass = HeroClasses.BloodyElf;
         }
         
-        public override void UseAbility()
+        public override bool UseAbility()
         {
-            CurrentAbility = (Abilities)((int)(1 + CurrentAbility) % 4);
+             CurrentAbility = (Abilities)((int)(1 + CurrentAbility) % 4);
+             return true;
         }
+        public override double GetAbilityState() => (double) CurrentAbility;
 
         public override Attack MakeAttack()
         {

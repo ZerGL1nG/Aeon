@@ -33,6 +33,9 @@ namespace Aeon.Core
             discount = new Price(opt_cost, opt_amount);
         }
 
+        public double GetCost(bool opt) => opt ? discount.cost : standard.cost;
+        public double GetAmount(bool opt) => opt ? discount.amount : standard.amount;
+
         public void AddCost(double d)
         {
             standard.cost += d;

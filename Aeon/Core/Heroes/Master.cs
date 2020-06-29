@@ -35,5 +35,7 @@
             Lifesteal += LifestealForBattle;
             base.EndBattle(win);
         }
+
+        public override double GetAbilityState() => Lifesteal;
     }
 }

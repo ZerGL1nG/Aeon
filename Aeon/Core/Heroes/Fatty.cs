@@ -9,6 +9,7 @@
     {
         private const double FatMultiplier = 1.09;
         private const double BonusRegen = 2;
+        private double GotBonusHP = 0;
         
         public Fatty()
         {
@@ -17,10 +18,20 @@
             Shop.Costs[Stat.Health].MulAmount(FatMultiplier);
         }
 
+        public override bool TryToBuy(Stat stat, bool opt)
+        {
+            if (!base.TryToBuy(stat, opt)) return false;
+            if (stat != Stat.Health) return true;
+            GotBonusHP += Shop.GetPrice(Stat.Health, opt).amount - InitCosts[Stat.Health].GetAmount(opt);
+            return true;
+        }
+
         public override void EndBattle(bool win)
         {
             base.EndBattle(win);
             Stats.AddStat(Stat.Regen, BonusRegen);
         }
+
+        public override double GetAbilityState() => GotBonusHP;
     }
 }

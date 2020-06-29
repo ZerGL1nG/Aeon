@@ -31,5 +31,7 @@ namespace Aeon.Core.Heroes
             base.StartBattle();
             CurrentIncome = Math.Pow(1 + Stats.GetStat(Stat.Income), BonusIncome);
         }
+
+        public override double GetAbilityState() => BonusIncome;
     }
 }
