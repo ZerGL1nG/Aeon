@@ -30,7 +30,7 @@ namespace Aeon.Core.GameProcess
                 t++;
                 if (BotMode && t > 100)
                 { 
-                    Console.WriteLine("Кто-то обосрался");
+                    //Console.WriteLine("Кто-то обосрался");
                     Customer.AutoLose = true;
                     break;
                 }

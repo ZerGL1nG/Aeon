@@ -42,7 +42,7 @@ namespace Aeon.Core.GameProcess
                     hero1.TotalWins = TargetWins;
                 }
             }
-            Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {TotalBattles}");
+            //Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {TotalBattles}");
             return (hero1.TotalWins, hero2.TotalWins);
         }
     }

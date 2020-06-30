@@ -26,6 +26,7 @@ namespace Aeon
             }
         }
 
+        public int GetPts(IAgent agent) => _points.ContainsKey(agent) ? _points[agent] : throw new ArgumentException();
 
         private List<(IAgent, IAgent)> MakePairs()
         {
