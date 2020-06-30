@@ -28,15 +28,16 @@ namespace Aeon.Core.GameProcess
             while (!com.Exit)
             {
                 t++;
-                if (BotMode && t > 100)
+                if (BotMode && t > 30)
                 { 
                     //Console.WriteLine("Кто-то обосрался");
                     Customer.AutoLose = true;
                     break;
                 }
 
-                if (com.Ability)
-                    Customer.UseAbility();
+                if (com.Ability) {
+                    if (!Customer.UseAbility()) break;
+                }
                 else if (!Customer.TryToBuy(com.Type, com.Opt) && BotMode) break;
                 Viewer.Update(Customer);
                 com = Agent.ShopDecision();

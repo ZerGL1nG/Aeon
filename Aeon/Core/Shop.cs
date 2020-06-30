@@ -3,7 +3,7 @@
 namespace Aeon.Core
 {
 
-    public class Price
+    public struct Price
     {
         public double cost;
         public double amount;
@@ -22,7 +22,7 @@ namespace Aeon.Core
         public void MulAmount(double d) => amount *= d;
     }
 
-    public class StatCosts
+    public struct StatCosts
     {
         public Price standard;
         public Price discount;

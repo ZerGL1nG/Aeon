@@ -59,14 +59,19 @@ namespace Aeon
                     var (score1, score2) = game.Start();
                     lock (_points) {
                         if (score1 > score2)
+                            _points[player1]+=3;
+                        else if (score1 < score2)
+                            _points[player2]+=3;
+                        else {
                             _points[player1]++;
-                        else
                             _points[player2]++;
+                        }
                     }
                 });
                 Participants = Participants.OrderBy(p => _points[p] * 1000000 + Buchholz(p)).ToList();
                 Console.WriteLine($"=============== Завершён тур {tour++} ===================");
             }
+            
 
             return Participants;
         }

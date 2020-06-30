@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,18 +23,28 @@ namespace Aeon
         static void Main(string[] args)
         {
             var rnd = new Random();
-            
-            //var d = new Dictionary<NeuralEnvironment, double>();
-            
+            const string dir = "Heroes";
             var agents = new List<IAgent>();
-            for (var i = 0; i < HeroMaker.TotalClasses * 10; i++)
+            
+            /*/
+            for (var i = 0; i < 256; i++)
             {
                 agents.Add(new NetworkAgent(
                     NetworkCreator.Perceptron(90, 20, new List<int> {30, 30, 20}),
-                    (HeroClasses)(i % HeroMaker.TotalClasses)));
+                    (HeroClasses)rnd.Next(0, HeroMaker.TotalClasses - 1)));
             }
+            /*/
+            var files = Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly);
 
-            for (var i = 1; i <= 10; i++) {
+            foreach (var file in files) {
+                HeroClasses HClass;
+                if (HeroClasses.TryParse(file.Split("_")[^1], out HClass)) {
+                    agents.Add(new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass));
+                }
+            }
+            
+
+            for (var i = 1; i <= 1; i++) {
 
                 var tour = new Tournament(agents);
                 tour.StartTournament();
@@ -49,6 +60,15 @@ namespace Aeon
                 
                 Console.WriteLine($"<<<<<<<<<<<<<<<<<<<< КОНЕЦ ТУРНИРА №{i} >>>>>>>>>>>>>>>>>>>>>>");
 
+            }
+            
+            Directory.Delete(dir, true);
+
+            Directory.CreateDirectory(dir);
+
+            for (int i = 0; i < agents.Count; ++i) {
+                var network = (NetworkAgent) agents[i];
+                network.Network.Save(Path.Join(dir, $"{i}_{agents[i].ChooseClass()}"));
             }
             
 
