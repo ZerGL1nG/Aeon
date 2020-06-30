@@ -33,9 +33,7 @@ namespace Aeon.Core.GameProcess.Agents
                 enemyList.Add(0);
             enemyList[(int) enemyId] = 1;
 
-            var battleList = battle.Take(2).Concat(battle.TakeLast(2))
-                .SelectMany(tuples => tuples.Where(x=> x.state != StateParameter.MaxHp).Select(x => x.value))
-                .Concat(battle[0].Where(x => x.state == StateParameter.MaxHp && !x.isMyState).Select(x => x.value));
+            var battleList = hueta(battle);
 
             var statsList = stats.Out().Select(x => x.Item2);
             
@@ -49,9 +47,44 @@ namespace Aeon.Core.GameProcess.Agents
 
         public HeroClasses ChooseClass() => _myClass;
 
-        private Command parseCommand(int result)
+        private static Command parseCommand(int result) => result < 18 
+                ? new Command((Stat)(result % 9 + 1), result >= 9) 
+                : new Command(exit: result == 18, ability: result == 19);
+
+        private IEnumerable<double> hueta(List<IEnumerable<(StateParameter, bool, double)>> bred)
         {
-            throw new System.NotImplementedException();
+            switch (bred.Count) {
+                case 0:
+                    for (int i = 0; i < 25; i++) 
+                        yield return 0;
+                    break;
+                case 1:
+                    yield return bred[0].First(d => d.Item1 == StateParameter.MaxHp).Item3;
+                    foreach (var v in bred[0])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    for (int i = 0; i < 12; i++) 
+                        yield return 0;
+                    foreach (var v in bred[0])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    break;
+                case 2:
+                    yield return bred[0].First(d => d.Item1 == StateParameter.MaxHp).Item3;
+                    foreach (var v in bred[0])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    foreach (var v in bred[1])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    foreach (var v in bred[^2])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    foreach (var v in bred[^1])
+                        if (v.Item1 != StateParameter.MaxHp)
+                            yield return v.Item3;
+                    break;
+            }
         }
         
     }

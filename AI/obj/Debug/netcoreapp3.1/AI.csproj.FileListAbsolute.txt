@@ -24,3 +24,16 @@ D:\Prog\VisualStudioProjects\Games\Aeon\AI\obj\Debug\netcoreapp3.1\AI.csproj.Cor
 D:\Prog\VisualStudioProjects\Games\Aeon\AI\obj\Debug\netcoreapp3.1\AI.dll
 D:\Prog\VisualStudioProjects\Games\Aeon\AI\obj\Debug\netcoreapp3.1\AI.pdb
 D:\Prog\VisualStudioProjects\Games\Aeon\AI\obj\Debug\netcoreapp3.1\AI.genruntimeconfig.cache
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.exe
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.deps.json
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.runtimeconfig.json
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.runtimeconfig.dev.json
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.dll
+C:\Users\Tupotrof\source\Aeon\AI\bin\Debug\netcoreapp3.1\AI.pdb
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.csprojAssemblyReference.cache
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.csproj.CoreCompileInputs.cache
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.AssemblyInfoInputs.cache
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.AssemblyInfo.cs
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.dll
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.pdb
+C:\Users\Tupotrof\source\Aeon\AI\obj\Debug\netcoreapp3.1\AI.genruntimeconfig.cache

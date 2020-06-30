@@ -107,7 +107,7 @@ namespace Aeon.Core.Heroes
         public bool CheckDead()
         {
             if (CurrentHp > 0) return false;
-            Console.WriteLine("Я здох!");
+            //Console.WriteLine("Я здох!");
             return true;
         }
         

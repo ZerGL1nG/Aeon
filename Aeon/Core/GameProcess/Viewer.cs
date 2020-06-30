@@ -24,7 +24,7 @@ namespace Aeon.Core.GameProcess
         
             
 
-        private static IEnumerable<(StateParameter, bool, double)> UnpackBs(BattleState state) // индусы!
+        public static IEnumerable<(StateParameter, bool, double)> UnpackBs(BattleState state) // индусы!
         {
             foreach (var (key, value) in state.MyParams) yield return (key, true, value);
             foreach (var (key, value) in state.EnemyParams) yield return (key, false, value);

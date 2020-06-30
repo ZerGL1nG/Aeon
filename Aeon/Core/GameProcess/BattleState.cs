@@ -33,5 +33,20 @@ namespace Aeon.Core.GameProcess
             MyParams = myParams;
             EnemyParams = enemyParams;
         }
+        
+        public static BattleState GetEmptyState() => new BattleState(
+            new Dictionary<StateParameter, double> {
+                {StateParameter.MaxHp, 0},
+                {StateParameter.CurHp, 0},
+                {StateParameter.Regen, 0},
+                {StateParameter.RecDmg, 0}
+            }, 
+            new Dictionary<StateParameter, double>{
+                {StateParameter.MaxHp, 0},
+                {StateParameter.CurHp, 0},
+                {StateParameter.Regen, 0},
+                {StateParameter.RecDmg, 0}
+            }
+        );
     }
 }
