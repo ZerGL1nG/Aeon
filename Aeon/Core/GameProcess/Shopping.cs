@@ -21,8 +21,18 @@ namespace Aeon.Core.GameProcess
         {
             Viewer.Update(Customer);
             var com = Agent.ShopDecision();
+
+
+            var t = 0;
             while (!com.Exit)
             {
+                t++;
+                if (BotMode && t > 100)
+                {
+                    Customer.Stats.SetStat(Stat.Health, 0);
+                    break;
+                }
+
                 if (com.Ability)
                     Customer.UseAbility();
                 else if (!Customer.TryToBuy(com.Type, com.Opt) && BotMode) break;

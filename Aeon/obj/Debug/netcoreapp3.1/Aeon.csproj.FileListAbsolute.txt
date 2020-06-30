@@ -1,0 +1,17 @@
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\AI.exe
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.exe
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.deps.json
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.runtimeconfig.json
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.runtimeconfig.dev.json
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.dll
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\Aeon.pdb
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\AI.dll
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\bin\Debug\netcoreapp3.1\AI.pdb
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.csprojAssemblyReference.cache
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.AssemblyInfoInputs.cache
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.AssemblyInfo.cs
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.csproj.CoreCompileInputs.cache
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.csproj.CopyComplete
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.dll
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.pdb
+D:\Prog\VisualStudioProjects\Games\Aeon\Aeon\obj\Debug\netcoreapp3.1\Aeon.genruntimeconfig.cache

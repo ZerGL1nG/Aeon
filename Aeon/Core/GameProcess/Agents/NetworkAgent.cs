@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AI.NeuralNetwork;
 
 namespace Aeon.Core.GameProcess.Agents
 {
     public class NetworkAgent : IAgent
     {
-        private Func<List<double>, int> _networkJob;
-
+        public NeuralEnvironment Network;
+        
         private readonly HeroClasses _myClass;
         
-        public NetworkAgent(Func<List<double>, int> networkJob, HeroClasses myClass)
+        public NetworkAgent(NeuralEnvironment network, HeroClasses myClass)
         {
             BattleView = new BattleViewer();
             ShopView = new ShopViewer();
-            _networkJob = networkJob;
+            Network = network;
             _myClass = myClass;
         }
 
@@ -27,7 +28,9 @@ namespace Aeon.Core.GameProcess.Agents
             var (stats, shop, enemyId, otherStates) = ShopView.Out();
             var battle = BattleView.Out().ToList();
 
-            var enemyList = new List<double>(HeroMaker.TotalClasses) {0};
+            var enemyList = new List<double>();
+            for (var i = 0; i < HeroMaker.TotalClasses; i++)
+                enemyList.Add(0);
             enemyList[(int) enemyId] = 1;
 
             var battleList = battle.Take(2).Concat(battle.TakeLast(2))
@@ -38,8 +41,9 @@ namespace Aeon.Core.GameProcess.Agents
             
             var shopList = shop.Out();
 
-            var workResult = _networkJob(
+            Network.Work(
                 statsList.Concat(enemyList).Concat(battleList).Concat(shopList).Concat(otherStates).ToList());
+            var workResult = Network.GetMaxOutId();
             return parseCommand(workResult);
         }
 
