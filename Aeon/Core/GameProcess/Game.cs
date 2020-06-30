@@ -9,6 +9,9 @@ namespace Aeon.Core.GameProcess
 
         public int Agent1Score { get; set; } = 0;
         public int Agent2Score { get; set; } = 0;
+        public int TotalBattles { get; set; } = 0;
+
+        public const int TargetWins = 5;
 
         public Game(IAgent agent1, IAgent agent2)
         {
@@ -22,13 +25,24 @@ namespace Aeon.Core.GameProcess
             var hero2 = HeroMaker.Make(Agent2.ChooseClass());
             hero1.Init(hero2);
             hero2.Init(hero1);
-            while (!hero1.Won() && !hero2.Won() && hero1.TotalBattles < 11) {
+            while (hero1.TotalWins < TargetWins && hero2.TotalWins < TargetWins && TotalBattles < 10) {
+                Agent1.ShopView.BattleNumber = TotalBattles;
+                Agent2.ShopView.BattleNumber = TotalBattles;
                 new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping();
                 new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping();
                 
                 new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2).StartBattle();
+                ++TotalBattles;
+                if (hero1.AutoLose) {
+                    hero1.TotalWins = 0;
+                    hero2.TotalWins = TargetWins;
+                }
+                if (hero2.AutoLose) {
+                    hero2.TotalWins = 0;
+                    hero1.TotalWins = TargetWins;
+                }
             }
-            Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {hero1.TotalBattles}");
+            Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {TotalBattles}");
             return (hero1.TotalWins, hero2.TotalWins);
         }
     }

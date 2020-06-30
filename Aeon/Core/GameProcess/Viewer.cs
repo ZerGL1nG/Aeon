@@ -41,7 +41,7 @@ namespace Aeon.Core.GameProcess
         private double AbilityState;
         private double SelfWins;
         private double EnemyWins;
-        private double BattleNumber;
+        public double BattleNumber;
         public ShopViewer()
         {
             
@@ -54,7 +54,6 @@ namespace Aeon.Core.GameProcess
             AbilityState = customer.GetAbilityState();
             SelfWins = customer.TotalWins;
             EnemyWins = customer.EnemyWins;
-            BattleNumber = customer.TotalBattles;
         }
 
         public (Stats stats, Shop shop, HeroClasses enemyID, List<double> Other) Out() =>

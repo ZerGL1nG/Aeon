@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Aeon.Core.GameProcess;
 
 namespace Aeon
@@ -46,20 +47,22 @@ namespace Aeon
         public List<IAgent> StartTournament()
         {
             var tour = 1;
-            var toursNumber = Math.Round(Math.Sqrt(Participants.Count)) + 2;
+            var toursNumber = Math.Ceiling(Math.Log2(Participants.Count));
 
             while (tour <= toursNumber)
             {
                 var pairs = MakePairs();
-                foreach (var (player1, player2) in pairs)
-                {
+                Parallel.ForEach(pairs, t => {
+                    var (player1, player2) = t;
                     var game = new Game(player1, player2);
                     var (score1, score2) = game.Start();
-                    if (score1 > score2)
-                        _points[player1]++;
-                    else
-                        _points[player2]++;
-                }
+                    lock (_points) {
+                        if (score1 > score2)
+                            _points[player1]++;
+                        else
+                            _points[player2]++;
+                    }
+                });
                 Participants = Participants.OrderBy(p => _points[p] * 1000000 + Buchholz(p)).ToList();
                 Console.WriteLine($"=============== Завершён тур {tour++} ===================");
             }

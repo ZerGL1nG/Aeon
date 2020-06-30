@@ -35,10 +35,9 @@ namespace Aeon.Core.Heroes
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
         
-        public int TotalWins { get; private set; }
+        public int TotalWins { get; set; }
         public int EnemyWins => Enemy.TotalWins;
-        public int TotalBattles { get; private set; }
-        
+
         public bool AutoLose { get; set; }
 
         public HeroClasses HeroClass { get; protected set; } = (HeroClasses) (-1);
@@ -80,7 +79,6 @@ namespace Aeon.Core.Heroes
         public virtual void Init(Hero enemy)
         {
             TotalWins = 0;
-            TotalBattles = 0;
             Enemy = enemy;
         }
 
@@ -136,15 +134,12 @@ namespace Aeon.Core.Heroes
 
         public virtual void EndBattle(bool win)
         {
-            TotalBattles++;
             if (win) {
                 TotalWins++;
                 Stats.AddStat(Stat.Money, winBonus + gameMoney);
             }
             else Stats.AddStat(Stat.Money, gameMoney);
         }
-
-        public virtual bool Won() => TotalWins >= 5 || Enemy.AutoLose || TotalBattles >= 10 && TotalWins > EnemyWins;
 
         protected virtual void Reset()
         {

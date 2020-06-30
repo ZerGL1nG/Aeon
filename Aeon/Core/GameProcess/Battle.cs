@@ -49,10 +49,15 @@ namespace Aeon.Core.GameProcess
                 var dead2 = Second.CheckDead();
 
                 finished = dead1 || dead2;
-                if (finished || it == maxBattleIt-1)
+                if (finished)
                 {
                     First.EndBattle(!dead1);
                     Second.EndBattle(!dead2);
+                }
+
+                if (it == maxBattleIt - 1) {
+                    First.EndBattle(false);
+                    Second.EndBattle(false);
                 }
                 
                 state.MyParams[StateParameter.Regen]    = finished ? First.TryRegen() : 0;
