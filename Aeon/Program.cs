@@ -33,6 +33,9 @@ namespace Aeon
                 newDict[(HeroClasses) i] = new List<IAgent>();
             }
 
+            IAgent First;
+            IAgent Second;
+
             /*/
             for (var i = 0; i < 256; i++)
             {
@@ -61,7 +64,7 @@ namespace Aeon
 
                 var d = agents.Select(a => ((NetworkAgent) a, tour.GetPts(a)))
                     .ToDictionary(a => a.Item1.Network, b => (double) b.Item2);
-                
+
                 agents = new List<IAgent>();
 
                 foreach (var heroPage in heroDict) {
@@ -100,7 +103,7 @@ namespace Aeon
                 var network = (NetworkAgent) agents[i];
                 network.Network.Save(Path.Join(dir, $"{i}_{((HeroClasses) (i % c)).ToString()}"));
             }
-            
+
             Console.WriteLine("Finished");
         }
     }

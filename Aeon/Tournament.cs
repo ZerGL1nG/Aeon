@@ -71,7 +71,13 @@ namespace Aeon
                 Participants = Participants.OrderBy(p => _points[p] * 1000000 + Buchholz(p)).ToList();
                 Console.WriteLine($"=============== Завершён тур {tour++} ===================");
             }
+
+            foreach (var agent in Participants.Skip(Participants.Count-20)) {
+                Console.WriteLine($"{agent.ChooseClass()} - {GetPts(agent)} pts");
+            }
             
+            var game = new Game(Participants[^1], Participants[^2]);
+            game.Start();
 
             return Participants;
         }

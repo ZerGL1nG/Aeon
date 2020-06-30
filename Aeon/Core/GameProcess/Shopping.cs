@@ -18,7 +18,7 @@ namespace Aeon.Core.GameProcess
             BotMode = bot;
         }
 
-        public void StartShopping()
+        public void StartShopping(int round)
         {
             Viewer.Update(Customer);
             var com = Agent.ShopDecision();
@@ -30,10 +30,12 @@ namespace Aeon.Core.GameProcess
                 t++;
                 if (BotMode && t > 30)
                 { 
-                    //Console.WriteLine("Кто-то обосрался");
+                    Console.WriteLine("Кто-то обосрался");
                     Customer.AutoLose = true;
                     break;
                 }
+                
+                if (round == 0 && com.Opt) break;
 
                 if (com.Ability) {
                     if (!Customer.UseAbility()) break;

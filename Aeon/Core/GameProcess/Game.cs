@@ -29,8 +29,8 @@ namespace Aeon.Core.GameProcess
             while (hero1.TotalWins < TargetWins && hero2.TotalWins < TargetWins && TotalBattles < MaxBattles) {
                 Agent1.ShopView.BattleNumber = TotalBattles;
                 Agent2.ShopView.BattleNumber = TotalBattles;
-                new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping();
-                new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping();
+                new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping(TotalBattles);
+                new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping(TotalBattles);
                 
                 new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2).StartBattle();
                 ++TotalBattles;
@@ -43,7 +43,7 @@ namespace Aeon.Core.GameProcess
                     hero1.TotalWins = TargetWins;
                 }
             }
-            //Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {TotalBattles}");
+            Console.WriteLine($"Игра: {Agent1.ChooseClass()} {hero1.TotalWins} - {hero2.TotalWins} {Agent2.ChooseClass()}, число игр {TotalBattles}");
             return (hero1.TotalWins, hero2.TotalWins);
         }
     }
