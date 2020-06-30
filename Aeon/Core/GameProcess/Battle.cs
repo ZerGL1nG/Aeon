@@ -9,17 +9,20 @@ namespace Aeon.Core.GameProcess
         private Hero First { get;}
         private Hero Second { get; }
 
-        private BattleViewer Viewer { get; }
+        private BattleViewer Viewer1 { get; }
+        private BattleViewer Viewer2 { get; }
 
-        public Battle(BattleViewer viewer, Hero first, Hero second)
+        public Battle(BattleViewer viewer1, BattleViewer viewer2, Hero first, Hero second)
         {
-            Viewer = viewer;
+            Viewer1 = viewer1;
+            Viewer2 = viewer2;
             First = first;
             Second = second;
         }
         public void StartBattle()
         {
-            Viewer.Reset();
+            Viewer1.Reset();
+            Viewer2.Reset();
             Second.StartBattle();
             
             var state = new BattleState();
@@ -53,7 +56,8 @@ namespace Aeon.Core.GameProcess
                 
                 state.MyParams[StateParameter.Regen]    = finished ? First.TryRegen() : 0;
                 state.EnemyParams[StateParameter.Regen] = finished ? Second.TryRegen() : 0;
-                Viewer.Update(state);
+                Viewer1.Update(state);
+                Viewer2.Update(state.Reverse());
                 
             }
         }

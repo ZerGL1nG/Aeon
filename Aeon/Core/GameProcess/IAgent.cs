@@ -6,7 +6,10 @@ namespace Aeon.Core.GameProcess
     {
         public BattleViewer BattleView { get; set; }
         public ShopViewer ShopView { get; set; }
+        public bool IsBot { get; }
         
-        public abstract Command ShopDecision();
+        public Command ShopDecision();
+
+        public HeroClasses ChooseClass();
     }
 }

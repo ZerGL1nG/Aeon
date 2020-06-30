@@ -4,26 +4,6 @@ using System.ComponentModel;
 
 namespace Aeon.Core.Heroes
 {
-    public enum HeroClasses
-    {
-        Empty = 0,
-        Banker,
-        Beast,
-        Beggar,
-        BloodyElf,
-        Cheater,
-        Fatty,
-        Fe11,
-        Killer,
-        Master,
-        Rogue,
-        Shifter,
-        Thief,
-        Vampire,
-        Warlock,
-        Warrior
-    }
-    
     public class Hero
     {
         public static readonly Dictionary<Stat, double> InitStats = new Dictionary<Stat, double> {
@@ -59,7 +39,7 @@ namespace Aeon.Core.Heroes
         public int EnemyWins => Enemy.TotalWins;
         public int TotalBattles { get; private set; }
 
-        public HeroClasses HeroClass { get; protected set; } = HeroClasses.Empty;
+        public HeroClasses HeroClass { get; protected set; } = (HeroClasses) (-1);
         
         protected double Heal(double h)
         {
@@ -97,6 +77,8 @@ namespace Aeon.Core.Heroes
 
         public virtual void Init(Hero enemy)
         {
+            TotalWins = 0;
+            TotalBattles = 0;
             Enemy = enemy;
         }
 
@@ -159,6 +141,8 @@ namespace Aeon.Core.Heroes
             }
             else Stats.AddStat(Stat.Money, gameMoney);
         }
+
+        public virtual bool Won() => TotalWins >= 5;
 
         protected virtual void Reset()
         {
