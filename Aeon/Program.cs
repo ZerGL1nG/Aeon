@@ -20,12 +20,19 @@ namespace Aeon
 {
     class Program
     {
+        public static Random rnd = new Random();
         static void Main(string[] args)
         {
-            var rnd = new Random();
             const string dir = "Heroes";
             var agents = new List<IAgent>();
             
+            var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
+            var newDict = new Dictionary<HeroClasses, List<IAgent>>();
+            for (int i = 0; i < HeroMaker.TotalClasses; ++i) {
+                heroDict[(HeroClasses) i] = new List<IAgent>();
+                newDict[(HeroClasses) i] = new List<IAgent>();
+            }
+
             /*/
             for (var i = 0; i < 256; i++)
             {
@@ -39,7 +46,10 @@ namespace Aeon
             foreach (var file in files) {
                 HeroClasses HClass;
                 if (HeroClasses.TryParse(file.Split("_")[^1], out HClass)) {
-                    agents.Add(new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass));
+                    NetworkAgent agent;
+                    agent = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
+                    agents.Add(agent);
+                    heroDict[HClass].Add(agent);
                 }
             }
             
@@ -51,13 +61,25 @@ namespace Aeon
 
                 var d = agents.Select(a => ((NetworkAgent) a, tour.GetPts(a)))
                     .ToDictionary(a => a.Item1.Network, b => (double) b.Item2);
-
-                var azz = GeneticAlgorithm.Improve(agents.Select(a => (NetworkAgent) a).Select(a => a.Network).ToList(),
-                    GeneticAlgorithm.RandomMerge, list => list.Select(l => d[l]).ToList());
-
-                agents = azz.Select(network => new NetworkAgent(network,
-                    (HeroClasses) rnd.Next(0, HeroMaker.TotalClasses - 1))).Cast<IAgent>().ToList();
                 
+                agents = new List<IAgent>();
+
+                foreach (var heroPage in heroDict) {
+                    var azz = GeneticAlgorithm.Improve(
+                        heroPage.Value.Select(a => (NetworkAgent) a)
+                            .Select(a => a.Network)
+                            .ToList(),
+                        GeneticAlgorithm.RandomMerge, 
+                        list => list.Select(l => d[l]).ToList());
+                    var newAgents = azz.Select(network => new NetworkAgent(network, heroPage.Key))
+                        .Cast<IAgent>().ToList();
+                    newDict[heroPage.Key] = newAgents;
+                    agents.AddRange(newAgents);
+                }
+
+                heroDict = newDict;
+                newDict = new Dictionary<HeroClasses, List<IAgent>>();
+
                 Console.WriteLine($"<<<<<<<<<<<<<<<<<<<< КОНЕЦ ТУРНИРА №{i} >>>>>>>>>>>>>>>>>>>>>>");
 
             }
@@ -65,13 +87,20 @@ namespace Aeon
             Directory.Delete(dir, true);
 
             Directory.CreateDirectory(dir);
-
+            
+            /*/
             for (int i = 0; i < agents.Count; ++i) {
                 var network = (NetworkAgent) agents[i];
                 network.Network.Save(Path.Join(dir, $"{i}_{agents[i].ChooseClass()}"));
             }
-            
+            /*/
 
+            for (int i = 0; i < agents.Count; i++) {
+                var c = HeroMaker.TotalClasses;
+                var network = (NetworkAgent) agents[i];
+                network.Network.Save(Path.Join(dir, $"{i}_{((HeroClasses) (i % c)).ToString()}"));
+            }
+            
             Console.WriteLine("Finished");
         }
     }

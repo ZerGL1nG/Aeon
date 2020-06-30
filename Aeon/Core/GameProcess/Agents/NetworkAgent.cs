@@ -45,7 +45,11 @@ namespace Aeon.Core.GameProcess.Agents
             return parseCommand(workResult);
         }
 
-        public HeroClasses ChooseClass() => _myClass;
+        public HeroClasses ChooseClass()
+        {
+            if ((int) _myClass == -1) return (HeroClasses) Program.rnd.Next(HeroMaker.TotalClasses);
+            return _myClass;
+        }
 
         private static Command parseCommand(int result) => result < 18 
                 ? new Command((Stat)(result % 9 + 1), result >= 9) 
