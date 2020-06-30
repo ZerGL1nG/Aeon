@@ -31,9 +31,7 @@ namespace Aeon
             
             agents = new Tournament(agents).StartTournament();
             
-
             Console.WriteLine("Finished");
-            Console.ReadLine();
         }
     }
 }

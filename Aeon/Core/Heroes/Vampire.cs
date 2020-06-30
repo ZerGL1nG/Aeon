@@ -42,11 +42,11 @@
         {
             ++CurrentCharge;
             var att = base.MakeAttack();
-            if (CurrentCharge < ChargeReq[AbilityLevel]) return att;
+            if (CurrentCharge < ChargeReq[AbilityLevel-1]) return att;
             CurrentCharge = 0;
-            Heal(Suck[AbilityLevel] * att.Damage);
+            Heal(Suck[AbilityLevel-1] * att.Damage);
             return new Attack(att.Source, 
-                att.Damage * (1 + Suck[AbilityLevel]),
+                att.Damage * (1 + Suck[AbilityLevel-1]),
                 att.Magic,
                 att.True,
                 att.Critical);

@@ -5,7 +5,7 @@ namespace Aeon.Core.GameProcess
 {
     public class Battle
     {
-        private const int maxBattleIt = 100;
+        private const int maxBattleIt = 10;
         private Hero First { get;}
         private Hero Second { get; }
 
@@ -23,6 +23,7 @@ namespace Aeon.Core.GameProcess
         {
             Viewer1.Reset();
             Viewer2.Reset();
+            First.StartBattle();
             Second.StartBattle();
             
             var state = new BattleState();
@@ -33,8 +34,8 @@ namespace Aeon.Core.GameProcess
             for(var it = 0; it < maxBattleIt && !finished; it++)
             {
 
-                state.MyParams[StateParameter.CurHp] = First.Stats.GetStat(Stat.Health);
-                state.MyParams[StateParameter.CurHp] = Second.Stats.GetStat(Stat.Health);
+                state.MyParams[StateParameter.CurHp] = First.CurrentHp;
+                state.EnemyParams[StateParameter.CurHp] = Second.CurrentHp;
     
                 var att1 = First.MakeAttack();
                 var att2 = Second.MakeAttack();
@@ -48,7 +49,7 @@ namespace Aeon.Core.GameProcess
                 var dead2 = Second.CheckDead();
 
                 finished = dead1 || dead2;
-                if (finished)
+                if (finished || it == maxBattleIt-1)
                 {
                     First.EndBattle(!dead1);
                     Second.EndBattle(!dead2);

@@ -38,6 +38,8 @@ namespace Aeon.Core.Heroes
         public int TotalWins { get; private set; }
         public int EnemyWins => Enemy.TotalWins;
         public int TotalBattles { get; private set; }
+        
+        public bool AutoLose { get; set; }
 
         public HeroClasses HeroClass { get; protected set; } = (HeroClasses) (-1);
         
@@ -142,7 +144,7 @@ namespace Aeon.Core.Heroes
             else Stats.AddStat(Stat.Money, gameMoney);
         }
 
-        public virtual bool Won() => TotalWins >= 5;
+        public virtual bool Won() => TotalWins >= 5 || Enemy.AutoLose || TotalBattles >= 10 && TotalWins > EnemyWins;
 
         protected virtual void Reset()
         {

@@ -1,4 +1,6 @@
-﻿namespace Aeon.Core.GameProcess
+﻿using System;
+
+namespace Aeon.Core.GameProcess
 {
     public class Game
     {
@@ -20,13 +22,13 @@
             var hero2 = HeroMaker.Make(Agent2.ChooseClass());
             hero1.Init(hero2);
             hero2.Init(hero1);
-            while (!hero1.Won() && !hero2.Won()) {
+            while (!hero1.Won() && !hero2.Won() && hero1.TotalBattles < 11) {
                 new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping();
                 new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping();
                 
                 new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2).StartBattle();
             }
-
+            Console.WriteLine($"Игра: счет {hero1.TotalWins} - {hero2.TotalWins}, число игр {hero1.TotalBattles}");
             return (hero1.TotalWins, hero2.TotalWins);
         }
     }

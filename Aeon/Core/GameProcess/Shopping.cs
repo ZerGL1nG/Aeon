@@ -1,4 +1,5 @@
-﻿using Aeon.Core.Heroes;
+﻿using System;
+using Aeon.Core.Heroes;
 
 namespace Aeon.Core.GameProcess
 {
@@ -28,8 +29,9 @@ namespace Aeon.Core.GameProcess
             {
                 t++;
                 if (BotMode && t > 100)
-                {
-                    Customer.Stats.SetStat(Stat.Health, 0);
+                { 
+                    Console.WriteLine("Кто-то обосрался");
+                    Customer.AutoLose = true;
                     break;
                 }
 
