@@ -32,9 +32,9 @@ namespace Aeon
         static void Main(string[] args)
         {
             //PlayBest();
-            //Gen(5);
+            Gen(10);
             //Train(0);
-            Teach(10);
+            //Teach(10);
             Console.WriteLine("Finished");
         }
 
