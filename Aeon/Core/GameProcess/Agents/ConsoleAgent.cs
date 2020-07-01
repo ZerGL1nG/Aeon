@@ -54,14 +54,21 @@ namespace Aeon.Core.GameProcess.Agents
         public Command ShopDecision()
         {
             Console.Clear();
-            Console.WriteLine("Бой:");
-            foreach (var turn in BattleView.Out()) {
-                var t = turn.ToList();
-                Console.WriteLine($"   ТЫ: {t[1].value, 5}/{t[0].value, -5}-{t[2].value, -5}+{t[3].value, -5}" +
-                                $"   ВРАГ: {t[5].value, 5}/{t[4].value, -5}-{t[6].value, -5}+{t[7].value, -5}");
-            }
             Console.WriteLine();
             var (stats, shop, enemyId, other) = ShopView.Out();
+            if (other[0] != 0) {
+                Console.WriteLine($"Бой #{other[0]}:");
+                foreach (var turn in BattleView.Out()) {
+                    var t = turn.ToList();
+                    Console.WriteLine(
+                        $"   ТЫ: {(int) t[1].value,5}/{(int) t[0].value,-5}-{(int) t[2].value,-5}+{(int) t[3].value,-5}" +
+                        $"   ВРАГ: {(int) t[5].value,5}/{(int) t[4].value,-5}-{(int) t[6].value,-5}+{(int) t[7].value,-5}");
+                }
+                Console.WriteLine();
+            }
+            
+            Console.WriteLine($"{myClass, 25} {other[1], 2} : {other[2], -2} {enemyId}");
+            Console.WriteLine();
             
             for (var t = 1; t <= 9; ++t) {
                 var stat = (Stat) t;

@@ -60,8 +60,8 @@ namespace Aeon.Core.GameProcess
                     Second.EndBattle(false);
                 }
                 
-                state.MyParams[StateParameter.Regen]    = finished ? First.TryRegen() : 0;
-                state.EnemyParams[StateParameter.Regen] = finished ? Second.TryRegen() : 0;
+                state.MyParams[StateParameter.Regen]    = !finished ? First.TryRegen() : 0;
+                state.EnemyParams[StateParameter.Regen] = !finished ? Second.TryRegen() : 0;
                 Viewer1.Update(state.Copy());
                 Viewer2.Update(state.Reverse());
                 
