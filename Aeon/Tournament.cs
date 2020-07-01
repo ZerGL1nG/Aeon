@@ -72,7 +72,7 @@ namespace Aeon
                 Console.WriteLine($"=============== Завершён тур {tour++} ===================");
             }
 
-            foreach (var agent in Participants.Skip(Participants.Count-20)) {
+            foreach (var agent in Participants.Skip(Participants.Count-25)) {
                 Console.WriteLine($"{agent.ChooseClass()} - {GetPts(agent)} pts");
             }
             
