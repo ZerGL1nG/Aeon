@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "mvXgNpXFGmHkzcSdUyMt/xizswr8gXhjK4tg2tVq2VxN5Eh9vqrdHKlwEqFC8kMRsPFmUwrOuErQiGEa6tut1w==",
+  "dgSpecHash": "DZ9LmR4XBgyIgo7/QypEnch2PXW+VRqIUr26DBgctqaYMrj2TGG7t8hqtwMD3aeKo6C0IeCp3rmZZ/rM9ap25g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\Aeon.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Prog\\VisualStudioProjects\\Games\\Aeon\\Aeon\\Aeon.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
   "logs": []
 }

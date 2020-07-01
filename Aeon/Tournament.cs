@@ -18,7 +18,7 @@ namespace Aeon
         {
             _points = new Dictionary<IAgent, int>();
             _enemies = new Dictionary<IAgent, List<IAgent>>();
-                Participants = new List<IAgent>(participants);
+                Participants = new List<IAgent>(participants.Skip(1));
             foreach (var player in participants)
             {
                 _points[player] = 0;

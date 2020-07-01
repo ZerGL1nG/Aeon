@@ -102,7 +102,7 @@ namespace Aeon.Core.Heroes
             return LastReceivedAttack;
         }
 
-        public virtual double TryRegen() => LastReceivedAttack.Damage >0 ? Heal(Stats.GetStat(Stat.Regen)) : 0;
+        public virtual double TryRegen() => LastReceivedAttack.Damage > 0 ? Heal(Stats.GetStat(Stat.Regen)) : 0;
 
 
         public bool CheckDead()
