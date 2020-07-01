@@ -40,6 +40,9 @@ namespace Aeon.Core
                 return data[stat];
             throw new ArgumentException($"No stat named {stat} in stats");
         }
+
+        public static Stats Clone(Stats stats) => new Stats(new Dictionary<Stat, double>(stats.data));
+
         
         // ЩЩИИИИИИИИИТТТ!!!!!
         private const double shieldConst1 = 0.0075d;

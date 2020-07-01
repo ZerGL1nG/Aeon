@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Aeon.Core
 {
 
-    public struct Price
+    public class Price
     {
         public double cost;
         public double amount;
@@ -22,7 +23,7 @@ namespace Aeon.Core
         public void MulAmount(double d) => amount *= d;
     }
 
-    public struct StatCosts
+    public class StatCosts
     {
         public Price standard;
         public Price discount;
@@ -38,26 +39,26 @@ namespace Aeon.Core
 
         public void AddCost(double d)
         {
-            standard.cost += d;
-            discount.cost += d;
+            standard.AddCost(d);
+            discount.AddCost(d);
         }
 
         public void MulCost(double d)
         {
-            standard.cost *= d;
-            discount.cost *= d;
+            standard.MulCost(d);
+            discount.MulCost(d);
         }
 
         public void AddAmount(double d)
         {
-            standard.amount += d;
-            discount.amount += d;
+            standard.AddAmount(d);
+            discount.AddAmount(d);
         }
 
         public void MulAmount(double d)
         {
-            standard.amount *= d;
-            discount.amount *= d;
+            standard.MulAmount(d);
+            discount.MulAmount(d);
         }
     }
     
@@ -71,6 +72,10 @@ namespace Aeon.Core
 
         public Price GetPrice(Stat stat, bool opt) => 
             opt ? Costs[stat].discount : Costs[stat].standard;
+
+        public static Shop Clone(Shop shop) => new Shop(shop.Costs.ToDictionary(cost => cost.Key, cost => new StatCosts
+            (cost.Value.standard.cost, cost.Value.standard.amount, cost.Value.discount.cost, cost.Value.discount.amount)));
+  
 
         public IEnumerable<double> Out()
         {

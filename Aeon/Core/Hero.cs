@@ -85,8 +85,8 @@ namespace Aeon.Core.Heroes
 
         public Hero()
         {
-            Stats = new Stats(InitStats);
-            Shop = new Shop(InitCosts);
+            Stats = Stats.Clone(new Stats(InitStats));
+            Shop = Shop.Clone(new Shop(InitCosts));
             Rnd = new Random();
         }
         

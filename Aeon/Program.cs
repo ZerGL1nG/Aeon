@@ -27,8 +27,46 @@ namespace Aeon
         {
             
             //PlayBest();
-            Gen();
+            //Gen();
+            Train(0);
             Console.WriteLine("Finished");
+        }
+
+        public static void Train(int t)
+        {
+            const string dir = "Training";
+
+            var agents = new List<IAgent>();
+            var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
+            var newDict = new Dictionary<HeroClasses, List<IAgent>>();
+            for (int i = 0; i < HeroMaker.TotalClasses; ++i) {
+                heroDict[(HeroClasses) i] = new List<IAgent>();
+                newDict[(HeroClasses) i] = new List<IAgent>();
+            }
+
+            var files = Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly);
+
+            foreach (var file in files) {
+                HeroClasses HClass;
+                if (HeroClasses.TryParse(file.Split("_")[^1], out HClass)) {
+                    NetworkAgent agent;
+                    agent = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
+                    agents.Add(agent);
+                    heroDict[HClass].Add(agent);
+                }
+            }
+            
+            var training = new Training(
+                agents.Where(a => a.ChooseClass() == HeroClasses.Fatty).Cast<NetworkAgent>().ToList(), 
+                agents.Where(a => a.ChooseClass() == HeroClasses.Fatty).ToList(),
+                HeroClasses.Fatty);
+            training.Train(t);
+            
+            
+            for (int i = 0; i < training.Participants.Count; i++) {
+                training.Participants[i].Network.Save(Path.Join(dir, $"{i}_trained_{training.ClassToTrain}"));
+            }
+            
         }
 
         public static void Gen()

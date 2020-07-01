@@ -7,7 +7,7 @@ namespace AI.NeuralNetwork.Algs
 {
     public static class GeneticAlgorithm
     {
-        private const double PercentKept = 0.25d;
+        private const double PercentKept = 0.5d;
         
         public static List<NeuralEnvironment> Improve(List<NeuralEnvironment> environments,
             Func<NeuralEnvironment, NeuralEnvironment, NeuralEnvironment> mergeGenes,
@@ -42,7 +42,7 @@ namespace AI.NeuralNetwork.Algs
         
 
         public const double MergeCoeff = 0.5d;
-        public const double MutationProbability = 0.03d;
+        public const double MutationProbability = 0.1d;
         
         public static NeuralEnvironment RandomMerge(NeuralEnvironment first, NeuralEnvironment second)
         {
