@@ -48,7 +48,7 @@ namespace Aeon
         public List<IAgent> StartTournament()
         {
             var tour = 1;
-            var toursNumber = Math.Ceiling(Math.Log2(Participants.Count)) + 1;
+            var toursNumber =  1 + Math.Ceiling(Math.Log2(Participants.Count));
 
             while (tour <= toursNumber)
             {
@@ -59,9 +59,9 @@ namespace Aeon
                     var (score1, score2) = game.Start();
                     lock (_points) {
                         if (score1 > score2)
-                            _points[player1]+=3;
+                            _points[player1]+=4;
                         else if (score1 < score2)
-                            _points[player2]+=3;
+                            _points[player2]+=4;
                         else {
                             _points[player1]++;
                             _points[player2]++;

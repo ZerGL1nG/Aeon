@@ -12,7 +12,7 @@ namespace Aeon.Core.GameProcess.Agents
         public bool IsBot => false;
 
         private bool IsChosen = false;
-
+        private bool EnterFlag;
         private HeroClasses myClass;
 
         //public Dictionary<(BattleViewer, ShopViewer), Command> DataSet 
@@ -82,7 +82,8 @@ namespace Aeon.Core.GameProcess.Agents
             Console.WriteLine();
 
             int com;
-            while (!KeysDict.TryGetValue(Console.ReadKey().Key, out com)) { }
+            while (!KeysDict.TryGetValue(Console.ReadKey().Key, out com)) {
+            }
             DataSet.Add(NetworkAgent.MakeInput(this), NetworkAgent.MakeCrap(com));
             return NetworkAgent.parseCommand(com);
         }

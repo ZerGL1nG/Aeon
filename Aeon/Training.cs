@@ -39,7 +39,7 @@ namespace Aeon
                                 var (score1, score2) = game.Start();
                                 lock (points) {
                                     if (score1 > score2)
-                                        points[player] += 3;
+                                        points[player] += 4;
                                     else if (score1 == score2)
                                         points[player]++;
                                 }

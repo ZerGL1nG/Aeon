@@ -32,10 +32,16 @@ namespace Aeon.Core.Heroes
             currCoeff = 1;
         }
 
-        public override Attack MakeAttack()
+        public override Attack ReceiveAttack(Attack attack)
         {
             CurrentHp -= (CurrentHp * RogueDamage) / currCoeff;
             Enemy.CurrentHp -= (CurrentHp * EnemyDamage) * currCoeff;
+            return base.ReceiveAttack(attack);
+        }
+
+        Attack MakeAttack()
+        {
+            
             return base.MakeAttack();
         }
 

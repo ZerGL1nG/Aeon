@@ -32,13 +32,14 @@ namespace Aeon
         static void Main(string[] args)
         {
             //PlayBest();
-            //Gen(10);
-            //Train(0);
-            Teach(3);
+            Gen(3);
+            //Teach(3);
+            //Train(2);
+            
             Console.WriteLine("Finished");
         }
 
-        public static void Teach(int kek)
+        public static void Teach(int iterations)
         {
 
             var human = new ConsoleAgent();
@@ -70,10 +71,10 @@ namespace Aeon
             
             var teaching = agents.Where(a => a.ChooseClass() == human.ChooseClass()).Cast<NetworkAgent>().ToList();
 
-            foreach (var agent in teaching) {
-                for (var i = 0; i < kek; i++) 
+            Parallel.ForEach(teaching, agent => {
+                for (var i = 0; i < iterations; i++)
                     BackpropagationAlgorithm.Teach(agent.Network, human.DataSet);
-            }
+            });
             
             for (var i = 0; i < teaching.Count(); i++) {
                 teaching[i].Network.Save(Path.Join(teachdir, $"{i}_teach_{human.ChooseClass()}"));
@@ -83,8 +84,9 @@ namespace Aeon
         
         public static void Train(int t)
         {
-            var trainedClass = HeroClasses.Fatty;
-
+            var trainedClass = HeroClasses.Beast;
+            var opponent = HeroClasses.Fatty;
+            
             var agents = new List<IAgent>();
             var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
             var newDict = new Dictionary<HeroClasses, List<IAgent>>();
@@ -108,8 +110,8 @@ namespace Aeon
             
             var training = new Training(
                 agents.Where(a => a.ChooseClass() == trainedClass).Cast<NetworkAgent>().ToList(), 
-                agents.Where(a => a.ChooseClass() == HeroClasses.Cheater).ToList(),
-                HeroClasses.Fatty);
+                agents.Where(a => a.ChooseClass() == opponent).ToList(),
+                trainedClass);
             training.Train(t);
             
             

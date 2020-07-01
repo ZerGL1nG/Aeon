@@ -24,7 +24,7 @@
 
         public override Attack MakeAttack()
         {
-            return Enemy.Stats.GetStat(Stat.Health) <= Enemy.CurrentHp
+            return (int)(Enemy.Stats.GetStat(Stat.Health)) <= Enemy.CurrentHp
                 ? base.MakeAttack().Scale(FirstHitBonus)
                 : base.MakeAttack();
         }
