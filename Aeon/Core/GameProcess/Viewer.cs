@@ -31,6 +31,8 @@ namespace Aeon.Core.GameProcess
         }
 
         public void Reset() => LogState = new List<BattleState>();
+        
+        public BattleViewer Copy() => new BattleViewer {LogState = LogState, MaxHP = MaxHP};
     }
 
     public class ShopViewer
@@ -58,5 +60,10 @@ namespace Aeon.Core.GameProcess
 
         public (Stats stats, Shop shop, HeroClasses enemyID, List<double> Other) Out() =>
             (HeroStats, HeroShop, EnemyID, new List<double> {BattleNumber, SelfWins, EnemyWins, AbilityState});
+        
+        public ShopViewer Copy() => new ShopViewer {
+            HeroStats = Stats.Clone(HeroStats), HeroShop = Shop.Clone(HeroShop), EnemyID = EnemyID, 
+            AbilityState = AbilityState, BattleNumber = BattleNumber, EnemyWins = EnemyWins, SelfWins = SelfWins
+        };
     }
 }

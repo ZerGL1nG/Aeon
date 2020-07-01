@@ -23,25 +23,30 @@ namespace Aeon
     {
         public static Random rnd = new Random();
         public static bool debugOutput = false;
+        
+        const string dir = "Heroes";
+        const string teachdir = "Teach";
+        const string traindir = "Training";
+        const string best = "Best";
+        
         static void Main(string[] args)
         {
-            
             //PlayBest();
-            Gen(5);
+            //Gen(5);
             //Train(0);
+            Teach(10);
             Console.WriteLine("Finished");
         }
 
-        public static void Train(int t)
+        public static void Teach(int kek)
         {
-            const string traindir = "Training";
-            const string dir = "Heroes";
-            var trainedClass = HeroClasses.Fatty;
+
+            var human = new ConsoleAgent();
 
             var agents = new List<IAgent>();
             var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
             var newDict = new Dictionary<HeroClasses, List<IAgent>>();
-            for (int i = 0; i < HeroMaker.TotalClasses; ++i) {
+            for (var i = 0; i < HeroMaker.TotalClasses; ++i) {
                 heroDict[(HeroClasses) i] = new List<IAgent>();
                 newDict[(HeroClasses) i] = new List<IAgent>();
             }
@@ -58,6 +63,47 @@ namespace Aeon
                 }
             }
 
+            Console.WriteLine($"Прочитано {agents.Count} героев");
+            
+            var tour = new Tournament(agents.Append(human).ToList());
+            tour.StartTournament();
+            
+            var teaching = agents.Where(a => a.ChooseClass() == human.ChooseClass()).Cast<NetworkAgent>().ToList();
+
+            foreach (var agent in teaching) {
+                for (var i = 0; i < kek; i++) 
+                    BackpropagationAlgorithm.Teach(agent.Network, human.DataSet);
+            }
+            
+            for (var i = 0; i < teaching.Count(); i++) {
+                teaching[i].Network.Save(Path.Join(teachdir, $"{i}_teach_{human.ChooseClass()}"));
+            }
+            
+        }
+        
+        public static void Train(int t)
+        {
+            var trainedClass = HeroClasses.Fatty;
+
+            var agents = new List<IAgent>();
+            var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
+            var newDict = new Dictionary<HeroClasses, List<IAgent>>();
+            for (var i = 0; i < HeroMaker.TotalClasses; ++i) {
+                heroDict[(HeroClasses) i] = new List<IAgent>();
+                newDict[(HeroClasses) i] = new List<IAgent>();
+            }
+
+            var files = Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly);
+
+            foreach (var file in files) {
+                HeroClasses HClass;
+                if (!HeroClasses.TryParse(file.Split("_")[^1], out HClass)) continue;
+                NetworkAgent agent;
+                agent = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
+                agents.Add(agent);
+                heroDict[HClass].Add(agent);
+            }
+
             Console.WriteLine($"Прочитано {agents.Count} героев, {heroDict[trainedClass].Count} класса {trainedClass}");
             
             var training = new Training(
@@ -67,7 +113,7 @@ namespace Aeon
             training.Train(t);
             
             
-            for (int i = 0; i < training.Participants.Count; i++) {
+            for (var i = 0; i < training.Participants.Count; i++) {
                 training.Participants[i].Network.Save(Path.Join(traindir, $"{i}_trained_{training.ClassToTrain}"));
             }
             
@@ -75,15 +121,13 @@ namespace Aeon
 
         public static void Gen(int tours)
         {
-            const string dir = "Heroes";
-            const string best = "Best";
             var agents = new List<IAgent>();
             IAgent First = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
             IAgent Second = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
             
             var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
             var newDict = new Dictionary<HeroClasses, List<IAgent>>();
-            for (int i = 0; i < HeroMaker.TotalClasses; ++i) {
+            for (var i = 0; i < HeroMaker.TotalClasses; ++i) {
                 heroDict[(HeroClasses) i] = new List<IAgent>();
                 newDict[(HeroClasses) i] = new List<IAgent>();
             }
@@ -103,15 +147,14 @@ namespace Aeon
 
             foreach (var file in files) {
                 HeroClasses HClass;
-                if (HeroClasses.TryParse(file.Split("_")[^1], out HClass)) {
-                    NetworkAgent agent;
-                    agent = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
-                    agents.Add(agent);
-                    heroDict[HClass].Add(agent);
-                }
+                if (!HeroClasses.TryParse(file.Split("_")[^1], out HClass)) continue;
+                NetworkAgent agent;
+                agent = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
+                agents.Add(agent);
+                heroDict[HClass].Add(agent);
             }
             
-            
+            Console.WriteLine($"Прочитано {agents.Count} героев");
             
             newDict = new Dictionary<HeroClasses, List<IAgent>>();
             for (var i = 1; i <= tours; i++) {
@@ -158,7 +201,7 @@ namespace Aeon
             
             
 
-            for (int i = 0; i < agents.Count; i++) {
+            for (var i = 0; i < agents.Count; i++) {
                 var c = HeroMaker.TotalClasses;
                 var network = (NetworkAgent) agents[i];
                 network.Network.Save(Path.Join(dir, $"{i}_{((HeroClasses) (i % c)).ToString()}"));
@@ -176,16 +219,13 @@ namespace Aeon
         {
             IAgent First = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
             IAgent Second = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
-            const string best = "Best";
             var files = Directory.EnumerateFiles(best, "*.*", SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {
                 HeroClasses HClass;
-                if (HeroClasses.TryParse(file.Split("_")[^1], out HClass))
-                {
-                    Second = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
-                    First = Second;
-                }
+                if (!HeroClasses.TryParse(file.Split("_")[^1], out HClass)) continue;
+                Second = new NetworkAgent(NetworkCreator.ReadFromFile(file), HClass);
+                First = Second;
             }
 
 

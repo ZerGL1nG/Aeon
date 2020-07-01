@@ -62,7 +62,7 @@ namespace Aeon.Core.GameProcess
                 
                 state.MyParams[StateParameter.Regen]    = finished ? First.TryRegen() : 0;
                 state.EnemyParams[StateParameter.Regen] = finished ? Second.TryRegen() : 0;
-                Viewer1.Update(state);
+                Viewer1.Update(state.Copy());
                 Viewer2.Update(state.Reverse());
                 
             }

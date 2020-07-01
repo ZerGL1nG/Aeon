@@ -43,14 +43,23 @@ namespace Aeon.Core
 
         public static Stats Clone(Stats stats) => new Stats(new Dictionary<Stat, double>(stats.data));
 
+        public static int RoundStat(double value, Stat stat) => stat switch {
+                Stat.CritChance => (int) (value * 100),
+                Stat.CritDamage =>(int) (value * 100),
+                Stat.Income => (int) (value * 100),
+                Stat.Shield => (int) (CalculateShield(value) * 100),
+                _ => (int) value
+            };
+
         
         // ЩЩИИИИИИИИИТТТ!!!!!
         private const double shieldConst1 = 0.0075d;
         private const double shieldConst2 = 0.9;
         public const double maxShield = 0.95;
+        
         public static double CalculateShield(double coeff) =>
             Math.Min(shieldConst1 * coeff / 
-                     (1 + shieldConst1 * Math.Pow(Math.E, shieldConst2 * Math.Log(shieldConst2))), maxShield);
+                     (1 + shieldConst1 * Math.Pow(Math.E, shieldConst2 * Math.Log(coeff))), maxShield);
         
     }
 }

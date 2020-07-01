@@ -75,7 +75,10 @@ namespace Aeon.Core
 
         public static Shop Clone(Shop shop) => new Shop(shop.Costs.ToDictionary(cost => cost.Key, cost => new StatCosts
             (cost.Value.standard.cost, cost.Value.standard.amount, cost.Value.discount.cost, cost.Value.discount.amount)));
-  
+
+        public int RoundBonus(double startValue, Stat stat, bool opt) => opt
+                ? Stats.RoundStat(Costs[stat].discount.amount + startValue, stat) - Stats.RoundStat(startValue, stat)
+                : Stats.RoundStat(Costs[stat].standard.amount + startValue, stat) - Stats.RoundStat(startValue, stat);
 
         public IEnumerable<double> Out()
         {
