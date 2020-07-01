@@ -24,8 +24,19 @@ namespace Aeon
         public static Random rnd = new Random();
         static void Main(string[] args)
         {
+            
+            PlayBest();
+            //Gen();
+            Console.WriteLine("Finished");
+        }
+
+        public static void Gen()
+        {
             const string dir = "Heroes";
+            const string best = "Best";
             var agents = new List<IAgent>();
+            IAgent First = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
+            IAgent Second = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
             
             var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
             var newDict = new Dictionary<HeroClasses, List<IAgent>>();
@@ -34,12 +45,15 @@ namespace Aeon
                 newDict[(HeroClasses) i] = new List<IAgent>();
             }
 
-            
+            /*/
             for (var i = 0; i < 256; i++)
             {
-                agents.Add(new NetworkAgent(
+                var @class = (HeroClasses)(i%HeroMaker.TotalClasses);
+                var agent = new NetworkAgent(
                     NetworkCreator.Perceptron(90, 20, new List<int> {100}),
-                    (HeroClasses)rnd.Next(0, HeroMaker.TotalClasses - 1)));
+                    @class);
+                agents.Add(agent);
+                heroDict[@class].Add(agent);
             }
             /*/
             var files = Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly);
@@ -53,16 +67,11 @@ namespace Aeon
                     heroDict[HClass].Add(agent);
                 }
             }
-            /*/
             
             
-            //PlayBest();
-            IAgent First = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
-            IAgent Second = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);
-
-            const string best = "Best";
+            
             newDict = new Dictionary<HeroClasses, List<IAgent>>();
-            for (var i = 1; i <= 1; i++) {
+            for (var i = 1; i <= 10; i++) {
 
                 var tour = new Tournament(agents);
                 var list = tour.StartTournament();
@@ -100,18 +109,12 @@ namespace Aeon
             Directory.CreateDirectory(best);
             
             
-            
-            for (int i = 0; i < agents.Count; ++i) {
-                var network = (NetworkAgent) agents[i];
-                network.Network.Save(Path.Join(dir, $"{i}_{agents[i].ChooseClass()}"));
-            }
-            
 
-            /*for (int i = 0; i < agents.Count; i++) {
+            for (int i = 0; i < agents.Count; i++) {
                 var c = HeroMaker.TotalClasses;
                 var network = (NetworkAgent) agents[i];
                 network.Network.Save(Path.Join(dir, $"{i}_{((HeroClasses) (i % c)).ToString()}"));
-            }*/
+            }
 
             var f = (NetworkAgent) (First);
             var s = (NetworkAgent) (Second);
@@ -119,9 +122,8 @@ namespace Aeon
             s.Network.Save(Path.Join(best, $"Second_{s.ChooseClass()}"));
             
             
-            Console.WriteLine("Finished");
         }
-
+        
         public static void PlayBest()
         {
             IAgent First = new NetworkAgent(new NeuralEnvironment(), HeroClasses.Cheater);

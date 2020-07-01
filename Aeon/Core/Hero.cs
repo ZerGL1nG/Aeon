@@ -62,7 +62,7 @@ namespace Aeon.Core.Heroes
 
         private bool RandCrit(double critChance)
         {
-            if (critChance <= 0)
+            /*if (critChance <= 0)
                 return false;
             
             if (CritShell > Rnd.NextDouble())
@@ -72,7 +72,8 @@ namespace Aeon.Core.Heroes
             }
 
             CritShell += CritShell > critChance ? 0.05 : -0.05;
-            return false;
+            return false;*/
+            return critChance > Rnd.NextDouble();
         }
 
 
