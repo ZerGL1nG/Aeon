@@ -48,7 +48,7 @@ namespace Aeon
         public List<IAgent> StartTournament()
         {
             var tour = 1;
-            var toursNumber = Math.Ceiling(Math.Log2(Participants.Count));
+            var toursNumber = Math.Ceiling(Math.Log2(Participants.Count)) + 1;
 
             while (tour <= toursNumber)
             {
@@ -72,12 +72,13 @@ namespace Aeon
                 Console.WriteLine($"=============== Завершён тур {tour++} ===================");
             }
 
+            var thing = 25;
             foreach (var agent in Participants.Skip(Participants.Count-25)) {
-                Console.WriteLine($"{agent.ChooseClass()} - {GetPts(agent)} pts");
+                Console.WriteLine($"Top {thing--}: {agent.ChooseClass()} - {GetPts(agent)} pts");
             }
             
             var game = new Game(Participants[^1], Participants[^2]);
-            game.Start();
+            game.Start(true);
 
             return Participants;
         }

@@ -25,7 +25,7 @@ namespace Aeon.Core.Heroes
             {Stat.Spell, new StatCosts(15, 7, 90, 46)},
             {Stat.CritChance, new StatCosts(15, .05, 104, .40)},
             {Stat.CritDamage, new StatCosts(50, .50, 105, 1.2)},
-            {Stat.Income, new StatCosts(13, .02, 120, .20)},
+            {Stat.Income, new StatCosts(13, .02, 120, 0.2)},
             {Stat.Armor, new StatCosts(4, 2, 130, 80)},
             {Stat.Shield, new StatCosts(30, 15, 120, 66)},
             {Stat.Regen, new StatCosts(11, 5, 115, 62)},
@@ -152,6 +152,8 @@ namespace Aeon.Core.Heroes
         {
             var price = Shop.GetPrice(stat, opt);
             if (price.cost > Stats.GetStat(Stat.Money)) return false;
+            if (stat == Stat.Shield && Stats.CalculateShield(Stats.GetStat(Stat.Shield)) >= Stats.maxShield)
+                return false;
             Stats.AddStat(Stat.Money, -price.cost);
             Stats.AddStat(stat, price.amount);
             return true;

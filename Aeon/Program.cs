@@ -22,11 +22,12 @@ namespace Aeon
     class Program
     {
         public static Random rnd = new Random();
+        public static bool debugOutput = false;
         static void Main(string[] args)
         {
             
-            PlayBest();
-            //Gen();
+            //PlayBest();
+            Gen();
             Console.WriteLine("Finished");
         }
 
@@ -71,12 +72,17 @@ namespace Aeon
             
             
             newDict = new Dictionary<HeroClasses, List<IAgent>>();
-            for (var i = 1; i <= 10; i++) {
+            for (var i = 1; i <= 3; i++) {
 
                 var tour = new Tournament(agents);
                 var list = tour.StartTournament();
                 First = list[^1];
                 Second = list[^2];
+                
+                foreach (var heroclass in heroDict) {
+                    Console.WriteLine($"Top {heroclass.Key}: {tour.GetPts(heroclass.Value.OrderBy(a => tour.GetPts(a)).Last())} pts");
+                    Console.WriteLine($"Avg {heroclass.Key}: {heroclass.Value.Average(a => tour.GetPts(a))} pts");
+                }
 
                 var d = agents.Select(a => ((NetworkAgent) a, tour.GetPts(a)))
                     .ToDictionary(a => a.Item1.Network, b => (double) b.Item2);
