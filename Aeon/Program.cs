@@ -27,14 +27,16 @@ namespace Aeon
         {
             
             //PlayBest();
-            //Gen();
-            Train(0);
+            Gen(5);
+            //Train(0);
             Console.WriteLine("Finished");
         }
 
         public static void Train(int t)
         {
-            const string dir = "Training";
+            const string traindir = "Training";
+            const string dir = "Heroes";
+            var trainedClass = HeroClasses.Fatty;
 
             var agents = new List<IAgent>();
             var heroDict = new Dictionary<HeroClasses, List<IAgent>>();
@@ -55,21 +57,23 @@ namespace Aeon
                     heroDict[HClass].Add(agent);
                 }
             }
+
+            Console.WriteLine($"Прочитано {agents.Count} героев, {heroDict[trainedClass].Count} класса {trainedClass}");
             
             var training = new Training(
-                agents.Where(a => a.ChooseClass() == HeroClasses.Fatty).Cast<NetworkAgent>().ToList(), 
-                agents.Where(a => a.ChooseClass() == HeroClasses.Fatty).ToList(),
+                agents.Where(a => a.ChooseClass() == trainedClass).Cast<NetworkAgent>().ToList(), 
+                agents.Where(a => a.ChooseClass() == HeroClasses.Cheater).ToList(),
                 HeroClasses.Fatty);
             training.Train(t);
             
             
             for (int i = 0; i < training.Participants.Count; i++) {
-                training.Participants[i].Network.Save(Path.Join(dir, $"{i}_trained_{training.ClassToTrain}"));
+                training.Participants[i].Network.Save(Path.Join(traindir, $"{i}_trained_{training.ClassToTrain}"));
             }
             
         }
 
-        public static void Gen()
+        public static void Gen(int tours)
         {
             const string dir = "Heroes";
             const string best = "Best";
@@ -110,7 +114,7 @@ namespace Aeon
             
             
             newDict = new Dictionary<HeroClasses, List<IAgent>>();
-            for (var i = 1; i <= 3; i++) {
+            for (var i = 1; i <= tours; i++) {
 
                 var tour = new Tournament(agents);
                 var list = tour.StartTournament();

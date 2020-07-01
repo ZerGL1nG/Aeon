@@ -51,8 +51,8 @@ namespace Aeon
                 Participants = newGenes.Select(a => new NetworkAgent(a, ClassToTrain)).ToList();
                 Console.WriteLine($"------ Подход №{i+1} закончен ------");
             }
-
-            foreach (var (networkAgent, agent2) in Participants.Zip(Opponents, (agent, agent1) => (agent, agent1))) {
+            
+            foreach (var (networkAgent, agent2) in Participants.TakeLast(5).Zip(Opponents.TakeLast(5), (agent, agent1) => (agent, agent1))) {
                 new Game(networkAgent, agent2).Start(true);
             }
 

@@ -5,7 +5,7 @@ namespace Aeon.Core.GameProcess
 {
     public class Battle
     {
-        private const int maxBattleIt = 10;
+        private const int maxBattleIt = 15;
         private Hero First { get;}
         private Hero Second { get; }
 

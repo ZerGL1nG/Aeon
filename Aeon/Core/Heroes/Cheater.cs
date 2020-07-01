@@ -19,10 +19,7 @@
             HeroClass = HeroClasses.Cheater;
             
             Shop.Costs[Stat.Attack].MulAmount(DamageMultiplier);
-            Shop.Costs[Stat.Spell].MulAmount(DamageMultiplier);
             Stats.MulStat(Stat.Attack, DamageMultiplier);
-            Stats.MulStat(Stat.Spell, DamageMultiplier);
-            
         }
 
         public override Attack MakeAttack()
