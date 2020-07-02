@@ -33,19 +33,21 @@ namespace Aeon.Core.GameProcess
                 new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping(TotalBattles);
 
                 if (debug) {
-                    Console.WriteLine();
                     Console.WriteLine("---------------------------------");
-                    Console.WriteLine();
+                    
                     Console.WriteLine($"Hero 1: {Agent1.ChooseClass()}");
                     foreach (var (stat, value) in hero1.Stats.Out()) {
-                        Console.WriteLine($"{stat}: {value}");
+                        Stat.TryParse(stat, out Stat s);
+                        Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
                     }
-
+                    Console.WriteLine();
                     Console.WriteLine();
                     Console.WriteLine($"Hero 2: {Agent2.ChooseClass()}");
                     foreach (var (stat, value) in hero2.Stats.Out()) {
-                        Console.WriteLine($"{stat}: {value}");
+                        Stat.TryParse(stat, out Stat s);
+                        Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
                     }
+                    Console.WriteLine();
                 }
 
                 new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2).StartBattle();
@@ -62,7 +64,7 @@ namespace Aeon.Core.GameProcess
             }
 
             if (Program.debugOutput || debug) {
-                Console.WriteLine();
+                Console.WriteLine("---------------------------------");
                 Console.WriteLine(
                     $"Игра: {Agent1.ChooseClass()} {hero1.TotalWins} - {hero2.TotalWins} {Agent2.ChooseClass()}, " +
                     $"число игр {TotalBattles}");

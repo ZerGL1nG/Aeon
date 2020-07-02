@@ -63,8 +63,8 @@ namespace Aeon
                         else if (score1 < score2)
                             _points[player2]+=4;
                         else {
-                            _points[player1]++;
-                            _points[player2]++;
+                            _points[player1]+=1;
+                            _points[player2]+=1;
                         }
                     }
                 });
@@ -77,8 +77,8 @@ namespace Aeon
                 Console.WriteLine($"Top {thing--}: {agent.ChooseClass()} - {GetPts(agent)} pts");
             }
             
-            var game = new Game(Participants[^1], Participants[^2]);
-            game.Start(true);
+            //var game = new Game(Participants[^1], Participants[^2]);
+            //game.Start(true);
 
             return Participants;
         }
