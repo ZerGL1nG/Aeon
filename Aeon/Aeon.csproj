@@ -2,8 +2,12 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>TanksGame</RootNamespace>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,6 +25,12 @@
 
     <ItemGroup>
       <None Remove="Core\AI\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.7.0" />
+      <PackageReference Include="TensorFlow.Keras" Version="0.7.0" />
+      <PackageReference Include="TensorFlow.NET" Version="0.70.1" />
     </ItemGroup>
 
 </Project>

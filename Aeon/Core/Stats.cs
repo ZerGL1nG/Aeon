@@ -21,6 +21,7 @@ namespace Aeon.Core
     public class Stats
     {
         public IEnumerable<(string, double)> Out() => data.Select(o => (o.Key.ToString(), o.Value));
+        public List<double> OutDoubles() => data.Select(o => o.Value).ToList();
 
         private readonly Dictionary<Stat, double> data;
 

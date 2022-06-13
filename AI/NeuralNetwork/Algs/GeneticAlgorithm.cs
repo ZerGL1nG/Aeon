@@ -37,7 +37,31 @@ namespace AI.NeuralNetwork.Algs
             return best;
         }
         
-        
+        public static List<NeuralEnvironment> Improve(List<NeuralEnvironment> environments, List<double> values,
+            Func<NeuralEnvironment, NeuralEnvironment, NeuralEnvironment> mergeGenes)
+        {
+            var population = environments.Count;
+            var evaluates = new Dictionary<NeuralEnvironment, double>();
+            foreach(var (environment, value) in environments.Zip(values, (e, v) => (e, v)))
+                evaluates.Add(environment, value);
+            var bestT = evaluates
+                .ToList()
+                .OrderBy(p => -p.Value)
+                .Take((int) (population * PercentKept))
+                .ToList();
+
+            var best = bestT.Select(t => t.Key).ToList();
+            var newParticipants = new List<NeuralEnvironment>();
+            var iter = 0;
+            var rand = new Random();
+            for (var i = best.Count; i < population; i++)
+            {
+                newParticipants.Add(mergeGenes(best[iter], best[rand.Next(best.Count)]));
+                iter = (iter + 1) % (best.Count - 1);
+            }
+            best.AddRange(newParticipants);
+            return best;
+        }
         
         
 

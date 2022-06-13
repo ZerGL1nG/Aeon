@@ -119,8 +119,9 @@ namespace AI.NeuralNetwork
             return Output.IndexOf(new List<Neuron>(Output).OrderBy(p => p.Work(NeuronsIds)).Last());
         }
 
-        public List<double> Work(List<double> data)
+        public List<double> Work(INetworkInput input)
         {
+            var data = input.Inputs;
             foreach (var neuron in Neurons)
                 neuron.Reset();
             foreach (var (d, inputNeuron) in data.Zip(Input, (i, n) => (i, n)))

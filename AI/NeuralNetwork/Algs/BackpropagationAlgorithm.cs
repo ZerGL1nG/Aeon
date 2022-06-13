@@ -14,7 +14,7 @@ namespace AI.NeuralNetwork.Algs
             var speed = 0.7;
             foreach (var (example, answers) in data)
             {
-                environment.Work(example);
+                //environment.Work(example);
                 var miss = new Dictionary<Neuron, (double, int)>();
                 var nextQue = new Dictionary<Neuron, (double, int)>();
                 var que = environment.GetOutputs()

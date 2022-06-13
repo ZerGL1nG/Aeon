@@ -12,7 +12,7 @@
     {
         private const double DamageMultiplier = 0.93;
         private const double FirstHitBonus = 2;
-        private bool first = true;
+        //private bool first = true;
 
         public Cheater()
         {

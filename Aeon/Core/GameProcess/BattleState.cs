@@ -11,8 +11,13 @@ namespace Aeon.Core.GameProcess
         RecDmg,
         Regen,
     }
-    
-    
+
+    public record BattleStart(double MineMaxHealth, double EnemyMaxHealth);
+    public record BattleAttack(double MineHealth, double EnemyHealth, double GiveDamage, double TakeDamage);
+    public record BattleHeal(double MineHealth, double EnemyHealth, double MineHeal, double EnemyHeal);
+    public record BattleEnd(int TotalRounds, int Winner);
+
+
     public class BattleState
     {
         public Dictionary<StateParameter, double> EnemyParams;

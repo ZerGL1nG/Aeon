@@ -97,5 +97,7 @@ namespace AI.NeuralNetwork.Neurons
             Set = true;
             Result = input;
         }
+
+        public override string ToString() => $"{Id}: {Result}";
     }
 }

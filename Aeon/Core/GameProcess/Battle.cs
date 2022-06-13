@@ -9,10 +9,10 @@ namespace Aeon.Core.GameProcess
         private Hero First { get;}
         private Hero Second { get; }
 
-        private BattleViewer Viewer1 { get; }
-        private BattleViewer Viewer2 { get; }
+        private IBattleViewer Viewer1 { get; }
+        private IBattleViewer Viewer2 { get; }
 
-        public Battle(BattleViewer viewer1, BattleViewer viewer2, Hero first, Hero second)
+        public Battle(IBattleViewer viewer1, IBattleViewer viewer2, Hero first, Hero second)
         {
             Viewer1 = viewer1;
             Viewer2 = viewer2;
@@ -21,50 +21,56 @@ namespace Aeon.Core.GameProcess
         }
         public void StartBattle()
         {
-            Viewer1.Reset();
-            Viewer2.Reset();
             First.StartBattle();
             Second.StartBattle();
-            
-            var state = new BattleState();
-            state.MyParams[StateParameter.MaxHp] = First.Stats.GetStat(Stat.Health);
-            state.EnemyParams[StateParameter.MaxHp] = Second.Stats.GetStat(Stat.Health);
+            Viewer1.OnBattleStart(new(
+                First.Stats.GetStat(Stat.Health), 
+                Second.Stats.GetStat(Stat.Health))
+            );
+            Viewer2.OnBattleStart(new(
+                Second.Stats.GetStat(Stat.Health), 
+                First.Stats.GetStat(Stat.Health))
+            );
 
             var finished = false;
             for(var it = 0; it < maxBattleIt && !finished; it++)
             {
-
-                state.MyParams[StateParameter.CurHp] = First.CurrentHp;
-                state.EnemyParams[StateParameter.CurHp] = Second.CurrentHp;
-    
                 var att1 = First.MakeAttack();
                 var att2 = Second.MakeAttack();
                 var rec1 = First.ReceiveAttack(att2);
                 var rec2 = Second.ReceiveAttack(att1);
-
-                state.MyParams[StateParameter.RecDmg] = rec1.Sum();
-                state.EnemyParams[StateParameter.RecDmg] = rec2.Sum();
                 
+                Viewer1.OnAttack(new(First.CurrentHp, Second.CurrentHp, rec1.Sum(), rec2.Sum()));
+                Viewer2.OnAttack(new(Second.CurrentHp, First.CurrentHp, rec2.Sum(), rec1.Sum()));
+
                 var dead1 = First.CheckDead();
                 var dead2 = Second.CheckDead();
 
                 finished = dead1 || dead2;
                 if (finished)
                 {
+                    int winner = 0;
+                    if (dead2 && !dead1) winner = 1;
+                    if (dead1 && !dead2) winner = -1;
+                    
                     First.EndBattle(!dead1);
                     Second.EndBattle(!dead2);
+                    Viewer1.OnBattleEnd(new BattleEnd(it+1, winner));
+                    Viewer2.OnBattleEnd(new BattleEnd(it+1, -winner));
                 }
 
                 if (it == maxBattleIt - 1) {
                     First.EndBattle(false);
                     Second.EndBattle(false);
+                    Viewer1.OnBattleEnd(new BattleEnd(it+1, 0));
+                    Viewer2.OnBattleEnd(new BattleEnd(it+1, 0));
                 }
                 
-                state.MyParams[StateParameter.Regen]    = !finished ? First.TryRegen() : 0;
-                state.EnemyParams[StateParameter.Regen] = !finished ? Second.TryRegen() : 0;
-                Viewer1.Update(state.Copy());
-                Viewer2.Update(state.Reverse());
+                Viewer1.OnHeal(new(First.CurrentHp, Second.CurrentHp,
+                    !finished ? First.TryRegen() : 0, !finished ? Second.TryRegen() : 0));
                 
+                Viewer2.OnHeal(new(Second.CurrentHp, First.CurrentHp,
+                    !finished ? Second.TryRegen() : 0, !finished ? First.TryRegen() : 0));
             }
         }
         

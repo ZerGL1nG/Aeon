@@ -1,4 +1,5 @@
 ﻿using System;
+using Aeon.Agents;
 using Aeon.Core.Heroes;
 
 namespace Aeon.Core.GameProcess
@@ -6,11 +7,11 @@ namespace Aeon.Core.GameProcess
     public class Shopping
     {
         public Hero Customer { get; set; }
-        public ShopViewer Viewer { get; set; }
+        public IShopViewer Viewer { get; set; }
         public IAgent Agent { get; set; }
         public bool BotMode { get; set; }
 
-        public Shopping(Hero hero, ShopViewer viewer, IAgent agent, bool bot)
+        public Shopping(Hero hero, IShopViewer viewer, IAgent agent, bool bot)
         {
             Customer = hero;
             Viewer= viewer;
@@ -18,9 +19,9 @@ namespace Aeon.Core.GameProcess
             BotMode = bot;
         }
 
-        public void StartShopping(int round)
+        public void StartShopping()
         {
-            Viewer.Update(Customer);
+            Viewer.OnShopUpdate(Customer);
             var com = Agent.ShopDecision();
 
 
@@ -35,13 +36,13 @@ namespace Aeon.Core.GameProcess
                     break;
                 }
                 
-                if (round == 0 && com.Opt) break;
+                if (Customer.RoundNumber == 0 && com.Opt) break;
 
                 if (com.Ability) {
                     if (!Customer.UseAbility()) break;
                 }
                 else if (!Customer.TryToBuy(com.Type, com.Opt) && BotMode) break;
-                Viewer.Update(Customer);
+                Viewer.OnShopUpdate(Customer);
                 com = Agent.ShopDecision();
             }
         }

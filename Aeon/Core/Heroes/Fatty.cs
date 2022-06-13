@@ -8,7 +8,7 @@
     public class Fatty : Hero
     {
         private const double FatMultiplier = 1.09;
-        private const double BonusRegen = 2;
+        private const double BonusRegen = 3;
         private double GotBonusHP = 0;
         
         public Fatty()

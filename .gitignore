@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+Aeon/obj
+AI/bin
+AI/obj
+Aeon/bin
+.idea
+Aeon.sln.DotSettings.user

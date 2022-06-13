@@ -34,7 +34,8 @@ namespace Aeon.Core.Heroes
         private double CritShell { get; set; }
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
-        
+
+        public int RoundNumber { get; set; } = 1;
         public int TotalWins { get; set; }
         public int EnemyWins => Enemy.TotalWins;
 
@@ -135,6 +136,7 @@ namespace Aeon.Core.Heroes
 
         public virtual void EndBattle(bool win)
         {
+            RoundNumber++;
             if (win) {
                 TotalWins++;
                 Stats.AddStat(Stat.Money, winBonus + gameMoney);

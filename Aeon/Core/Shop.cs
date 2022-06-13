@@ -80,14 +80,14 @@ namespace Aeon.Core
                 ? Stats.RoundStat(Costs[stat].discount.amount + startValue, stat) - Stats.RoundStat(startValue, stat)
                 : Stats.RoundStat(Costs[stat].standard.amount + startValue, stat) - Stats.RoundStat(startValue, stat);
 
-        public IEnumerable<double> Out()
+        public IEnumerable<float> Out()
         {
             for (var i = 1; i <= 9; i++) {
                 var costs = Costs[(Stat) i];
-                yield return costs.GetCost(false);
-                yield return costs.GetAmount(false);
-                yield return costs.GetCost(true);
-                yield return costs.GetAmount(true);
+                yield return (float) costs.GetCost(false);
+                yield return (float) costs.GetAmount(false);
+                yield return (float) costs.GetCost(true);
+                yield return (float) costs.GetAmount(true);
             }
         }
     }

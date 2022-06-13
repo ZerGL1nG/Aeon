@@ -39,12 +39,6 @@ namespace Aeon.Core.Heroes
             return base.ReceiveAttack(attack);
         }
 
-        Attack MakeAttack()
-        {
-            
-            return base.MakeAttack();
-        }
-
         public override void EndBattle(bool win)
         {
             base.EndBattle(win);

@@ -11,6 +11,7 @@ namespace Aeon
         public List<IAgent> Participants;
 
         private Dictionary<IAgent, int> _points;
+        public IReadOnlyDictionary<IAgent, int> Points => _points;
         private Dictionary<IAgent, List<IAgent>> _enemies;
         private int Buchholz(IAgent agent) => _enemies[agent].Sum(e => _points[e]);
 
@@ -18,7 +19,7 @@ namespace Aeon
         {
             _points = new Dictionary<IAgent, int>();
             _enemies = new Dictionary<IAgent, List<IAgent>>();
-                Participants = new List<IAgent>(participants.Skip(1));
+                Participants = new List<IAgent>(participants);
             foreach (var player in participants)
             {
                 _points[player] = 0;
@@ -69,7 +70,7 @@ namespace Aeon
                     }
                 });
                 Participants = Participants.OrderBy(p => _points[p] * 1000000 + Buchholz(p)).ToList();
-                Console.WriteLine($"=============== Завершён тур {tour++} ===================");
+                Console.WriteLine($"=============== Завершён тур {tour++:00} ===================");
             }
 
             var thing = 25;
