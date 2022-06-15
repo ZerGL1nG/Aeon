@@ -55,15 +55,15 @@ namespace Aeon.Core.GameProcess
                     
                     First.EndBattle(!dead1);
                     Second.EndBattle(!dead2);
-                    Viewer1.OnBattleEnd(new BattleEnd(it+1, winner));
-                    Viewer2.OnBattleEnd(new BattleEnd(it+1, -winner));
+                    Viewer1.OnBattleEnd(new BattleEnd(it+1, winner, First.TotalWins, First.EnemyWins));
+                    Viewer2.OnBattleEnd(new BattleEnd(it+1, -winner, Second.TotalWins, Second.EnemyWins));
                 }
 
                 if (it == maxBattleIt - 1) {
                     First.EndBattle(false);
                     Second.EndBattle(false);
-                    Viewer1.OnBattleEnd(new BattleEnd(it+1, 0));
-                    Viewer2.OnBattleEnd(new BattleEnd(it+1, 0));
+                    Viewer1.OnBattleEnd(new BattleEnd(it+1, 0, First.TotalWins, First.EnemyWins));
+                    Viewer2.OnBattleEnd(new BattleEnd(it+1, 0,Second.TotalWins, Second.EnemyWins));
                 }
                 
                 Viewer1.OnHeal(new(First.CurrentHp, Second.CurrentHp,

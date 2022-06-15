@@ -4,20 +4,21 @@ using System.Linq;
 using Aeon.Core;
 using Aeon.Core.GameProcess;
 using Aeon.Core.Heroes;
-using static Aeon.Agents.KeysMap;
+using static Aeon.Agents.Console.KeysMap;
+using static System.Console;
 
-namespace Aeon.Agents;
+namespace Aeon.Agents.Console;
 
 internal class ConsoleShopViewer : IShopViewer
 {
    
     public void OnShopUpdate(Hero customer)
     {
-        Console.Clear();
-        Console.WriteLine();
+        Clear();
+        WriteLine();
         
-        Console.WriteLine($"{customer.HeroClass, 25} {customer.TotalWins, 2} : {customer.EnemyWins, -2} {customer.EnemyId}");
-        Console.WriteLine();
+        WriteLine($"{customer.HeroClass, 25} {customer.TotalWins, 2} : {customer.EnemyWins, -2} {customer.EnemyId}");
+        WriteLine();
         
         var stats = customer.Stats;
         var shop = customer.Shop;
@@ -26,13 +27,13 @@ internal class ConsoleShopViewer : IShopViewer
         {
             var stat = (Stat) t;
             var price = customer.Shop.Costs[stat];
-            Console.WriteLine($"{stat, 10}: {Stats.RoundStat(stats.GetStat(stat), stat), 5} " +
+            WriteLine($"{stat, 10}: {Stats.RoundStat(stats.GetStat(stat), stat), 5} " +
                               $"|| Buy[{GetKey(t-1)}]: {shop.RoundBonus(stats.GetStat(stat), stat, false), 2} for {price.standard.cost, -4}" +
                               $"|  Opt[{GetKey(t+8)}]: {shop.RoundBonus(stats.GetStat(stat), stat,  true), 3} for {price.discount.cost, -4}");
         }
-        Console.WriteLine();
-        Console.WriteLine($"       {customer.HeroClass, -15} Money: {stats.GetStat(Stat.Money), -10} Ability[{GetKey(^1)}]: {customer.GetAbilityState()}");
-        Console.WriteLine();
+        WriteLine();
+        WriteLine($"       {customer.HeroClass, -15} Money: {stats.GetStat(Stat.Money), -10} Ability[{GetKey(^1)}]: {customer.GetAbilityState()}");
+        WriteLine();
         
     }
 

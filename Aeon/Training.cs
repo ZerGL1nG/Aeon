@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Aeon.Agents;
+using Aeon.Agents.Network;
 using Aeon.Core;
 using Aeon.Core.GameProcess;
 using AI.NeuralNetwork;
@@ -30,7 +31,7 @@ public class Training
         for (int i = 0; i < trainNumber; i++) {
             var newGenes = GeneticAlgorithm.Improve(Participants.Select(p => p.Network).ToList(), GeneticAlgorithm.RandomMerge,
                 list => {
-                    var points = new Dictionary<NeuralEnvironment, double>();
+                    var points = new Dictionary<NeuralEnvironment, float>();
                     foreach (var player in list) 
                         points[player] = 0;
                     foreach(var player in list) {

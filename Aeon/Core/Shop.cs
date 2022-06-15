@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aeon.Agents;
 
 namespace Aeon.Core
 {
@@ -88,6 +89,19 @@ namespace Aeon.Core
                 yield return (float) costs.GetAmount(false);
                 yield return (float) costs.GetCost(true);
                 yield return (float) costs.GetAmount(true);
+            }
+        }
+
+        public IEnumerable<float> OutActivated()
+        {
+            for (var i = 1; i <= 9; i++)
+            {
+                var st = (Stat)i;
+                var costs = Costs[st];
+                yield return StatConverters.Convert(Stat.Money, (float)costs.GetCost(false));
+                yield return StatConverters.Convert(st, (float)costs.GetAmount(false));
+                yield return StatConverters.Convert(Stat.Money, (float)costs.GetCost(true));
+                yield return StatConverters.Convert(st, (float)costs.GetAmount(true));
             }
         }
     }

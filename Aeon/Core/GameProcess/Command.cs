@@ -6,7 +6,8 @@
         public Stat Type { get; set; }
         public bool Exit { get; set; }
         public bool Ability { get; set; }
-        public Command(Stat type = default, bool opt = false, bool exit = false, bool ability = false)
+
+        private Command(Stat type = default, bool opt = false, bool exit = false, bool ability = false)
         {
             Type = type;
             Opt = opt;
@@ -17,5 +18,7 @@
         public static Command Parse(int result) => result < 18 
             ? new Command((Stat)(result % 9 + 1), result >= 9) 
             : new Command(exit: result == 18, ability: result == 19);
+
+        public override string ToString() => Ability? "Ability" : $"{Type}{(Opt? " (opt)" : "")}";
     }
 }

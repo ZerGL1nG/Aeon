@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Aeon.Agents;
 
 namespace Aeon.Core
 {
@@ -22,6 +23,8 @@ namespace Aeon.Core
     {
         public IEnumerable<(string, double)> Out() => data.Select(o => (o.Key.ToString(), o.Value));
         public List<double> OutDoubles() => data.Select(o => o.Value).ToList();
+        public List<float> OutFloatsActivated() => 
+            data.Select(o => StatConverters.Convert(o.Key, (float) o.Value)).ToList();
 
         private readonly Dictionary<Stat, double> data;
 

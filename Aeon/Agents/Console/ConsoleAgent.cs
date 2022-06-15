@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Aeon.Core;
 using Aeon.Core.GameProcess;
 
-namespace Aeon.Agents
+namespace Aeon.Agents.Console
 {
     public class ConsoleAgent : IAgent
     {
@@ -29,37 +27,43 @@ namespace Aeon.Agents
             _sw = new ConsoleShopViewer();
         }
 
-        
-
         public Command ShopDecision()
         {
             while (true) {
-                var key = KeysMap.GetIndex(Console.ReadKey().Key);
+                var key = KeysMap.GetIndex(System.Console.ReadKey().Key);
                 if (key is null) continue;
                 return Command.Parse(key.Value);
             }
         }
 
-
-
         public HeroClasses ChooseClass()
         {
             while (!IsChosen) {
-                Console.Clear();
+                System.Console.Clear();
                 for (int cl = 0; cl < HeroMaker.TotalClasses; ++cl)
-                    Console.WriteLine($"Hero #{cl, 2}: {(HeroClasses)(cl)}");
-                Console.Write("Выбранный герой: ");
-                if (int.TryParse(Console.ReadLine(), out var num) && num < HeroMaker.TotalClasses && num >= 0) {
-                    Console.WriteLine(num);
+                    System.Console.WriteLine($"Hero #{cl, 2}: {(HeroClasses)(cl)}");
+                System.Console.Write("Выбранный герой: ");
+                if (int.TryParse(System.Console.ReadLine(), out var num) && num < HeroMaker.TotalClasses && num >= 0) {
+                    System.Console.WriteLine(num);
                     myClass = (HeroClasses) num;
                     IsChosen = true;
                 }
                 else {
-                    Console.Error.WriteLine("Нет такого героя, соси");
-                    Console.ReadLine();
+                    System.Console.Error.WriteLine("Нет такого героя, соси");
+                    System.Console.ReadLine();
                 }
             }
             return myClass;
+        }
+
+        public void OnGameStart()
+        {
+            
+        }
+
+        public void OnGameOver(int winner)
+        {
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AI.NeuralNetwork;
@@ -18,8 +19,8 @@ namespace AI.NeuralNetwork.Neurons
         public string Id { get; set; }
         public bool Set { get; set; }
         public ActivationFunctions ActFunc { get; set; }
-        public Dictionary<string, double> Inputs { get; set; }
-        public double Result { get; set; }
+        public Dictionary<string, float> Inputs { get; set; }
+        public float Result { get; set; }
 
         public NeuronTag Tag { get; set; }
 
@@ -27,7 +28,7 @@ namespace AI.NeuralNetwork.Neurons
         
         public Neuron()
         {
-            Inputs = new Dictionary<string, double>();
+            Inputs = new Dictionary<string, float>();
             ActFunc = ActivationFunctions.Sigmoid;
             Set = false;
             Id = "";
@@ -38,7 +39,7 @@ namespace AI.NeuralNetwork.Neurons
         
         public Neuron(ActivationFunctions func, NeuronTag tag = NeuronTag.hidden)
         {
-            Inputs = new Dictionary<string, double>();
+            Inputs = new Dictionary<string, float>();
             ActFunc = func;
             Set = false;
             Id = "";
@@ -47,9 +48,9 @@ namespace AI.NeuralNetwork.Neurons
             Tag = tag;
         }
         
-        public Neuron(ActivationFunctions func, NeuronTag tag, Dictionary<string, double> inputs)
+        public Neuron(ActivationFunctions func, NeuronTag tag, Dictionary<string, float> inputs)
         {
-            Inputs = new Dictionary<string, double>(inputs);
+            Inputs = new Dictionary<string, float>(inputs);
             ActFunc = func;
             Set = false;
             Id = "";
@@ -59,7 +60,7 @@ namespace AI.NeuralNetwork.Neurons
         }
         
         
-        public double Work(Dictionary<string, Neuron> neurons)
+        public float Work(Dictionary<string, Neuron> neurons)
         {
             if (Set) return Result;
             Result = 0;
@@ -70,6 +71,8 @@ namespace AI.NeuralNetwork.Neurons
                 Result += neurons[input].Work(neurons) * weight;
             }
 
+            Result /= MathF.Sqrt(Inputs.Count);
+
             var t = NetworkManager.GetActivationFunc(ActFunc)(Result);
             Set = true;
             Result = t;
@@ -77,7 +80,7 @@ namespace AI.NeuralNetwork.Neurons
         }
         
         
-        public void Connect(string id, double weight)
+        public void Connect(string id, float weight)
         {
             Inputs[id] = weight;
         }
@@ -92,7 +95,7 @@ namespace AI.NeuralNetwork.Neurons
             Set = false;
         }
 
-        public void GetInput(double input)
+        public void GetInput(float input)
         {
             Set = true;
             Result = input;

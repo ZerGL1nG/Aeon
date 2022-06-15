@@ -12,6 +12,9 @@ public interface IAgent
     public Command ShopDecision();
 
     public HeroClasses ChooseClass();
+
+    public void OnGameStart();
+    public void OnGameOver(int winner);
 }
     
 public interface IBattleViewer

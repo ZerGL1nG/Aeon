@@ -1,6 +1,6 @@
 ﻿using Aeon.Core.GameProcess;
 
-namespace Aeon.Agents;
+namespace Aeon.Agents.Console;
 
 public class ConsoleBattleViewer : IBattleViewer
 {

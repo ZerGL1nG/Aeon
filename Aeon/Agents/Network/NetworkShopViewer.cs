@@ -5,9 +5,9 @@ using Aeon.Core.GameProcess;
 using Aeon.Core.Heroes;
 using AI.NeuralNetwork;
 
-namespace Aeon.Agents
+namespace Aeon.Agents.Network
 {
-    public class NetworkShopViewer : IShopViewer, INetworkInput
+    public class NetworkShopViewer : IShopViewer, INetworkData
     {
         private Stats _heroStats;
         private Shop _heroShop;
@@ -18,7 +18,7 @@ namespace Aeon.Agents
         private float _battleNumber;
         public int EnemyNumber => (int)_enemyId;
 
-        public void OnShopUpdate(Hero customer)
+        public virtual void OnShopUpdate(Hero customer)
         {
             _heroStats = customer.Stats;
             _heroShop = customer.Shop;
@@ -29,14 +29,25 @@ namespace Aeon.Agents
             _battleNumber = customer.RoundNumber;
         }
 
+        public bool CanBuy(Command command)
+        {
+            var price = _heroShop.GetPrice(command.Type, command.Opt);
+            return price.cost <= _heroStats.GetStat(Stat.Money);
+        }
+
+        public float GetCost(Command command) => (float) _heroShop.GetPrice(command.Type, command.Opt).cost;
+
         public NetworkShopViewer Copy() => new NetworkShopViewer {
             _heroStats = Stats.Clone(_heroStats), _heroShop = Shop.Clone(_heroShop), _enemyId = _enemyId, 
             _abilityState = _abilityState, _battleNumber = _battleNumber, _enemyWins = _enemyWins, _selfWins = _selfWins
         };
 
-        public IEnumerable<float> Inputs =>
-            _heroStats.OutDoubles().Select(x => (float)x)
+        public IEnumerable<float> Inputs => _heroStats is null? new float[50] :
+            _heroStats.OutFloatsActivated()
+                .Concat(_heroShop.OutActivated())
                 .Concat(new List<float> { _battleNumber, _selfWins, _enemyWins, _abilityState });
-        public int Size { get; }
+
+        public INetworkData State => new ArrayData(Inputs);
+        public int Size { get; } = 50;
     }
 }

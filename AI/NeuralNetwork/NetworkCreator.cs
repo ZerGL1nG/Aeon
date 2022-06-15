@@ -42,7 +42,7 @@ namespace AI.NeuralNetwork
             for (var i = 0; i < outputs; i++)
             {
                 //var neuron = new SimpleNeuron((ActivationFunctions) (-1));
-                var neuron = new Neuron(ActivationFunctions.Sigmoid, NeuronTag.output);
+                var neuron = new Neuron(ActivationFunctions.None, NeuronTag.output);
 
                 environment.AddNeuron(neuron, prev);
             }

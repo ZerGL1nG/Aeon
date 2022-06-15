@@ -35,7 +35,7 @@ namespace Aeon.Core.Heroes
         protected double CurrentIncome { get; set; }
         public double CurrentHp { get; set; }
 
-        public int RoundNumber { get; set; } = 1;
+        public int RoundNumber { get; private set; } = 0;
         public int TotalWins { get; set; }
         public int EnemyWins => Enemy.TotalWins;
 

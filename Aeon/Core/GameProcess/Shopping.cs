@@ -1,5 +1,6 @@
 ﻿using System;
 using Aeon.Agents;
+using Aeon.Agents.Network;
 using Aeon.Core.Heroes;
 
 namespace Aeon.Core.GameProcess
@@ -19,23 +20,44 @@ namespace Aeon.Core.GameProcess
             BotMode = bot;
         }
 
-        public void StartShopping()
+        public void StartShopping(bool debug)
         {
             Viewer.OnShopUpdate(Customer);
             var com = Agent.ShopDecision();
+
+            if (debug && Agent is NetworkAgent a)
+            {
+                //Console.WriteLine();
+                Console.WriteLine("-----------------------");
+                Console.Write("BattleView:");
+                for (int i = 0; i < 25; i++) Console.Write($" {a.Network.Input[i].Result}");
+                Console.WriteLine();
+                Console.Write("Stats:");
+                for (int i = 25; i < 35; i++) Console.Write($" {a.Network.Input[i].Result}");
+                Console.WriteLine();
+                Console.Write("ShopView:");
+                for (int i = 35; i < 75; i++) Console.Write($" {a.Network.Input[i].Result}");
+                Console.WriteLine();
+                Console.Write("EnemyHeroes:");
+                for (int i = 75; i < 90; i++) Console.Write($" {a.Network.Input[i].Result}");
+                Console.WriteLine();
+                Console.WriteLine("- - - - - - - - - - - -");
+            }
 
 
             var t = 0;
             while (!com.Exit)
             {
-                t++;
-                if (BotMode && t > 30)
-                { 
-                    if (Program.debugOutput) Console.WriteLine("Кто-то обосрался");
-                    Customer.AutoLose = true;
-                    break;
+                if (debug && Agent is NetworkAgent aa)
+                {
+                    Console.Write($"Output {t}: {com,16}");
+                    for (int i = 0; i < 20; i++) Console.Write($" {aa.Network.Output[i].Result,3:F1}");
+                    Console.WriteLine();
                 }
-                
+
+                t++;
+                if (BotMode && t > 30) break;
+
                 if (Customer.RoundNumber == 0 && com.Opt) break;
 
                 if (com.Ability) {
@@ -45,6 +67,7 @@ namespace Aeon.Core.GameProcess
                 Viewer.OnShopUpdate(Customer);
                 com = Agent.ShopDecision();
             }
+            //Console.WriteLine("-----------------------");
         }
         
         

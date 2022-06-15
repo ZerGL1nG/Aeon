@@ -11,11 +11,11 @@ namespace AI.NeuralNetwork.Algs
         
         public static List<NeuralEnvironment> Improve(List<NeuralEnvironment> environments,
             Func<NeuralEnvironment, NeuralEnvironment, NeuralEnvironment> mergeGenes,
-            Func<List<NeuralEnvironment>, List<double>> evaluate)
+            Func<List<NeuralEnvironment>, List<float>> evaluate)
         {
             var population = environments.Count;
             var values = evaluate(environments);
-            var evaluates = new Dictionary<NeuralEnvironment, double>();
+            var evaluates = new Dictionary<NeuralEnvironment, float>();
             foreach(var (environment, value) in environments.Zip(values, (e, v) => (e, v)))
                 evaluates.Add(environment, value);
             var bestT = evaluates
@@ -37,11 +37,11 @@ namespace AI.NeuralNetwork.Algs
             return best;
         }
         
-        public static List<NeuralEnvironment> Improve(List<NeuralEnvironment> environments, List<double> values,
+        public static List<NeuralEnvironment> Improve(List<NeuralEnvironment> environments, List<float> values,
             Func<NeuralEnvironment, NeuralEnvironment, NeuralEnvironment> mergeGenes)
         {
             var population = environments.Count;
-            var evaluates = new Dictionary<NeuralEnvironment, double>();
+            var evaluates = new Dictionary<NeuralEnvironment, float>();
             foreach(var (environment, value) in environments.Zip(values, (e, v) => (e, v)))
                 evaluates.Add(environment, value);
             var bestT = evaluates
@@ -65,8 +65,8 @@ namespace AI.NeuralNetwork.Algs
         
         
 
-        public const double MergeCoeff = 0.5d;
-        public const double MutationProbability = 0.05d;
+        public const float MergeCoeff = 0.5f;
+        public const float MutationProbability = 0.05f;
         
         public static NeuralEnvironment RandomMerge(NeuralEnvironment first, NeuralEnvironment second)
         {
@@ -82,7 +82,7 @@ namespace AI.NeuralNetwork.Algs
                         newGene.Connect(newNeuron, newGene.NeuronsIds[input], weight);
                     if (rand.NextDouble() < MutationProbability)
                         newGene.Connect(newNeuron, newGene.NeuronsIds[input],
-                            newNeuron.Inputs[input] + (rand.NextDouble()*2 - 1));
+                            newNeuron.Inputs[input] + (rand.NextSingle()*2 - 1));
                             //(rand.NextDouble() * 2 - 1));
                 }
             }

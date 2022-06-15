@@ -4,7 +4,7 @@ using AI.NeuralNetwork;
 
 namespace Aeon.Agents;
 
-public class SpanInput : INetworkInput
+public class SpanData : INetworkData
 {
     public IEnumerable<float> Inputs => _data;
     public int Size { get; }
@@ -12,7 +12,7 @@ public class SpanInput : INetworkInput
     private readonly float[] _data;
     public Span<float> Span => _data;
 
-    public SpanInput(int size)
+    public SpanData(int size)
     {
         Size = size;
         _data = new float[size];
