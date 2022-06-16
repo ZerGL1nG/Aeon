@@ -19,6 +19,6 @@
             ? new Command((Stat)(result % 9 + 1), result >= 9) 
             : new Command(exit: result == 18, ability: result == 19);
 
-        public override string ToString() => Ability? "Ability" : $"{Type}{(Opt? " (opt)" : "")}";
+        public override string ToString() => Exit? "[Exit]" : Ability? "[Ability]" : $"{Type}{(Opt? " (opt)" : "")}";
     }
 }

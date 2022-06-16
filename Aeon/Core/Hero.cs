@@ -52,7 +52,6 @@ namespace Aeon.Core.Heroes
 
         public Stats Stats;
         public Shop Shop;
-        private Random Rnd { get; set; }
         private Attack LastReceivedAttack { get; set; }
 
         private const double winBonus = 20;
@@ -74,23 +73,15 @@ namespace Aeon.Core.Heroes
 
             CritShell += CritShell > critChance ? 0.05 : -0.05;
             return false;*/
-            return critChance > Rnd.NextDouble();
-        }
-
-
-        public virtual void Init(Hero enemy)
-        {
-            TotalWins = 0;
-            Enemy = enemy;
+            return critChance > Random.Shared.NextDouble();
         }
 
         public Hero()
         {
             Stats = Stats.Clone(new Stats(InitStats));
             Shop = Shop.Clone(new Shop(InitCosts));
-            Rnd = new Random();
         }
-        
+
         public virtual Attack ReceiveAttack(Attack attack)
         {
             var armor = Stats.GetStat(Stat.Armor);
@@ -129,8 +120,10 @@ namespace Aeon.Core.Heroes
             return att;
         }
 
-        public virtual void StartBattle()
+        public virtual void StartBattle(Hero enemy)
         {
+            TotalWins = 0;
+            Enemy = enemy;
             Reset();
         }
 
@@ -150,18 +143,36 @@ namespace Aeon.Core.Heroes
             CurrentIncome = 1;
         }
 
-        public virtual bool TryToBuy(Stat stat, bool opt)
+        public bool CanBuy(Stat stat, bool opt)
         {
             var price = Shop.GetPrice(stat, opt);
             if (price.cost > Stats.GetStat(Stat.Money)) return false;
             if (stat == Stat.Shield && Stats.CalculateShield(Stats.GetStat(Stat.Shield)) >= Stats.maxShield)
                 return false;
+            return true;
+        }
+        
+        public virtual bool TryToBuy(Stat stat, bool opt)
+        {
+            if (!CanBuy(stat, opt)) return false;
+            var price = Shop.GetPrice(stat, opt);
             Stats.AddStat(Stat.Money, -price.cost);
             Stats.AddStat(stat, price.amount);
             return true;
         }
 
+        public virtual bool CanUseAbility => false;
         public virtual bool UseAbility() => false;
         public virtual double GetAbilityState() => 0;
+
+        public Hero Clone()
+        {
+            var hero = HeroMaker.Make(HeroClass);
+            hero.Stats = Stats.Clone(Stats);
+            hero.Shop = Shop.Clone(Shop);
+            //hero.Enemy = Enemy;
+            //hero.LastReceivedAttack = LastReceivedAttack;
+            return hero;
+        }
     }
 }

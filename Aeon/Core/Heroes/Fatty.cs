@@ -14,12 +14,7 @@
         public Fatty()
         {
             HeroClass = HeroClasses.Fatty;
-        }
-
-        public override void Init(Hero enemy)
-        {
             Shop.Costs[Stat.Health].MulAmount(FatMultiplier);
-            base.Init(enemy);
         }
 
         public override bool TryToBuy(Stat stat, bool opt)

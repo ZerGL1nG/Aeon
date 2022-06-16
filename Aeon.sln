@@ -1,8 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeon", "Aeon\Aeon.csproj", "{A663E786-1D94-48B7-98C3-1E04E2C37176}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aeon", "Aeon\Aeon.csproj", "{A663E786-1D94-48B7-98C3-1E04E2C37176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI", "AI\AI.csproj", "{8741304B-D4B2-46BC-9CCC-AFE8154E490B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AI", "AI\AI.csproj", "{8741304B-D4B2-46BC-9CCC-AFE8154E490B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetworkTest", "NetworkTest\NetworkTest.csproj", "{2279FE99-CBDE-44BC-9D5B-9E17D4B9BF65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trof.AI", "Trof.AI\Trof.AI.csproj", "{833C21B9-6D67-4306-A61B-B1BB11E4C66A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DB37492-2A34-4B1B-BB75-D65330443898}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +30,19 @@ Global
 		{8741304B-D4B2-46BC-9CCC-AFE8154E490B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8741304B-D4B2-46BC-9CCC-AFE8154E490B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8741304B-D4B2-46BC-9CCC-AFE8154E490B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2279FE99-CBDE-44BC-9D5B-9E17D4B9BF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2279FE99-CBDE-44BC-9D5B-9E17D4B9BF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2279FE99-CBDE-44BC-9D5B-9E17D4B9BF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2279FE99-CBDE-44BC-9D5B-9E17D4B9BF65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{833C21B9-6D67-4306-A61B-B1BB11E4C66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{833C21B9-6D67-4306-A61B-B1BB11E4C66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{833C21B9-6D67-4306-A61B-B1BB11E4C66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{833C21B9-6D67-4306-A61B-B1BB11E4C66A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5048F6A4-B084-4A67-B9C8-C33761456B96}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,281 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\NetworkTest\\NetworkTest.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj",
+        "projectName": "Aeon",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj",
+        "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj": {
+                "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "SciSharp.TensorFlow.Redist-Windows-GPU": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
+            "TensorFlow.Keras": {
+              "target": "Package",
+              "version": "[0.7.0, )"
+            },
+            "TensorFlow.NET": {
+              "target": "Package",
+              "version": "[0.70.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj",
+        "projectName": "AI",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj",
+        "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\NetworkTest\\NetworkTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\NetworkTest\\NetworkTest.csproj",
+        "projectName": "NetworkTest",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\NetworkTest\\NetworkTest.csproj",
+        "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\NetworkTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj": {
+                "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj"
+              },
+              "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\Trof.AI.csproj": {
+                "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\Trof.AI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "SciSharp.TensorFlow.Redist-Windows-GPU": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
+            "TensorFlow.Keras": {
+              "target": "Package",
+              "version": "[0.7.0, )"
+            },
+            "TensorFlow.NET": {
+              "target": "Package",
+              "version": "[0.70.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\Trof.AI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\Trof.AI.csproj",
+        "projectName": "Trof.AI",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\Trof.AI.csproj",
+        "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Trof.AI\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj": {
+                "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "SciSharp.TensorFlow.Redist-Windows-GPU": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
+            "TensorFlow.Keras": {
+              "target": "Package",
+              "version": "[0.7.0, )"
+            },
+            "TensorFlow.NET": {
+              "target": "Package",
+              "version": "[0.70.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

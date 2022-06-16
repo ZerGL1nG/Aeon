@@ -19,17 +19,11 @@ namespace Aeon.Core.Heroes
         private const double EnemyDamage = 0.11;
         private const double Exp = 1.02;
 
-        private double currCoeff;
+        private double currCoeff = 1;
 
         public Rogue()
         {
             HeroClass = HeroClasses.Rogue;
-        }
-        
-        public override void Init(Hero enemy)
-        {
-            base.Init(enemy);
-            currCoeff = 1;
         }
 
         public override Attack ReceiveAttack(Attack attack)

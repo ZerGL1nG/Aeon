@@ -46,16 +46,18 @@ namespace Aeon.Core.GameProcess
 
 
             var t = 0;
-            while (!com.Exit)
+            while (true)
             {
                 if (debug && Agent is NetworkAgent aa)
                 {
                     Console.Write($"Output{t,2}: {com,16}");
                     for (int i = 0; i < 20; i++) 
-                        Console.Write($" {aa.Network.Output[i].Result}");
-                        //Console.Write($" {aa.Network.Output[i].Result:+#0.00;-#0.00;+0.00}");
+                        //Console.Write($" {aa.Network.Output[i].Result}");
+                        Console.Write($" {aa.Network.Output[i].Result:+#0.00;-#0.00;+0.00}");
                     Console.WriteLine();
                 }
+                
+                if (com.Exit) break;
 
                 t++;
                 if (BotMode && t > 30) break;
@@ -72,7 +74,5 @@ namespace Aeon.Core.GameProcess
 
             if (debug) Console.WriteLine("- - - - - - - - - - - -");
         }
-        
-        
     }
 }

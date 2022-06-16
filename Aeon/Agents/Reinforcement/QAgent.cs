@@ -37,15 +37,17 @@ public class QAgent : NetworkAgent
         set
         {
             _learn = value;
-            _s = value ? new(0.05f, 0.1f, 0.98f) : new(.0f, 0.05f, .98f);
+            _s = value ? new(0.02f, 0.02f, 0.98f) : new(0f, 0f, .98f);
         }
     }
 
 
-    private const float EarlyOptPunish = 0;
-    private const float NEMPunish = 0;
-    private const float EarlyStatReward = 0f;
-    private const float GameWinReward = 100f;
+    //private const float EarlyOptPunish = 5f;
+    //private const float NEMPunish = 2f;
+    //private const float EarlyStatReward = 0f;
+    private const float GameWinReward = 10f;
+
+    private float UnspentMoneyPunish => MathF.Pow(_shopView.MoneyF * 0.01f, 2);
     
 
     //public QAgent(HeroClasses myClass, int[] hiddenLayers)
@@ -99,14 +101,9 @@ public class QAgent : NetworkAgent
         }
         
         float shopReward = 0;
-        if (_battleNumber == 0)
-        {
-            if (command.Opt) shopReward -= EarlyOptPunish;
-            else if (command.Type is Stat.Health or Stat.Attack or Stat.Spell)
-                shopReward += EarlyStatReward * _shopView.GetCost(command);
-        }
 
-        if (!command.Ability && !command.Exit && !_shopView.CanBuy(command)) shopReward -= NEMPunish;
+        if (_shopView.WillExit(command))
+            shopReward -= UnspentMoneyPunish;
 
         //reward = _battleViewer.Reward;
         if (_preMem.Count != 0)
@@ -131,7 +128,7 @@ public class QAgent : NetworkAgent
     public override void OnGameOver(int winner)
     {
         base.OnGameOver(winner);
-        var reward = _battleViewer.Reward + (winner == 1 ? GameWinReward : 0);
+        var reward = _preMem[^1].Reward + (winner == 1 ? GameWinReward : 0);
         _preMem[^1] = _preMem[^1] with { Reward = reward, NextState = null };
         _preMem.ForEach(m => _memory.Enqueue(m));
         _preMem = new();
@@ -139,6 +136,7 @@ public class QAgent : NetworkAgent
 
     private void BatchLearn()
     {
+        if (_s.Speed == 0) return;
         List<Sample> samples = new(_memory);
         List<Sample> batch;
         if (BatchSize != MemSize)

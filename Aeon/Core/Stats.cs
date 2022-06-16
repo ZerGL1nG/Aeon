@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Aeon.Agents;
 
 namespace Aeon.Core
@@ -23,6 +24,7 @@ namespace Aeon.Core
     {
         public IEnumerable<(string, double)> Out() => data.Select(o => (o.Key.ToString(), o.Value));
         public List<double> OutDoubles() => data.Select(o => o.Value).ToList();
+        public List<float> OutFloats() => data.Select(o => (float) o.Value).ToList();
         public List<float> OutFloatsActivated() => 
             data.Select(o => StatConverters.Convert(o.Key, (float) o.Value)).ToList();
 
@@ -55,7 +57,34 @@ namespace Aeon.Core
                 _ => (int) value
             };
 
-        
+        public override bool Equals(object? obj) => obj is Stats s && Equals(s);
+
+        public bool Equals(Stats other)
+        {
+            for (int i = 1; i <= 9; i++)
+            {
+                var s = (Stat)i;
+                if (Math.Abs(data[s] - other.data[s]) > 0.001) return false;
+            }
+            return true;
+        }
+
+        public override string ToString()
+        {
+            var x = new StringBuilder();
+            foreach (var (stat, value) in data) {
+                x.Append($"{stat}: {Stats.RoundStat(value, stat)}; ");
+            }
+            return x.ToString();
+        }
+
+        public override int GetHashCode() => HashCode.Combine(
+            HashCode.Combine(data[Stat.Health], data[Stat.Attack], data[Stat.Spell]),
+            HashCode.Combine(data[Stat.CritChance], data[Stat.CritDamage], data[Stat.Income]),
+            HashCode.Combine(data[Stat.Armor], data[Stat.Shield], data[Stat.Regen])
+        );
+
+
         // ЩЩИИИИИИИИИТТТ!!!!!
         private const double shieldConst1 = 0.0075d;
         private const double shieldConst2 = 0.9;

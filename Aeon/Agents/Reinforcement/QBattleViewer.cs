@@ -10,8 +10,8 @@ public class QBattleViewer : NetworkBattleViewer
     public int ModelTotalBattles { get; private set; }
     public int ModelWinner { get; private set; } = 0;
 
-    private const float RoundReward = 0; //-1f;
-    private const float RoundWinReward = 0f;
+    private const float RoundReward = -0.25f; //-1f;
+    private const float RoundWinReward = 3f;
 
     public float Reward { get; private set; }
 

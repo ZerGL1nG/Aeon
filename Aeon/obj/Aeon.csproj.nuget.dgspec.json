@@ -1,32 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\Aeon.csproj": {}
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\Aeon.csproj": {
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\Aeon.csproj",
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj",
         "projectName": "Aeon",
-        "projectPath": "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\Aeon.csproj",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\Aeon.csproj",
         "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tupotrof\\source\\Aeon\\Aeon\\obj\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\Aeon\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\AI.csproj": {
-                "projectPath": "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\AI.csproj"
+              "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj": {
+                "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj"
               }
             }
           }
@@ -38,7 +41,22 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "SciSharp.TensorFlow.Redist-Windows-GPU": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
+            "TensorFlow.Keras": {
+              "target": "Package",
+              "version": "[0.7.0, )"
+            },
+            "TensorFlow.NET": {
+              "target": "Package",
+              "version": "[0.70.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -54,30 +72,33 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Tupotrof\\.dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\AI.csproj": {
+    "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\AI.csproj",
+        "projectUniqueName": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj",
         "projectName": "AI",
-        "projectPath": "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\AI.csproj",
+        "projectPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\AI.csproj",
         "packagesPath": "C:\\Users\\Tupotrof\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tupotrof\\source\\Aeon\\AI\\obj\\",
+        "outputPath": "C:\\Users\\Tupotrof\\source_x\\Aeon\\AI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Tupotrof\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -88,7 +109,8 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net6.0": {
+          "targetAlias": "net6.0",
           "imports": [
             "net461",
             "net462",
@@ -104,7 +126,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Tupotrof\\.dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Aeon.Agents;
 using Aeon.Agents.Network;
 using Aeon.Agents.Reinforcement;
+using Aeon.Builds;
 using AI.NeuralNetwork;
 using AI.NeuralNetwork.Algs;
 
@@ -23,7 +24,7 @@ class Program
     public static Random rnd = new Random();
     public static bool debugOutput = false;
 
-    private const string Path = @"C:\Users\Tupotrof\source_x\NeuralShit\";
+    public const string Path = @"C:\Users\Tupotrof\source_x\NeuralShit\";
     const string dir = Path + "Heroes";
     const string teachdir = Path + "Teach";
     const string traindir = Path + "Training";
@@ -41,89 +42,58 @@ class Program
         //Gen(8);
         //PlayBest(1000, true);
         //PlayBest(10000, true, 100, 1000, 2000);
-        PlayBest(1000, true, 50, 250, 500);
+        //PlayBest(100000, true, 500, 125, 500);
         //PlayBest(1, true);
         //Test();
         //BestTest();
 
-        var examples = np.array(new float[,]
-        {
-            { 0, 0, 0 },
-            { 0, 0, 1 }, 
-            { 0, 1, 0 },
-            { 0, 1, 1 },
-            { 1, 0, 0 },
-            { 1, 0, 1 },
-            { 1, 1, 0 },
-            { 1, 1, 1 },
-        });
+        //var hero1 = HeroMaker.Make(HeroClasses.Banker);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //hero1.TryToBuy(Stat.Regen, false);
+        //var hero2 = HeroMaker.Make(HeroClasses.Banker);
+        //hero2.TryToBuy(Stat.Attack, false);
+        //var battle = new Battle(null, null, hero1, hero2);
+        //battle.StartBattle();
+        
+        var searcher = new Searcher();
+        
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Banker), "Basic");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Beast), "Beast");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Cheater), "Cheater");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Fatty), "Fatty");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Killer), "Killer");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Master), "Master");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Rogue), "Rogue");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Thief), "Thief");
+        searcher.AddClass(HeroMaker.Make(HeroClasses.Vampire), "Vampire");
 
-        var answers = np.array(new float[,] { { 0 }, { 1 }, { 1 }, { 0 }, { 1 }, { 0 }, { 0 }, { 1 } });
-        
-        var examples2 = new float[][]
-        {
-            new float[]{ 0, 0, 0 },
-            new float[]{ 0, 0, 1 }, 
-            new float[]{ 0, 1, 0 },
-            new float[]{ 0, 1, 1 },
-            new float[]{ 1, 0, 0 },
-            new float[]{ 1, 0, 1 },
-            new float[]{ 1, 1, 0 },
-            new float[]{ 1, 1, 1 },
-        };
+        var bes = HeroMaker.Make(HeroClasses.BloodyElf);
+        bes.UseAbility();
+        bes.UseAbility();
 
-        var answers2 = new float[] { 0, 1, 1, 0, 1, 0, 0, 1 };
+        var ber = HeroMaker.Make(HeroClasses.BloodyElf);
+        ber.UseAbility();
+        ber.UseAbility();
+        ber.UseAbility();
         
-        /*
+        searcher.AddClass(bes, "BloodyElf-Spell");
+        searcher.AddClass(ber, "BloodyElf-Regen");
+        searcher.Init();
         
-        var model = keras.Sequential();
-        model.add(keras.Input(3));
-        model.add(keras.layers.Dense(16, keras.activations.Sigmoid));
-        model.add(keras.layers.Dense(16, keras.activations.Sigmoid));
-        //model.add(keras.layers.Dense(40, keras.activations.Sigmoid));
-        model.add(keras.layers.Dense(1, keras.activations.Sigmoid));
-        model.compile(keras.optimizers.Adam(), keras.losses.MeanSquaredError(), new[] { "accuracy" });
-        model.fit(examples, answers, 1, 1024);
-        print(model.predict(examples, 4));
-
-
-        
-        
-        
-        var netv = NetworkCreator.Perceptron(3, 1, new[] { 20 });
-
-        for (int j = 0; j < 1000; j++)
-        {
-            //var data = new ArrayData(examples2[1]);
-            //var res = netv.Work(data)[0];
-            //Console.WriteLine(res);
-            //var loss = answers2[1] - res;
-            //BackpropagationAlgorithm.BackPropOut(netv, data, loss, 0, 0.1f);
-
-            var part = 8;
-            
-            for (int i = 0; i < 100; i++)
-            {
-                var t = Random.Shared.Next(part);
-                var data = new ArrayData(examples2[t]);
-                var loss = answers2[t] - netv.Work(data)[0];
-                BackpropagationAlgorithm.BackPropOut(netv, data, loss, 0, 0.1f);
-            }
-//
-            Console.Write(j + ": ");
-//
-            for (int i = 0; i < part; i++)
-            {
-                var data = new ArrayData(examples2[i]);
-                Console.Write(netv.Work(data)[0]+ " ");
-            }
-            
-            Console.WriteLine();
-            
-        }
-        
-        */
-        
+        //searcher.BattleAll();
+        //searcher.TestBest(1000);
+        searcher.Iterate(250);
+        searcher.Iterate(100);
+        searcher.Iterate(80);
+        searcher.Iterate(60);
+        searcher.Iterate(50);
+        searcher.Iterate(40);
+        searcher.Iterate(30);
+        searcher.Iterate(20);
 
         Console.WriteLine("Finished");
         //Console.ReadLine();

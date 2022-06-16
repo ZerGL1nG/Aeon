@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Aeon.Core.GameProcess
 {
@@ -11,8 +12,8 @@ namespace Aeon.Core.GameProcess
         public int Agent2Score { get; set; } = 0;
         public int TotalBattles { get; set; } = 0;
 
-        public const int TargetWins = 1;
-        public const int MaxBattles = 1;
+        public const int TargetWins = 3;
+        public const int MaxBattles = 5;
 
         public static int GetWinner(int score1, int score2, int total)
         {
@@ -40,8 +41,6 @@ namespace Aeon.Core.GameProcess
         {
             var hero1 = HeroMaker.Make(Agent1.ChooseClass());
             var hero2 = HeroMaker.Make(Agent2.ChooseClass());
-            hero1.Init(hero2);
-            hero2.Init(hero1);
             Agent1.OnGameStart();
             Agent2.OnGameStart();
             if (debug)
@@ -53,7 +52,8 @@ namespace Aeon.Core.GameProcess
                 new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping(debug);
                 new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping(debug);
 
-
+                var s1 = hero1.Stats.Out().ToList();
+                var s2 = hero2.Stats.Out().ToList();
 
                 var b = new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2);
                 var bw = b.StartBattle();
@@ -62,13 +62,13 @@ namespace Aeon.Core.GameProcess
                 if (debug)
                 {
                     Console.WriteLine($"Hero 1: {Agent1.ChooseClass()}{(bw == 1? " <== WINNER" : "")}");
-                    foreach (var (stat, value) in hero1.Stats.Out()) {
+                    foreach (var (stat, value) in s1) {
                         Stat.TryParse(stat, out Stat s);
                         Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
                     }
                     Console.WriteLine();
                     Console.WriteLine($"Hero 2: {Agent2.ChooseClass()}{(bw == -1? " <== WINNER" : "")}");
-                    foreach (var (stat, value) in hero2.Stats.Out()) {
+                    foreach (var (stat, value) in s2) {
                         Stat.TryParse(stat, out Stat s);
                         Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
                     }

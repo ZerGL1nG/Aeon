@@ -9,6 +9,7 @@ namespace Aeon.Agents.Network
 {
     public class NetworkShopViewer : IShopViewer, INetworkData
     {
+        private Hero _hero;
         private Stats _heroStats;
         private Shop _heroShop;
         private HeroClasses _enemyId;
@@ -20,6 +21,7 @@ namespace Aeon.Agents.Network
 
         public virtual void OnShopUpdate(Hero customer)
         {
+            _hero = customer;
             _heroStats = customer.Stats;
             _heroShop = customer.Shop;
             _enemyId = customer.EnemyId;
@@ -32,8 +34,17 @@ namespace Aeon.Agents.Network
         public bool CanBuy(Command command)
         {
             var price = _heroShop.GetPrice(command.Type, command.Opt);
-            return price.cost <= _heroStats.GetStat(Stat.Money);
+            return price.cost <= Money;
         }
+        
+        public bool WillExit(Command cmd) => 
+            cmd.Exit
+            || cmd.Ability && !_hero.CanUseAbility
+            || cmd.Opt && _hero.RoundNumber == 0
+            || !_hero.CanBuy(cmd.Type, cmd.Opt);
+
+        private double Money => _heroStats.GetStat(Stat.Money);
+        public float MoneyF => (float) Money;
 
         public float GetCost(Command command) => (float) _heroShop.GetPrice(command.Type, command.Opt).cost;
 

@@ -25,10 +25,10 @@ namespace Aeon.Core.Heroes
             HeroClass = HeroClasses.Fe11;
         }
         
-        public override void StartBattle()
+        public override void StartBattle(Hero enemy)
         {
             ++battles;
-            base.StartBattle();
+            base.StartBattle(enemy);
             CurrentIncome = Math.Pow(1 + Stats.GetStat(Stat.Income), BonusIncome);
         }
 
