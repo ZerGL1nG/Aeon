@@ -43,6 +43,11 @@ public class Tournament : ITournament
     {
         var pairs = new List<(IAgent, IAgent)>();
         var got = 0;
+        for (int i = 0; i < _agents.Count - 1; ++i)
+        {
+            var r = Random.Shared.Next(i, _agents.Count - 1);
+            (_agents[i], _agents[r]) = (_agents[r], _agents[i]);
+        }
         while (got < _agents.Count - 1)
         {
             var p1 = _agents[got];

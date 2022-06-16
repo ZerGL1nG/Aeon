@@ -9,9 +9,9 @@ public class QBattleViewer : NetworkBattleViewer
 {
     public int ModelTotalBattles { get; private set; }
     public int ModelWinner { get; private set; } = 0;
-    
-    private const float RoundReward = -1f;
-    private const float RoundWinReward = +20f;
+
+    private const float RoundReward = 0; //-1f;
+    private const float RoundWinReward = 0f;
 
     public float Reward { get; private set; }
 
@@ -29,6 +29,6 @@ public class QBattleViewer : NetworkBattleViewer
         ModelTotalBattles += 1;
         WasBattle = true;
 
-        Reward = RoundReward + model.Winner > 0 ? 1 : 0 * RoundWinReward;
+        Reward = RoundReward + model.Winner > 0 ? 1 * RoundWinReward : 0;
     }
 }

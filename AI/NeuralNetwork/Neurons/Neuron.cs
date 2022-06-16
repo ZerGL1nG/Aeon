@@ -71,8 +71,6 @@ namespace AI.NeuralNetwork.Neurons
                 Result += neurons[input].Work(neurons) * weight;
             }
 
-            Result /= MathF.Sqrt(Inputs.Count);
-
             var t = NetworkManager.GetActivationFunc(ActFunc)(Result);
             Set = true;
             Result = t;

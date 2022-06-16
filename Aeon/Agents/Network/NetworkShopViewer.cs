@@ -45,7 +45,13 @@ namespace Aeon.Agents.Network
         public IEnumerable<float> Inputs => _heroStats is null? new float[50] :
             _heroStats.OutFloatsActivated()
                 .Concat(_heroShop.OutActivated())
-                .Concat(new List<float> { _battleNumber, _selfWins, _enemyWins, _abilityState });
+                .Concat(new List<float>
+                {
+                    StatConverters.Sigmoid(_battleNumber), 
+                    StatConverters.Sigmoid(_selfWins), 
+                    StatConverters.Sigmoid(_enemyWins), 
+                    StatConverters.Sigmoid(_abilityState)
+                });
 
         public INetworkData State => new ArrayData(Inputs);
         public int Size { get; } = 50;

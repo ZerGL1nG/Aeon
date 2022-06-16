@@ -22,8 +22,11 @@ public static class StatConverters
     };
 
     public static float Convert(Stat stat, float value) => Convs[stat](value);
+    public static float Convert(Stat stat, double value) => Convs[stat]((float)value);
 
-    private static float AtanConv4(float x) => Atan(Sqrt(Sqrt(x)) - 1);
-    private static float AtanConv2(float x) => Atan(Sqrt(x) - 1);
+    public static float AtanConv4(float x) => Atan(Sqrt(Sqrt(Max(0, x))) - 1);
+    public static float AtanConv2(float x) => Atan(Sqrt(Max(0, x)) - 1);
+    public static float Sigmoid(float d) => 1 / (1 + Pow(E, -d));
+    public static float Sigmoid(double d) => Sigmoid((float)d);
 
 }

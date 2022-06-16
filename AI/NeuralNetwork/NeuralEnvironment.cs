@@ -139,6 +139,18 @@ public class NeuralEnvironment
             neuron.Work(NeuronsIds);
         return GetResults();
     }
+    
+    public void Init()
+    {
+        foreach (var neuron in Neurons)
+        {
+            float sq = MathF.Sqrt(neuron.Inputs.Count);
+            foreach (var id in neuron.Inputs.Keys)
+            {
+                neuron.Inputs[id] /= sq;
+            }
+        }
+    }
 
     public void InitIds()
     {

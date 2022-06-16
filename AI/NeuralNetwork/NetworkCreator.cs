@@ -21,7 +21,7 @@ namespace AI.NeuralNetwork
             for (var i = 0; i < inputs; i++)
             {
                 var i1 = i;
-                var neuron = new Neuron((ActivationFunctions)(-1), NeuronTag.input);
+                var neuron = new Neuron(ActivationFunctions.None, NeuronTag.input);
                 prev.Add(neuron);
                 environment.AddNeuron(neuron, new List<Neuron>());
             }
@@ -41,12 +41,13 @@ namespace AI.NeuralNetwork
             //output
             for (var i = 0; i < outputs; i++)
             {
-                //var neuron = new SimpleNeuron((ActivationFunctions) (-1));
+                //var neuron = new SimpleNeuron(ActivationFunctions.None);
                 var neuron = new Neuron(ActivationFunctions.None, NeuronTag.output);
 
                 environment.AddNeuron(neuron, prev);
             }
 
+            environment.Init();
             return environment;
         }
 

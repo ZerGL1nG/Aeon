@@ -23,18 +23,29 @@ public class QAgent : NetworkAgent
     private Queue<Sample> _memory = new();
     private List<Sample> _preMem = new();
 
-    private const int MemSize = 2000;
-    private const int BatchSize = 100;
-    private const int SessionSize = 100;
+    private const int MemSize = 500;
+    private const int BatchSize = 500;
+    private const int SessionSize = 125;
 
     private int _sessionCounter = 0;
-    private readonly QAgentSettings _s = new(.75f, .01f, .99f);
+
+    private QAgentSettings _s;
+    private bool _learn;
+    public bool LearnMode
+    {
+        get => _learn;
+        set
+        {
+            _learn = value;
+            _s = value ? new(0.05f, 0.1f, 0.98f) : new(.0f, 0.05f, .98f);
+        }
+    }
 
 
-    private const float EarlyOptPunish = 100;
-    private const float NEMPunish = 25;
-    private const float EarlyStatReward = 1f;
-    private const float GameWinReward = +100f;
+    private const float EarlyOptPunish = 0;
+    private const float NEMPunish = 0;
+    private const float EarlyStatReward = 0f;
+    private const float GameWinReward = 100f;
     
 
     //public QAgent(HeroClasses myClass, int[] hiddenLayers)
@@ -46,6 +57,7 @@ public class QAgent : NetworkAgent
 
     public QAgent(NeuralEnvironment env, HeroClasses myClass): base(env)
     {
+        LearnMode = true;
         _myClass = myClass;
         Q = env.Clone();
     }
@@ -79,7 +91,7 @@ public class QAgent : NetworkAgent
         
         if (_battleViewer.WasBattle)
         {
-            _preMem[^1] = _preMem[^1] with { Reward = _battleViewer.Reward, NextState = MakeInput() };
+            _preMem[^1] = _preMem[^1] with { Reward = _battleViewer.Reward, NextState = data };
             _battleNumber = _battleViewer.ModelTotalBattles;
             _battleViewer.WasBattle = false;
             _preMem.ForEach(m => _memory.Enqueue(m));
@@ -128,13 +140,21 @@ public class QAgent : NetworkAgent
     private void BatchLearn()
     {
         List<Sample> samples = new(_memory);
-        for (int x = 0; x < Math.Min(BatchSize, _memory.Count); ++x)
+        List<Sample> batch;
+        if (BatchSize != MemSize)
+#pragma warning disable CS0162
         {
-            var pos = Random.Shared.Next(x, samples.Count - 1);
-            (samples[pos], samples[x]) = (samples[x], samples[pos]);
-        }
+            for (int x = 0; x < Math.Min(BatchSize, _memory.Count); ++x)
+            {
+                var pos = Random.Shared.Next(x, samples.Count - 1);
+                (samples[pos], samples[x]) = (samples[x], samples[pos]);
+            }
 
-        var batch = samples.Take(Math.Min(BatchSize, _memory.Count)).ToList();
+            batch = samples.Take(Math.Min(BatchSize, _memory.Count)).ToList();
+        }
+#pragma warning restore CS0162
+        else
+            batch = samples;
 
         var dict = new Dictionary<List<float>, List<float>>();
 
@@ -145,14 +165,17 @@ public class QAgent : NetworkAgent
         foreach (Sample sample in batch)
         {
             var rt = sample.NextState is null ? 0 : Network.Work(sample.NextState).Max();
-            var kek = Network.Work(sample.State).Max();
+            var kek = Q.Work(sample.State)[sample.Action];
             var loss = rt * _s.Gamma + sample.Reward - kek;
             lossx += (double)loss * loss;
             maxloss = Math.Max(maxloss, loss);
-            BackpropagationAlgorithm.BackPropOut(Q, sample.State, -loss, sample.Action, _s.Speed);
+            Q.Save(Program.dump+"/Qbefore");
+            BackpropagationAlgorithm.BackPropOut(Q, sample.State, loss, sample.Action, _s.Speed);
+            Q.Save(Program.dump+"/Qafter");
+            System.Console.Write("");
         }
         
-        //System.Console.WriteLine($"Обучение: loss={Math.Sqrt(lossx/samples.Count)}; lossmax={maxloss}; ");
+        //System.Console.WriteLine($"Обучение: loss={Math.Sqrt(lossx/samples.Count)};");
     }
 
     private int EpsGreedy(List<float> values, float eps)

@@ -19,7 +19,7 @@ namespace Aeon.Core.GameProcess
             First = first;
             Second = second;
         }
-        public void StartBattle()
+        public int StartBattle()
         {
             First.StartBattle();
             Second.StartBattle();
@@ -32,8 +32,9 @@ namespace Aeon.Core.GameProcess
                 First.Stats.GetStat(Stat.Health))
             );
 
-            var finished = false;
-            for(var it = 0; it < maxBattleIt && !finished; it++)
+            var winner = 0;
+            var it = 0;
+            for(; it < maxBattleIt; it++)
             {
                 var att1 = First.MakeAttack();
                 var att2 = Second.MakeAttack();
@@ -45,33 +46,27 @@ namespace Aeon.Core.GameProcess
 
                 var dead1 = First.CheckDead();
                 var dead2 = Second.CheckDead();
-
-                finished = dead1 || dead2;
-                if (finished)
+                if (dead1 || dead2)
                 {
-                    int winner = 0;
                     if (dead2 && !dead1) winner = 1;
                     if (dead1 && !dead2) winner = -1;
-                    
-                    First.EndBattle(!dead1);
-                    Second.EndBattle(!dead2);
-                    Viewer1.OnBattleEnd(new BattleEnd(it+1, winner, First.TotalWins, First.EnemyWins));
-                    Viewer2.OnBattleEnd(new BattleEnd(it+1, -winner, Second.TotalWins, Second.EnemyWins));
+                    Viewer1.OnHeal(new(First.CurrentHp, Second.CurrentHp, 0, 0));
+                    Viewer1.OnHeal(new(Second.CurrentHp, First.CurrentHp, 0, 0));
+                    break;
                 }
 
-                if (it == maxBattleIt - 1) {
-                    First.EndBattle(false);
-                    Second.EndBattle(false);
-                    Viewer1.OnBattleEnd(new BattleEnd(it+1, 0, First.TotalWins, First.EnemyWins));
-                    Viewer2.OnBattleEnd(new BattleEnd(it+1, 0,Second.TotalWins, Second.EnemyWins));
-                }
-                
                 Viewer1.OnHeal(new(First.CurrentHp, Second.CurrentHp,
-                    !finished ? First.TryRegen() : 0, !finished ? Second.TryRegen() : 0));
+                    First.TryRegen(), Second.TryRegen()));
                 
                 Viewer2.OnHeal(new(Second.CurrentHp, First.CurrentHp,
-                    !finished ? Second.TryRegen() : 0, !finished ? First.TryRegen() : 0));
+                    Second.TryRegen(), First.TryRegen()));
             }
+            
+            First.EndBattle(winner == 1);
+            Second.EndBattle(winner == -1);
+            Viewer1.OnBattleEnd(new BattleEnd(it+1, winner, First.TotalWins, First.EnemyWins));
+            Viewer2.OnBattleEnd(new BattleEnd(it+1, -winner, Second.TotalWins, Second.EnemyWins));
+            return winner;
         }
         
     }

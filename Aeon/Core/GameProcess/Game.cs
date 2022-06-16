@@ -11,8 +11,8 @@ namespace Aeon.Core.GameProcess
         public int Agent2Score { get; set; } = 0;
         public int TotalBattles { get; set; } = 0;
 
-        public const int TargetWins = 5;
-        public const int MaxBattles = 10;
+        public const int TargetWins = 1;
+        public const int MaxBattles = 1;
 
         public static int GetWinner(int score1, int score2, int total)
         {
@@ -44,21 +44,30 @@ namespace Aeon.Core.GameProcess
             hero2.Init(hero1);
             Agent1.OnGameStart();
             Agent2.OnGameStart();
+            if (debug)
+            {
+                Console.WriteLine();
+                Console.WriteLine("---------------------------------");
+            }
             while (hero1.TotalWins < TargetWins && hero2.TotalWins < TargetWins && TotalBattles < MaxBattles) {
                 new Shopping(hero1, Agent1.ShopView, Agent1, Agent1.IsBot).StartShopping(debug);
                 new Shopping(hero2, Agent2.ShopView, Agent2, Agent2.IsBot).StartShopping(debug);
 
-                if (debug) {
-                    Console.WriteLine("---------------------------------");
-                    
-                    Console.WriteLine($"Hero 1: {Agent1.ChooseClass()}");
+
+
+                var b = new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2);
+                var bw = b.StartBattle();
+                ++TotalBattles;
+                
+                if (debug)
+                {
+                    Console.WriteLine($"Hero 1: {Agent1.ChooseClass()}{(bw == 1? " <== WINNER" : "")}");
                     foreach (var (stat, value) in hero1.Stats.Out()) {
                         Stat.TryParse(stat, out Stat s);
                         Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
                     }
                     Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine($"Hero 2: {Agent2.ChooseClass()}");
+                    Console.WriteLine($"Hero 2: {Agent2.ChooseClass()}{(bw == -1? " <== WINNER" : "")}");
                     foreach (var (stat, value) in hero2.Stats.Out()) {
                         Stat.TryParse(stat, out Stat s);
                         Console.Write($"{stat}: {Stats.RoundStat(value, s)}; ");
@@ -67,8 +76,6 @@ namespace Aeon.Core.GameProcess
                     Console.WriteLine("---------------------------------");
                 }
 
-                new Battle(Agent1.BattleView, Agent2.BattleView, hero1, hero2).StartBattle();
-                ++TotalBattles;
                 if (hero1.AutoLose) {
                     hero1.TotalWins = 0;
                     hero2.TotalWins = TargetWins;
@@ -89,7 +96,9 @@ namespace Aeon.Core.GameProcess
                 Console.WriteLine("===============================");
                 Console.WriteLine();
             }
-            
+
+            Agent1Score = hero1.TotalWins;
+            Agent2Score = hero2.TotalWins;
             Agent1.OnGameOver(Winner);
             Agent2.OnGameOver(-Winner);
             

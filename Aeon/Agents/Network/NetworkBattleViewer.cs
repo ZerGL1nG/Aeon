@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Aeon.Core;
 using Aeon.Core.GameProcess;
 using AI.NeuralNetwork;
 
@@ -9,7 +10,7 @@ public class NetworkBattleViewer : IBattleViewer, INetworkData
     public virtual void OnBattleStart(BattleStart model)
     {
         _doubles = new List<float>();
-        _doubles.AddRange(new[] { (float)model.EnemyMaxHealth });
+        _doubles.AddRange(new[] { StatConverters.Convert(Stat.Health, model.EnemyMaxHealth) });
     }
 
     public virtual void OnAttack(BattleAttack model) => _attacks.Add(model);
@@ -24,14 +25,22 @@ public class NetworkBattleViewer : IBattleViewer, INetworkData
             {
                 var m = _attacks[i];
                 _doubles.AddRange(new[]
-                    { (float)m.GiveDamage, (float)m.TakeDamage });
+                {
+                    StatConverters.Convert(Stat.Health, m.GiveDamage), 
+                    StatConverters.Convert(Stat.Health, m.TakeDamage)
+                });
             }
             else _doubles.AddRange(new float[4]);
             if (i < _heals.Count)
             {
                 var m = _heals[i];
                 _doubles.AddRange(new[]
-                    {  (float)m.MineHeal, (float)m.EnemyHeal, (float)m.MineHealth, (float)m.EnemyHealth });
+                {
+                    StatConverters.Convert(Stat.Health, m.MineHeal), 
+                    StatConverters.Convert(Stat.Health, m.EnemyHeal), 
+                    StatConverters.Convert(Stat.Health, m.MineHealth), 
+                    StatConverters.Convert(Stat.Health, m.EnemyHealth)
+                });
             }
             else _doubles.AddRange(new float[4]);
         }
@@ -41,14 +50,22 @@ public class NetworkBattleViewer : IBattleViewer, INetworkData
             {
                 var m = _attacks[^i];
                 _doubles.AddRange(new[]
-                    { (float)m.GiveDamage, (float)m.TakeDamage });
+                {
+                    StatConverters.Convert(Stat.Health, m.GiveDamage),
+                    StatConverters.Convert(Stat.Health, m.TakeDamage)
+                });
             }
             else _doubles.AddRange(new float[4]);
             if (i <= _heals.Count)
             {
                 var m = _heals[^i];
                 _doubles.AddRange(new[]
-                    {  (float)m.MineHeal, (float)m.EnemyHeal, (float)m.MineHealth, (float)m.EnemyHealth });
+                {
+                    StatConverters.Convert(Stat.Health, m.MineHeal), 
+                    StatConverters.Convert(Stat.Health, m.EnemyHeal),
+                    StatConverters.Convert(Stat.Health, m.MineHealth),
+                    StatConverters.Convert(Stat.Health, m.EnemyHealth)
+                });
             }
             else _doubles.AddRange(new float[4]);
         }

@@ -61,11 +61,12 @@ namespace AI.NeuralNetwork.Algs
                     foreach (var (input, weight) in neuron.Inputs.ToList())
                     {
                         var inputNeuron = env.NeuronsIds[input];
-                        var delta = speed * neuronQ * inputNeuron.Work(env.NeuronsIds);
+                        var work = inputNeuron.Work(env.NeuronsIds);
+                        var delta = speed * neuronQ * work;
                         if (float.IsNaN(delta))
                             Console.Error.WriteLine("BULLSHIT");
-                        if (nextQue.ContainsKey(inputNeuron)) nextQue[inputNeuron] 
-                            = (nextQue[inputNeuron].Item1 + neuronQ * weight, nextQue[inputNeuron].Item2 + 1);
+                        if (nextQue.ContainsKey(inputNeuron)) 
+                            nextQue[inputNeuron] = (nextQue[inputNeuron].Item1 + neuronQ * weight, nextQue[inputNeuron].Item2 + 1);
                         else nextQue.Add(inputNeuron, (neuronQ * weight,  1));
                         neuron.Connect(input, weight + delta);
                     }  

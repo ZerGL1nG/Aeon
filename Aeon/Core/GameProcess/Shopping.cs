@@ -25,7 +25,7 @@ namespace Aeon.Core.GameProcess
             Viewer.OnShopUpdate(Customer);
             var com = Agent.ShopDecision();
 
-            if (debug && Agent is NetworkAgent a)
+            if (false && debug && Agent is NetworkAgent a)
             {
                 //Console.WriteLine();
                 Console.WriteLine("-----------------------");
@@ -50,8 +50,10 @@ namespace Aeon.Core.GameProcess
             {
                 if (debug && Agent is NetworkAgent aa)
                 {
-                    Console.Write($"Output {t}: {com,16}");
-                    for (int i = 0; i < 20; i++) Console.Write($" {aa.Network.Output[i].Result,3:F1}");
+                    Console.Write($"Output{t,2}: {com,16}");
+                    for (int i = 0; i < 20; i++) 
+                        Console.Write($" {aa.Network.Output[i].Result}");
+                        //Console.Write($" {aa.Network.Output[i].Result:+#0.00;-#0.00;+0.00}");
                     Console.WriteLine();
                 }
 
@@ -67,7 +69,8 @@ namespace Aeon.Core.GameProcess
                 Viewer.OnShopUpdate(Customer);
                 com = Agent.ShopDecision();
             }
-            //Console.WriteLine("-----------------------");
+
+            if (debug) Console.WriteLine("- - - - - - - - - - - -");
         }
         
         

@@ -28,21 +28,103 @@ class Program
     const string teachdir = Path + "Teach";
     const string traindir = Path + "Training";
     const string best = Path + "Best";
+    const string autosave = Path + "autosaves";
+    public const string dump = Path + "Dump";
     
     static void Main(string[] args)
     {
-        //AddNew(2, HeroClasses.Thief, new []{50, 70, 50});
+        //AddNew(2, HeroClasses.Banker, new []{30, 30});
         //MakeNew(2, new[]{30, 30});
         //Teach(1, true);
         //Train(10, HeroClasses.Beast, HeroClasses.Killer, true);
-        //QTrain(100);
+        //QTrain(1000);
         //Gen(8);
-        //PlayBest(1000);
-        PlayBest(1000, true);
+        //PlayBest(1000, true);
+        //PlayBest(10000, true, 100, 1000, 2000);
+        PlayBest(1000, true, 50, 250, 500);
         //PlayBest(1, true);
         //Test();
+        //BestTest();
+
+        var examples = np.array(new float[,]
+        {
+            { 0, 0, 0 },
+            { 0, 0, 1 }, 
+            { 0, 1, 0 },
+            { 0, 1, 1 },
+            { 1, 0, 0 },
+            { 1, 0, 1 },
+            { 1, 1, 0 },
+            { 1, 1, 1 },
+        });
+
+        var answers = np.array(new float[,] { { 0 }, { 1 }, { 1 }, { 0 }, { 1 }, { 0 }, { 0 }, { 1 } });
+        
+        var examples2 = new float[][]
+        {
+            new float[]{ 0, 0, 0 },
+            new float[]{ 0, 0, 1 }, 
+            new float[]{ 0, 1, 0 },
+            new float[]{ 0, 1, 1 },
+            new float[]{ 1, 0, 0 },
+            new float[]{ 1, 0, 1 },
+            new float[]{ 1, 1, 0 },
+            new float[]{ 1, 1, 1 },
+        };
+
+        var answers2 = new float[] { 0, 1, 1, 0, 1, 0, 0, 1 };
+        
+        /*
+        
+        var model = keras.Sequential();
+        model.add(keras.Input(3));
+        model.add(keras.layers.Dense(16, keras.activations.Sigmoid));
+        model.add(keras.layers.Dense(16, keras.activations.Sigmoid));
+        //model.add(keras.layers.Dense(40, keras.activations.Sigmoid));
+        model.add(keras.layers.Dense(1, keras.activations.Sigmoid));
+        model.compile(keras.optimizers.Adam(), keras.losses.MeanSquaredError(), new[] { "accuracy" });
+        model.fit(examples, answers, 1, 1024);
+        print(model.predict(examples, 4));
+
+
         
         
+        
+        var netv = NetworkCreator.Perceptron(3, 1, new[] { 20 });
+
+        for (int j = 0; j < 1000; j++)
+        {
+            //var data = new ArrayData(examples2[1]);
+            //var res = netv.Work(data)[0];
+            //Console.WriteLine(res);
+            //var loss = answers2[1] - res;
+            //BackpropagationAlgorithm.BackPropOut(netv, data, loss, 0, 0.1f);
+
+            var part = 8;
+            
+            for (int i = 0; i < 100; i++)
+            {
+                var t = Random.Shared.Next(part);
+                var data = new ArrayData(examples2[t]);
+                var loss = answers2[t] - netv.Work(data)[0];
+                BackpropagationAlgorithm.BackPropOut(netv, data, loss, 0, 0.1f);
+            }
+//
+            Console.Write(j + ": ");
+//
+            for (int i = 0; i < part; i++)
+            {
+                var data = new ArrayData(examples2[i]);
+                Console.Write(netv.Work(data)[0]+ " ");
+            }
+            
+            Console.WriteLine();
+            
+        }
+        
+        */
+        
+
         Console.WriteLine("Finished");
         //Console.ReadLine();
     }
@@ -281,18 +363,42 @@ class Program
         new Game(first, second).Start(true);
     }
 
-    public static void PlayBest(int kek = 1, bool debug = false)
+    public static void PlayBest(int games = 0, bool debug = false, int debugEveryX = 100, int switchN = 100, int saveEvery = 2000)
     {
         var files = Directory.EnumerateFiles(best, "*.*", SearchOption.TopDirectoryOnly).ToList();
         if (!HeroClasses.TryParse(files[0].Split("_")[^1], out HeroClasses class1)) return;
         if (!HeroClasses.TryParse(files[1].Split("_")[^1], out HeroClasses class2)) return;
-        IAgent First  = new QAgent(NetworkCreator.ReadFromFile(files[0]), class1);
-        IAgent Second = new QAgent(NetworkCreator.ReadFromFile(files[1]), class2);
-        for (int i = 0; i <= kek; ++i)
+        QAgent First  = new QAgent(NetworkCreator.ReadFromFile(files[0]), class1);
+        QAgent Second = new QAgent(NetworkCreator.ReadFromFile(files[1]), class2);
+        for (int i = 0; i <= games; ++i)
         {
-            if (i % 10 == 0) 
-                Console.WriteLine($"{i} games");
-            new Game(First, Second).Start(i % 100 == 0);
+            if (i % 10 == 0)
+            {
+                Console.SetCursorPosition(0, Console.GetCursorPosition().Top);
+                Console.Write($"After {i} games:");
+            }
+            First.LearnMode = (i/switchN) % 2 == 1;
+            Second.LearnMode = (i/switchN) % 2 == 0;
+            new Game(First, Second).Start(debug && i % debugEveryX == 0);
+            if (i % saveEvery == 0 && i != 0)
+            {
+                Console.WriteLine("Autosave...");
+                First.Network.Save(System.IO.Path.Join(autosave, $"First_x{i}_{First.ChooseClass()}"));
+                Second.Network.Save(System.IO.Path.Join(autosave, $"Second_x{i}_{Second.ChooseClass()}"));
+            }
         }
+        First.Network.Save(System.IO.Path.Join(best, $"First_{First.ChooseClass()}"));
+        Second.Network.Save(System.IO.Path.Join(best, $"Second_{Second.ChooseClass()}"));
+    }
+
+    public static void BestTest()
+    {
+        var files = Directory.EnumerateFiles(best, "*.*", SearchOption.TopDirectoryOnly).ToList();
+        if (!HeroClasses.TryParse(files[0].Split("_")[^1], out HeroClasses class1)) return;
+        if (!HeroClasses.TryParse(files[1].Split("_")[^1], out HeroClasses class2)) return;
+        var First  = new NetworkAgent(NetworkCreator.ReadFromFile(files[0]), class1);
+        var Second = new NetworkAgent(NetworkCreator.ReadFromFile(files[1]), class2);
+        Console.Write($"========== TEST WITHOUT EPS ==========");
+        new Game(First, Second).Start(true);
     }
 }
