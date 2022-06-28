@@ -1,32 +1,31 @@
 ﻿global using static Tensorflow.Binding;
 global using static Tensorflow.KerasApi;
-using Aeon.Core;
+global using static Trof.AI.ActFunc;
+global using Console = Colorful.Console;
+using System.Drawing;
+using Trof.AI.Env;
 
 namespace Trof.AI;
 
 internal static partial class Program
 {
     private const string BasePath = @"C:\Users\Tupotrof\source_x\NeuralShit\";
-    internal const string Px = BasePath + "NN";
-    
-    private static void Main(string[] args)
+    private const string Px = BasePath+"NN";
+    private const string QPath = BasePath+"QAgents";
+
+    private static Task _kach;
+    private static CancellationTokenSource _exit = new();
+
+    private static async Task Main(string[] args)
     {
-        //TestLogic();
-        
-        //TestBuildsGen("viable.txt", "all.txt");
-        //TestBuilds("404.txt");
-        
-        //TestBuildsGen("top250-20.txt", "top250-20.txt");
-        //TestBuilds("data_980.txt");
-        //TestBuilds("data_230.txt", "data_20.txt");
-        //TestBuilds("data_230.txt");
-        //TestBuilds("data_20.txt", "data_20.txt");
-        
-        //TestBuildsGen("controltop20.txt", "controltop20.txt");
-        //TestBuilds("data_20.txt");
+        var aeonEnv = new AeonEnv(QPath);
+        aeonEnv.AddAgents(8, n => new AeonAgent(QPath, n));
+        _kach = aeonEnv.Kach(1000, _exit.Token);
 
         Console.WriteLine();
-        Console.WriteLine("Press Esc to exit...");
-        while (true) if (Console.ReadKey().Key == ConsoleKey.Escape) break;
+        Console.WriteLine("Press Esc to exit...", Color.Orange);
+        while (true)
+            if (Console.ReadKey().Key == ConsoleKey.Escape)
+                break;
     }
 }

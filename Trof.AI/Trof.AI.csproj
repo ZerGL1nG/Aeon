@@ -10,19 +10,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.7.0" />
-      <PackageReference Include="TensorFlow.Keras" Version="0.7.0" />
-      <PackageReference Include="TensorFlow.NET" Version="0.70.1" />
+        <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.7.0" />
+        <PackageReference Include="TensorFlow.Keras" Version="0.7.0" />
+        <PackageReference Include="TensorFlow.NET" Version="0.70.1" />
+        <PackageReference Include="Colorful.Console" Version="1.2.15" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Aeon\Aeon.csproj" />
+        <ProjectReference Include="..\Aeon\Aeon.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Program.Met.cs">
-        <DependentUpon>Program.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Program.Met.cs">
+            <DependentUpon>Program.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

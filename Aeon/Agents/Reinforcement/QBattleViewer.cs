@@ -1,34 +1,31 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Aeon.Agents.Network;
 using Aeon.Core.GameProcess;
 
 namespace Aeon.Agents.Reinforcement;
 
-public class QBattleViewer : NetworkBattleViewer
+public class QBattleViewer: NetworkBattleViewer
 {
-    public int ModelTotalBattles { get; private set; }
-    public int ModelWinner { get; private set; } = 0;
-
     private const float RoundReward = -0.25f; //-1f;
     private const float RoundWinReward = 3f;
 
+    public bool WasBattle;
+
+    public QBattleViewer() : this(2, 2) { }
+    public QBattleViewer(int start, int end): base(start, end) { }
+
+    public int ModelTotalBattles { get; private set; }
+    public int ModelWinner { get; private set; }
+
     public float Reward { get; private set; }
-
-    public bool WasBattle = false;
-
-    public QBattleViewer()
-    {
-        new List<float>(new float[base.Size]);
-    }
 
     public override void OnBattleEnd(BattleEnd model)
     {
         base.OnBattleEnd(model);
-        ModelWinner = model.Winner;
+        ModelWinner       =  model.Winner;
         ModelTotalBattles += 1;
-        WasBattle = true;
+        WasBattle         =  true;
 
-        Reward = RoundReward + model.Winner > 0 ? 1 * RoundWinReward : 0;
+        Reward = RoundReward+model.Winner > 0? 1*RoundWinReward : 0;
     }
 }

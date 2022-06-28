@@ -5,30 +5,30 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Sample.cs" />
-      <Compile Remove="NeuralNetwork\INeuralNetwork.cs" />
-      <Compile Remove="NeuralNetwork\NeuralNetwork.cs" />
-      <Compile Remove="NeuralNetwork\Hierarchy\INeuralNetwork.cs" />
-      <Compile Remove="NeuralNetwork\Hierarchy\IReinforcementNetwork.cs" />
-      <Compile Remove="NeuralNetwork\Hierarchy\ISupervisedNetwork.cs" />
-      <Compile Remove="NeuralNetwork\Hierarchy\IUnsupervisedNetwork.cs" />
-      <Compile Remove="NeuralNetwork\Hierarchy\**" />
-      <Compile Remove="NeuralNetwork\NetworkCreater.cs" />
-      <Compile Remove="NeuralNetwork\Networks\Perceptron.cs" />
-      <Compile Remove="NeuralNetwork\Networks\**" />
-      <Compile Remove="NeuralNetwork\IInputNeuron.cs" />
-      <Compile Remove="Program.cs" />
+        <Compile Remove="Sample.cs"/>
+        <Compile Remove="NeuralNetwork\INeuralNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\NeuralNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\Hierarchy\INeuralNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\Hierarchy\IReinforcementNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\Hierarchy\ISupervisedNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\Hierarchy\IUnsupervisedNetwork.cs"/>
+        <Compile Remove="NeuralNetwork\Hierarchy\**"/>
+        <Compile Remove="NeuralNetwork\NetworkCreater.cs"/>
+        <Compile Remove="NeuralNetwork\Networks\Perceptron.cs"/>
+        <Compile Remove="NeuralNetwork\Networks\**"/>
+        <Compile Remove="NeuralNetwork\IInputNeuron.cs"/>
+        <Compile Remove="Program.cs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="NeuralNetwork\Hierarchy\**" />
-      <EmbeddedResource Remove="NeuralNetwork\Networks\**" />
+        <EmbeddedResource Remove="NeuralNetwork\Hierarchy\**"/>
+        <EmbeddedResource Remove="NeuralNetwork\Networks\**"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="NeuralNetwork\Hierarchy\**" />
-      <None Remove="NeuralNetwork\Networks\**" />
-      <None Remove="NeuralNetwork\Neuron.cs~" />
+        <None Remove="NeuralNetwork\Hierarchy\**"/>
+        <None Remove="NeuralNetwork\Networks\**"/>
+        <None Remove="NeuralNetwork\Neuron.cs~"/>
     </ItemGroup>
 
 </Project>

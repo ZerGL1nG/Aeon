@@ -1,8 +1,9 @@
-﻿using Aeon.Core.GameProcess;
+﻿using System;
+using Aeon.Core.GameProcess;
 
 namespace Aeon.Agents.Console;
 
-public class ConsoleBattleViewer : IBattleViewer
+public class ConsoleBattleViewer: IBattleViewer
 {
     /*
         private List<BattleState> LogState;
@@ -33,35 +34,35 @@ public class ConsoleBattleViewer : IBattleViewer
         
         public BattleViewer Copy() => new BattleViewer {LogState = LogState, MaxHP = MaxHP};
         */
-        
-     //       if (customer.RoundNumber != 0) {
-     //       Console.WriteLine($"Бой #{customer.RoundNumber}:");
-     //       foreach (var turn in BattleView.Out()) {
-     //           var t = turn.ToList();
-     //           Console.WriteLine(
-     //               $"   ТЫ: {(int) t[1].value,5}/{(int) t[0].value,-5}-{(int) t[2].value,-5}+{(int) t[3].value,-5}" +
-     //               $"   ВРАГ: {(int) t[5].value,5}/{(int) t[4].value,-5}-{(int) t[6].value,-5}+{(int) t[7].value,-5}");
-     //       }
-     //       Console.WriteLine();
-     //   }    
-        
+
+    //       if (customer.RoundNumber != 0) {
+    //       Console.WriteLine($"Бой #{customer.RoundNumber}:");
+    //       foreach (var turn in BattleView.Out()) {
+    //           var t = turn.ToList();
+    //           Console.WriteLine(
+    //               $"   ТЫ: {(int) t[1].value,5}/{(int) t[0].value,-5}-{(int) t[2].value,-5}+{(int) t[3].value,-5}" +
+    //               $"   ВРАГ: {(int) t[5].value,5}/{(int) t[4].value,-5}-{(int) t[6].value,-5}+{(int) t[7].value,-5}");
+    //       }
+    //       Console.WriteLine();
+    //   }    
+
     public void OnBattleStart(BattleStart model)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void OnAttack(BattleAttack model)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void OnHeal(BattleHeal model)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void OnBattleEnd(BattleEnd model)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

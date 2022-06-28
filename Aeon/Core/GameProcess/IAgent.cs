@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Aeon.Core.Heroes;
+﻿using Aeon.Core.Heroes;
 
 namespace Aeon.Core.GameProcess;
 
@@ -8,20 +7,24 @@ public interface IAgent
     public IBattleViewer BattleView { get; }
     public IShopViewer ShopView { get; }
     public bool IsBot { get; }
-        
+
     public Command ShopDecision();
 
     public HeroClasses ChooseClass();
 
     public void OnGameStart();
+
     public void OnGameOver(int winner);
 }
-    
+
 public interface IBattleViewer
 {
     public void OnBattleStart(BattleStart model);
+
     public void OnAttack(BattleAttack model);
+
     public void OnHeal(BattleHeal model);
+
     public void OnBattleEnd(BattleEnd model);
 }
 
