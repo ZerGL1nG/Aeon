@@ -55,12 +55,14 @@ public class NetworkShopViewer: IShopViewer, INetworkData
         return price.cost <= Money;
     }
 
-    public bool WillExit(Command cmd) =>
-        cmd.Exit
-     || (cmd.Ability && !_hero.CanUseAbility)
+    public bool LegalAction(Command cmd) => cmd.Exit || !((cmd.Ability && !_hero.CanUseAbility)
      || (cmd.Opt && _hero.RoundNumber == 0)
-     || !_hero.CanBuy(cmd.Type, cmd.Opt);
+     || !_hero.CanBuy(cmd.Type, cmd.Opt));
 
+    public bool WillExit(Command cmd) =>
+        cmd.Exit || !LegalAction(cmd);
+
+    public int GetRoundNumber() => _hero.RoundNumber;
     public float GetCost(Command command) => (float)_heroShop.GetPrice(command.Type, command.Opt).cost;
 
     public NetworkShopViewer Copy() =>

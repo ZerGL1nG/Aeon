@@ -48,21 +48,27 @@ public class ConsoleBattleViewer: IBattleViewer
 
     public void OnBattleStart(BattleStart model)
     {
-        throw new NotImplementedException();
+        System.Console.WriteLine("Started Battle");
     }
 
     public void OnAttack(BattleAttack model)
     {
-        throw new NotImplementedException();
+        System.Console.WriteLine($"Hp-{model.MineHealth,-4} (-{model.TakeDamage,-4}) Enemy-{model.EnemyHealth,-4} (-{model.GiveDamage, -4})");
     }
 
     public void OnHeal(BattleHeal model)
     {
-        throw new NotImplementedException();
+        System.Console.WriteLine($"Hp-{model.MineHealth,-4} (+{model.MineHeal,-4}) Enemy-{model.EnemyHealth,-4} (+{model.EnemyHeal, -4})");
+
     }
 
     public void OnBattleEnd(BattleEnd model)
     {
-        throw new NotImplementedException();
+        if (model.Winner == 0)
+            System.Console.WriteLine("Draw");
+        else if (model.Winner == 1)
+            System.Console.WriteLine("Win");
+        else
+            System.Console.WriteLine("Lose");
     }
 }

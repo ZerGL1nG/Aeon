@@ -11,7 +11,7 @@ public class Shifter: Hero
 
     private double MoneySpent;
 
-    public Shifter() => HeroClass = HeroClasses.Shifter;
+    public Shifter() => throw new System.Exception();
 
     public override bool TryToBuy(Stat stat, bool opt)
     {

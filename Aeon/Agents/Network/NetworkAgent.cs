@@ -69,7 +69,7 @@ public class NetworkAgent: IAgent
         return list;
     }
 
-    private ComposeData MakeInput()
+    /*private ComposeData MakeInput()
     {
         var enemyList = new List<float>();
         for (var i = 0; i < HeroMaker.TotalClasses; i++) enemyList.Add(0);
@@ -78,5 +78,14 @@ public class NetworkAgent: IAgent
         var govno = new ComposeData(_battleView, _shopView, new ArrayData(enemyList));
 
         return govno;
+    }*/
+    protected ComposeData MakeInput() => new(_battleView.State, _shopView.State, MakeEnemyList(_shopView.EnemyNumber));
+
+    protected static ArrayData MakeEnemyList(int enemyN)
+    {
+        var enemyList = new List<float>();
+        for (var i = 0; i < HeroMaker.TotalClasses; i++) enemyList.Add(0);
+        enemyList[enemyN] = 1;
+        return new ArrayData(enemyList);
     }
 }

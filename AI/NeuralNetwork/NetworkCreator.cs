@@ -45,9 +45,12 @@ public static class NetworkCreator
     }
 
 
-    public static NeuralEnvironment ReadFromFile(string input)
+    public static NeuralEnvironment ReadFromFile(string input) => MakeFromString(File.ReadAllText(input));
+
+
+    public static NeuralEnvironment MakeFromString(string input)
     {
-        var res = JsonSerializer.Deserialize<NeuralEnvironment>(File.ReadAllText(input));
+        var res = JsonSerializer.Deserialize<NeuralEnvironment>(input);
         res.InitIds();
         return res;
     }

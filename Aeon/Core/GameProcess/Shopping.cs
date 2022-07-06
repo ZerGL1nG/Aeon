@@ -49,7 +49,7 @@ public class Shopping
                 Console.Write($"Output{t,2}: {com,16}");
                 for (var i = 0; i < 20; i++)
                     //Console.Write($" {aa.Network.Output[i].Result}");
-                    Console.Write($" {aa.Network.Output[i].Result:+#0.00;-#0.00;+0.00}");
+                    Console.Write($" {aa.Network.Output[i].Result,6:+#.0000;-#.0000;+.0000}");
                 Console.WriteLine();
             }
 

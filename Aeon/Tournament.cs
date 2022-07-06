@@ -52,12 +52,14 @@ public class Tournament: ITournament
             Console.WriteLine($"=============== Завершён тур {tour++:00} ===================");
         }
 
-        var thing = 25;
-        foreach (var agent in _agents.Skip(_agents.Count-25))
-            Console.WriteLine($"Top {thing--}: {agent.ChooseClass()} - {GetPts(agent)} pts");
+
 
         var game = new Game(_agents[^1], _agents[^2]);
         game.Start(true);
+        var thing = 25;
+        foreach (var agent in _agents.Skip(_agents.Count - 25))
+            Console.WriteLine($"Top {thing--}: {agent.ChooseClass()} - {GetPts(agent)} pts");
+
 
         return _agents;
 

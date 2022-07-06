@@ -55,7 +55,8 @@ public static class BackpropagationAlgorithm
                     var inputNeuron = env.NeuronsIds[input];
                     var work        = inputNeuron.Work(env.NeuronsIds);
                     var delta       = speed*neuronQ*work;
-                    if (float.IsNaN(delta)) Console.Error.WriteLine("BULLSHIT");
+                    if (float.IsNaN(delta)) 
+                        Console.Error.WriteLine("BULLSHIT");
                     if (nextQue.ContainsKey(inputNeuron))
                         nextQue[inputNeuron] = (nextQue[inputNeuron].Item1+neuronQ*weight,
                                                 nextQue[inputNeuron].Item2+1);

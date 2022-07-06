@@ -6,7 +6,7 @@ namespace Aeon.Core.GameProcess;
 public class Game
 {
     public const int TargetWins = 3;
-    public const int MaxBattles = 5;
+    public const int MaxBattles = 10;
 
     public Game(IAgent agent1, IAgent agent2)
     {

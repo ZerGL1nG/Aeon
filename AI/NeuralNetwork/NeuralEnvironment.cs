@@ -28,15 +28,10 @@ public class NeuralEnvironment
     public List<Neuron> Output { get; set; }
     public List<Neuron> Input { get; set; }
 
-    public void Save(string output)
-    {
-        string jsonString;
-        //File.Delete(output);
-        var options = new JsonSerializerOptions { WriteIndented = true, };
-        jsonString = JsonSerializer.Serialize(this, options);
-        File.WriteAllText(output, jsonString);
-    }
+    public void Save(string output) => File.WriteAllText(output, MakeJsonString());
+    
 
+    public string MakeJsonString() => JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true, });
 
     public void AddNeuron(Neuron neuron, IEnumerable<Neuron> inputs)
     {

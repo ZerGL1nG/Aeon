@@ -45,7 +45,7 @@ public class QAgent: NetworkAgent
     //    Qt = Q.Clone();
     //}
 
-    public QAgent(NeuralEnvironment env, HeroClasses myClass): base(env)
+    public QAgent(NeuralEnvironment env, HeroClasses myClass) : base(env)
     {
         LearnMode = true;
         _myClass  = myClass;
@@ -68,18 +68,6 @@ public class QAgent: NetworkAgent
         _battleView   = new QBattleViewer();
         _battleViewer = _battleView as QBattleViewer;
     }
-
-
-    private ArrayData MakeEnemyList(int enemyN)
-    {
-        var enemyList = new List<float>();
-        for (var i = 0; i < HeroMaker.TotalClasses; i++) enemyList.Add(0);
-        enemyList[enemyN] = 1;
-        return new ArrayData(enemyList);
-    }
-
-    private ComposeData MakeInput() => new(_battleViewer.State, _shopView.State, MakeEnemyList(_shopView.EnemyNumber));
-
     public override Command ShopDecision()
     {
         INetworkData data      = MakeInput();

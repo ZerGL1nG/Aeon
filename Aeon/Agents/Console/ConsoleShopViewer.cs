@@ -13,7 +13,7 @@ internal class ConsoleShopViewer: IShopViewer
 {
     public void OnShopUpdate(Hero customer)
     {
-        Clear();
+        //Clear();
         WriteLine();
 
         WriteLine($"{customer.HeroClass,25} {customer.TotalWins,2} : {customer.EnemyWins,-2} {customer.EnemyId}");

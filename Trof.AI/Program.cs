@@ -9,7 +9,7 @@ namespace Trof.AI;
 
 internal static partial class Program
 {
-    private const string BasePath = @"C:\Users\Tupotrof\source_x\NeuralShit\";
+    private const string BasePath = @"D:\UsrFiles\AllPacks\P1\AI\";
     private const string Px = BasePath+"NN";
     private const string QPath = BasePath+"QAgents";
 

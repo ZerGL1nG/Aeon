@@ -14,7 +14,7 @@ public enum HeroClasses
     Killer,
     Master,
     Rogue,
-    Shifter,
+    //Shifter,
     Thief,
     Vampire,
     Warlock,
@@ -23,7 +23,7 @@ public enum HeroClasses
 
 public static class HeroMaker
 {
-    public const int TotalClasses = 15;
+    public const int TotalClasses = 14;
 
     public static Hero Make(HeroClasses @class) =>
         @class switch {
@@ -37,7 +37,7 @@ public static class HeroMaker
             HeroClasses.Killer    => new Killer(),
             HeroClasses.Master    => new Master(),
             HeroClasses.Rogue     => new Rogue(),
-            HeroClasses.Shifter   => new Shifter(),
+            //HeroClasses.Shifter   => new Shifter(),
             HeroClasses.Thief     => new Thief(),
             HeroClasses.Vampire   => new Vampire(),
             HeroClasses.Warlock   => new Warlock(),

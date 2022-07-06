@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Aeon.Agents.Console;
 using Aeon.Agents.Network;
 using Aeon.Agents.Reinforcement;
 using Aeon.Builds;
@@ -14,18 +15,90 @@ namespace Aeon;
 
 internal class Program
 {
-    public const string Path = @"C:\Users\Tupotrof\source_x\NeuralShit\";
-    private const string dir = Path+"Heroes";
+    public const string Path = @"D:\UsrFiles\AllPacks\P1\AI\";
+    public const string dir = Path+"Heroes";
+    public const string openings = Path + @"Turn1BestStrats\MetaIterate\Openings";
     private const string teachdir = Path+"Teach";
     private const string traindir = Path+"Training";
     private const string best = Path+"Best";
     private const string autosave = Path+"autosaves";
     public const string dump = Path+"Dump";
+    public const string qMultiAgents = Path+"multiagents";
     public static Random rnd = new();
     public static bool debugOutput = false;
 
+
+
+
     private static void Main(string[] args)
     {
+
+        //QCodedAgentsLearning(100, 5);
+
+        
+        var id = 1;
+
+        var agents = new List<QCodedAgent>();
+        for (var i = 8; i < 10; i++)
+            agents.Add(new QCodedAgent(i, (HeroClasses)(i), learning: i % 2 == 0));
+
+        Console.WriteLine(agents[id].ChooseClass());
+        //agents[^1] = new ConsoleAgent();
+
+        var games = 0;
+        var wins = new Queue<int>();
+        var targetWR = 0.7f;
+        var minWindow = 50;
+        var sum = 0;
+        var target = minWindow * targetWR;
+
+        var Eps = 0.3f;
+        var Lr = 0.3f;
+        for (var i = 1; i <= 10000; i++)
+        {
+            //var tournament = new Tournament(agents);
+            Console.WriteLine($"Game {i} Sum {sum}");
+            //tournament.StartTournament();
+            var game = new Game(agents[0], agents[1]);
+            game.Start(false);
+
+            games++;
+            sum += game.Winner;
+            wins.Enqueue(game.Winner);
+            if(games > minWindow)
+            {
+                sum -= wins.Dequeue();
+                
+                if(sum > target)
+                {
+                    Console.WriteLine("Reset");
+                    sum = 0;
+                    wins = new Queue<int>();
+                    games = 0;
+                    Lr = 0.3f;
+                    Eps = 0.3f;
+                    (agents[0], agents[1]) = (agents[1], agents[0]);
+                    agents[0].Learning = true;
+                    agents[1].Learning = false;
+                }
+            }
+
+            if (games % 50 == 0 && games > 0)
+            {
+                if (Lr > 0.1) Lr *= 0.95f;
+                if (Eps > 0.05) Eps *= 0.95f;
+                agents[0].Speed = Lr;
+                agents[0].Epsilon = Eps;
+                game = new Game(agents[0], agents[1]);
+                game.Start(true);
+                foreach (var agent in agents) agent.SaveMultiagent();
+            }
+        }
+
+
+
+
+
         //AddNew(2, HeroClasses.Banker, new []{30, 30});
         //MakeNew(2, new[]{30, 30});
         //Teach(1, true);
@@ -51,6 +124,9 @@ internal class Program
         //var battle = new Battle(null, null, hero1, hero2);
         //battle.StartBattle();
 
+
+        /*
+        //Generating builds for turn 1 for different matchups    
         var searcher = new Searcher();
 
         searcher.AddClass(HeroMaker.Make(HeroClasses.Banker), "Basic");
@@ -87,9 +163,39 @@ internal class Program
         searcher.Iterate(30);
         searcher.Iterate(20);
 
+        */
+
+
+
+
+
+
+
+
         Console.WriteLine("Finished");
         //Console.ReadLine();
     }
+
+
+    public static void QCodedAgentsLearning(int tournaments = 100,int saveEvery = 5)
+    {
+        var agents = new List<QCodedAgent>();
+        for (var i = 0; i < HeroMaker.TotalClasses * 4; i++)
+            agents.Add(new QCodedAgent(i, (HeroClasses)(i / 4), learning: (HeroClasses)(i / 4) == HeroClasses.Banker || true));
+
+        //Console.WriteLine(agents[^1].ChooseClass());
+        //agents[^1] = new ConsoleAgent();
+
+        for (var i = 1; i <= tournaments; i++)
+        {
+            var tournament = new Tournament(agents);
+            Console.WriteLine($"Tournament {i}");
+            tournament.StartTournament();
+            if (i % saveEvery == 0) foreach (var agent in agents) agent.SaveMultiagent();
+        }
+    }
+
+
 
     private static void AddNew(int agents, HeroClasses hero, IReadOnlyCollection<int> hiddenLayers)
     {
