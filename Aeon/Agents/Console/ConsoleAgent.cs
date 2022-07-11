@@ -6,8 +6,8 @@ namespace Aeon.Agents.Console;
 
 public class ConsoleAgent: IAgent
 {
-    private readonly ConsoleBattleViewer _bw;
-    private readonly ConsoleShopViewer _sw;
+    protected IBattleViewer _bw;
+    protected IShopViewer _sw;
 
     //public Dictionary<(BattleViewer, ShopViewer), Command> DataSet 
     //   = new Dictionary<(BattleViewer, ShopViewer), Command>();
@@ -29,13 +29,16 @@ public class ConsoleAgent: IAgent
     public IShopViewer ShopView => _sw;
     public bool IsBot => false;
 
-    public Command ShopDecision()
+    public virtual Command ShopDecision() => Command.Parse(GetCommandId());
+    public static int GetCommandId()
     {
-        while (true) {
+        while (true)
+        {
             var key = KeysMap.GetIndex(System.Console.ReadKey().Key);
             if (key is null) continue;
-            return Command.Parse(key.Value);
+            return key.Value;
         }
+
     }
 
     public HeroClasses ChooseClass()
@@ -59,5 +62,5 @@ public class ConsoleAgent: IAgent
 
     public void OnGameStart() { }
 
-    public void OnGameOver(int winner) { }
+    public virtual void OnGameOver(int winner) { }
 }

@@ -46,23 +46,24 @@ public class ConsoleBattleViewer: IBattleViewer
     //       Console.WriteLine();
     //   }    
 
-    public void OnBattleStart(BattleStart model)
-    {
-        System.Console.WriteLine("Started Battle");
-    }
+    public void OnBattleStart(BattleStart model) => OnBattleStartShow(model);
+    public static void OnBattleStartShow(BattleStart model) => System.Console.WriteLine("Started Battle");
 
-    public void OnAttack(BattleAttack model)
-    {
-        System.Console.WriteLine($"Hp-{model.MineHealth,-4} (-{model.TakeDamage,-4}) Enemy-{model.EnemyHealth,-4} (-{model.GiveDamage, -4})");
-    }
+    public void OnAttack(BattleAttack model) => OnAttackShow(model);
 
-    public void OnHeal(BattleHeal model)
-    {
-        System.Console.WriteLine($"Hp-{model.MineHealth,-4} (+{model.MineHeal,-4}) Enemy-{model.EnemyHealth,-4} (+{model.EnemyHeal, -4})");
+    public static void OnAttackShow(BattleAttack model) => 
+        System.Console.WriteLine($"Hp-{model.MineHealth,-4} " +
+            $"(-{model.TakeDamage,-4}) Enemy-{model.EnemyHealth,-4} (-{model.GiveDamage,-4})");
 
-    }
+    public void OnHeal(BattleHeal model) => OnHealShow(model);
 
-    public void OnBattleEnd(BattleEnd model)
+    public static void OnHealShow(BattleHeal model) => 
+        System.Console.WriteLine($"Hp-{model.MineHealth,-4} " +
+            $"(+{model.MineHeal,-4}) Enemy-{model.EnemyHealth,-4} (+{model.EnemyHeal,-4})");
+
+    public void OnBattleEnd(BattleEnd model) => OnBattleEndShow(model);
+
+    public static void OnBattleEndShow(BattleEnd model)
     {
         if (model.Winner == 0)
             System.Console.WriteLine("Draw");

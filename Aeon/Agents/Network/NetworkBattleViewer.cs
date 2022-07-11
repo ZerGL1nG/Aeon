@@ -1,25 +1,27 @@
 ﻿using System.Collections.Generic;
+using Aeon.Agents.Console;
 using Aeon.Core;
 using Aeon.Core.GameProcess;
 using AI.NeuralNetwork;
 
 namespace Aeon.Agents.Network;
 
-public class NetworkBattleViewer: IBattleViewer, INetworkData
+public class NetworkBattleViewer : IBattleViewer, INetworkData
 {
     public int SavedRounds { get; }
     public int SavedRoundsEnd { get; }
+    public bool console;
+    public NetworkBattleViewer(bool console = false) : this(2, 2, console) { }
 
-    public NetworkBattleViewer(): this(2, 2) { }
-
-    public NetworkBattleViewer(int startR, int endR)
+    public NetworkBattleViewer(int startR, int endR, bool console)
     {
         SavedRounds = startR;
         SavedRoundsEnd = endR;
         Size = 1 + (SavedRounds + SavedRoundsEnd) * 6;
         _doubles = new(new float[Size]);
+        this.console = console;
     }
-    
+
     private readonly List<BattleAttack> _attacks = new();
     private readonly List<BattleHeal> _heals = new();
 
@@ -30,11 +32,19 @@ public class NetworkBattleViewer: IBattleViewer, INetworkData
     {
         _doubles = new List<float>();
         _doubles.AddRange(new[] { StatConverters.Convert(Stat.Health, model.EnemyMaxHealth), });
+        if (console) ConsoleBattleViewer.OnBattleStartShow(model);
+
     }
 
-    public virtual void OnAttack(BattleAttack model) => _attacks.Add(model);
-
-    public virtual void OnHeal(BattleHeal model) => _heals.Add(model);
+    public virtual void OnAttack(BattleAttack model){
+        _attacks.Add(model);
+        if (console) ConsoleBattleViewer.OnAttackShow(model);
+    }
+    public virtual void OnHeal(BattleHeal model)
+    {
+        _heals.Add(model);
+        if (console) ConsoleBattleViewer.OnHealShow(model);
+    }
 
     public virtual void OnBattleEnd(BattleEnd model)
     {
@@ -78,6 +88,7 @@ public class NetworkBattleViewer: IBattleViewer, INetworkData
             } else
                 _doubles.AddRange(new float[4]);
         }
+        if (console) ConsoleBattleViewer.OnBattleEndShow(model);
     }
 
     public virtual IEnumerable<float> Inputs => _doubles;

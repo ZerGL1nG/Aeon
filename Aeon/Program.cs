@@ -17,6 +17,7 @@ internal class Program
 {
     public const string Path = @"D:\UsrFiles\AllPacks\P1\AI\";
     public const string dir = Path+"Heroes";
+    public const string memories = Path + @"multiagents\SavedMemory\";
     public const string openings = Path + @"Turn1BestStrats\MetaIterate\Openings";
     private const string teachdir = Path+"Teach";
     private const string traindir = Path+"Training";
@@ -28,76 +29,138 @@ internal class Program
     public static bool debugOutput = false;
 
 
-
-
-    private static void Main(string[] args)
+    private static void QLearnByDuelVsQAgent(int length = 10000)
     {
-
-        //QCodedAgentsLearning(100, 5);
-
-        
         var id = 1;
 
         var agents = new List<QCodedAgent>();
-        for (var i = 8; i < 10; i++)
-            agents.Add(new QCodedAgent(i, (HeroClasses)(i), learning: i % 2 == 0));
+        agents.Add(new(0, HeroClasses.Banker, false, true));
+        agents.Add(new(1, HeroClasses.Banker, false, false));
+
 
         Console.WriteLine(agents[id].ChooseClass());
         //agents[^1] = new ConsoleAgent();
 
         var games = 0;
-        var wins = new Queue<int>();
+        //var wins = new Queue<int>();
         var targetWR = 0.7f;
-        var minWindow = 50;
+        var testEvery = 50;
+        var examSize = 100;
         var sum = 0;
-        var target = minWindow * targetWR;
+        var target = examSize * ((targetWR * 2) - 1);
 
-        var Eps = 0.3f;
-        var Lr = 0.3f;
-        for (var i = 1; i <= 10000; i++)
+
+
+        const float startEps = 0.05f;
+        const float startLR = 0.1f;
+
+        const float minEps = 0.02f;
+        const float minLR = 0.05f;
+
+        const float decayEps = 0.95f;
+        const float decayLR = 0.95f;
+
+        var Eps = startEps;
+        var Lr = startLR;
+
+        for (var i = 1; i <= length; i++)
         {
             //var tournament = new Tournament(agents);
-            Console.WriteLine($"Game {i} Sum {sum}");
+            //Console.WriteLine($"Game {i} Sum {sum}");
             //tournament.StartTournament();
             var game = new Game(agents[0], agents[1]);
             game.Start(false);
-
-            games++;
-            sum += game.Winner;
-            wins.Enqueue(game.Winner);
-            if(games > minWindow)
+            ++games;
+            if (games % testEvery == 0 && games > 0)
             {
-                sum -= wins.Dequeue();
-                
-                if(sum > target)
+                agents[0].Learning = false;
+                sum = 0;
+                for (int k = 0; k < examSize; k++)
+                {
+                    game = new Game(agents[0], agents[1]);
+                    game.Start(false);
+                    sum += game.Winner;
+                }
+                agents[0].Learning = true;
+                Console.WriteLine($"({i,6}) After {games,5} games on e={Eps,-10}, lr={Lr,-10}: {sum,4} ({(sum + examSize) / ((float)2 * examSize):P})");
+                if (sum > target)
                 {
                     Console.WriteLine("Reset");
                     sum = 0;
-                    wins = new Queue<int>();
+                    //wins = new Queue<int>();
                     games = 0;
-                    Lr = 0.3f;
-                    Eps = 0.3f;
+                    Lr = startLR;
+                    Eps = startEps;
                     (agents[0], agents[1]) = (agents[1], agents[0]);
                     agents[0].Learning = true;
                     agents[1].Learning = false;
+                    foreach (var agent in agents) agent.SaveMultiagent();
+                    
                 }
-            }
 
-            if (games % 50 == 0 && games > 0)
-            {
-                if (Lr > 0.1) Lr *= 0.95f;
-                if (Eps > 0.05) Eps *= 0.95f;
+                if (Lr > minLR) Lr *= decayLR;
+                if (Eps > minEps) Eps *= decayEps;
                 agents[0].Speed = Lr;
                 agents[0].Epsilon = Eps;
-                game = new Game(agents[0], agents[1]);
-                game.Start(true);
+                //game = new Game(agents[0], agents[1]);
+                //game.Start(true);
                 foreach (var agent in agents) agent.SaveMultiagent();
             }
         }
+    }
+
+    private static void Main(string[] args)
+    {
+
+        //QCodedAgentsLearning(100, 5);
+        //QLearnByDuelVsQAgent(10000);
+        var first = new QCodedAgent(10, HeroClasses.Banker, false, false);
+        var second = new QCodedAgent(11, HeroClasses.Banker, false, false);
+        var gaming = new Game(first, second);
+        gaming.Start();
+        first.memory.SaveFile(memories + "text_1game.txt");
 
 
 
 
+        var consoleTeacher = new MemorizingConsoleAgent();
+        var newLearningAgent = new QCodedAgent(100, HeroClasses.Banker, false, false);
+        var opponent = new QCodedAgent(0, HeroClasses.Banker, false, false);
+        var game = new Game(consoleTeacher, opponent);
+        consoleTeacher.memory = new BatchingMemory(10, 10);
+        newLearningAgent.SessionSize = 10;
+        var sum = 0;
+        while (consoleTeacher.memory.memory.Count < consoleTeacher.memory.memorySize)
+        {
+            game = new Game(consoleTeacher, opponent);
+            game.Start(false);
+            sum += game.Winner;
+        }
+        Console.WriteLine(sum);
+
+        sum = 0;
+        for (var i = 0; i < 100; i++)
+        {
+            game = new Game(newLearningAgent, opponent);
+            game.Start(false);
+            sum += game.Winner;
+        }
+        Console.WriteLine(sum);
+        var flie = memories + "TeachData1.txt";
+        newLearningAgent.memory.SaveFile(flie);
+        newLearningAgent.memory = new BatchingMemory();
+        newLearningAgent.memory.LoadFile(flie);
+        newLearningAgent.Learn();
+        
+
+        sum = 0;
+        for (var i = 0; i < 100; i ++)
+        {
+            game = new Game(newLearningAgent, opponent);
+            game.Start(false);
+            sum += game.Winner;
+        }
+        Console.WriteLine(sum);
 
         //AddNew(2, HeroClasses.Banker, new []{30, 30});
         //MakeNew(2, new[]{30, 30});

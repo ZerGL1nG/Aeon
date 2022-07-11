@@ -27,12 +27,12 @@ namespace Aeon.Agents.Reinforcement
 
         public int SessionSize = 500;
         public float Gamma = 0.99f;
-        public float Speed = 0.5f;
+        public float Speed = 0.1f;
 
 
 
         private record Sample(INetworkData State, int Action, float Reward, INetworkData NextState);
-        private BatchingMemory memory;
+        public BatchingMemory memory;
 
  
 
@@ -93,7 +93,11 @@ namespace Aeon.Agents.Reinforcement
         private void TryLearn()
         {
             if (++sessionIter < SessionSize) return;
-            //System.Console.WriteLine($"Learning agent {id,2} started ...");
+            Learn();
+        }
+
+        public void Learn()
+        {
             var Q = Network.Clone();
             var batch = memory.MakeBatch();
             foreach (var sample in batch)

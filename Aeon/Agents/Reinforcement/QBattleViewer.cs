@@ -12,7 +12,7 @@ public class QBattleViewer: NetworkBattleViewer
     public bool WasBattle;
 
     public QBattleViewer() : this(2, 2) { }
-    public QBattleViewer(int start, int end): base(start, end) { }
+    public QBattleViewer(int start, int end): base(start, end, false) { }
 
     public int ModelTotalBattles { get; private set; }
     public int ModelWinner { get; private set; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aeon.Agents.Console;
 using Aeon.Core;
 using Aeon.Core.GameProcess;
 using Aeon.Core.Heroes;
@@ -18,7 +19,12 @@ public class NetworkShopViewer: IShopViewer, INetworkData
     private Stats _heroStats;
     private float _selfWins;
     public int EnemyNumber => (int)_enemyId;
+    public bool console;
 
+    public NetworkShopViewer(bool console = false)
+    {
+        this.console = console;
+    }
     private double Money => _heroStats.GetStat(Stat.Money);
     public float MoneyF => (float)Money;
 
@@ -47,6 +53,7 @@ public class NetworkShopViewer: IShopViewer, INetworkData
         _selfWins     = customer.TotalWins;
         _enemyWins    = customer.EnemyWins;
         _battleNumber = customer.RoundNumber;
+        if (console) ConsoleShopViewer.OnShopUpdateShow(customer);
     }
 
     public bool CanBuy(Command command)

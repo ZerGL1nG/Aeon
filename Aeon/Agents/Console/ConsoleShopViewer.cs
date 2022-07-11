@@ -9,25 +9,30 @@ using static System.Console;
 
 namespace Aeon.Agents.Console;
 
-internal class ConsoleShopViewer: IShopViewer
+public class ConsoleShopViewer: IShopViewer
 {
     public void OnShopUpdate(Hero customer)
     {
-        //Clear();
+        OnShopUpdateShow(customer);
+    }
+
+    public static void OnShopUpdateShow(Hero customer)
+    {
         WriteLine();
 
         WriteLine($"{customer.HeroClass,25} {customer.TotalWins,2} : {customer.EnemyWins,-2} {customer.EnemyId}");
         WriteLine();
 
         var stats = customer.Stats;
-        var shop  = customer.Shop;
+        var shop = customer.Shop;
 
-        for (var t = 1; t <= 9; ++t) {
-            var stat  = (Stat)t;
+        for (var t = 1; t <= 9; ++t)
+        {
+            var stat = (Stat)t;
             var price = customer.Shop.Costs[stat];
             WriteLine($"{stat,10}: {Stats.RoundStat(stats.GetStat(stat), stat),5} "
-                     +$"|| Buy[{GetKey(t-1)}]: {shop.RoundBonus(stats.GetStat(stat), stat, false),2} for {price.standard.cost,-4}"
-                     +$"|  Opt[{GetKey(t+8)}]: {shop.RoundBonus(stats.GetStat(stat), stat, true),3} for {price.discount.cost,-4}");
+                     + $"|| Buy[{GetKey(t - 1)}]: {shop.RoundBonus(stats.GetStat(stat), stat, false),2} for {price.standard.cost,-4}"
+                     + $"|  Opt[{GetKey(t + 8)}]: {shop.RoundBonus(stats.GetStat(stat), stat, true),3} for {price.discount.cost,-4}");
         }
         WriteLine();
         WriteLine(
